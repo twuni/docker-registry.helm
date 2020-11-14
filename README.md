@@ -14,6 +14,12 @@ This chart will do the following:
 
 ## Installing the Chart
 
+First, install the repo:
+
+```console
+$ helm repo add twuni https://helm.twun.io
+```
+
 To install the chart, use the following:
 
 ```console
