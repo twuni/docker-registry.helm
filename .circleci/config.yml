@@ -1,22 +1,15 @@
 version: 2.1
 jobs:
-  setup:
-    docker:
-    - image: twuni/helm:3.4.1
-    steps:
-    - checkout
   lint:
     docker:
     - image: twuni/helm:3.4.1
     steps:
+    - checkout
     - run:
         command: helm lint --strict
         name: lint
 workflows:
   version: 2
-  test:
+  default:
     jobs:
-    - setup
-    - lint:
-        requires:
-        - setup
+    - lint
