@@ -14,7 +14,7 @@ This chart will do the following:
 
 ## Installing the Chart
 
-First, install the repo:
+First, add the repo:
 
 ```console
 $ helm repo add twuni https://helm.twun.io
