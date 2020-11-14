@@ -17,7 +17,7 @@ This chart will do the following:
 To install the chart, use the following:
 
 ```console
-$ helm install stable/docker-registry
+$ helm install twuni/docker-registry
 ```
 
 ## Configuration
