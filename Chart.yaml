@@ -5,5 +5,9 @@ version: 1.9.6
 appVersion: 2.7.1
 home: https://hub.docker.com/_/registry/
 icon: https://hub.docker.com/public/images/logos/mini-logo.svg
+maintainers:
+- email: devin@canterberry.cc
+  name: Devin Canterberry
+  url: https://canterberry.cc/
 sources:
-  - https://github.com/docker/distribution-library-image
+- https://github.com/docker/distribution-library-image
