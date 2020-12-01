@@ -21,6 +21,8 @@ image:
 service:
   name: registry
   type: ClusterIP
+  # sessionAffinity: None
+  # sessionAffinityConfig: {}
   # clusterIP:
   port: 5000
   # nodePort:
