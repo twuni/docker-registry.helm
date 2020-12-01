@@ -30,6 +30,8 @@ service:
   # loadBalancerSourceRanges:
   annotations: {}
   # foo.io/bar: "true"
+  metrics:
+    nodePort: ""
 ingress:
   enabled: false
   path: /
@@ -109,6 +111,19 @@ configData:
     addr: :5000
     headers:
       X-Content-Type-Options: [nosniff]
+    ## The debug interface configuration
+    ##
+    ## Will be autocreated if metrics.enabled is true
+    ## Set values here to override the defaults
+    # debug:
+      ## The address and port the debug server should listen on
+      # addr: 0.0.0.0:5001
+      ## Prometheus metrics specific configuration
+      # prometheus:
+          ## Do not disable this if you use metrics.enabled: true
+          # enabled: true
+          ## Make sure to adjust metrics.serviceMonitor.path accordingly
+          # path: /metrics
   health:
     storagedriver:
       enabled: true
@@ -147,3 +162,46 @@ extraVolumes: []
 #        - key: cloudfront.pem
 #          path: cloudfront.pem
 #          mode: 511
+
+## Configuration to enable the metrics endpoint of the registry and provide a
+## service port for it
+##
+metrics:
+  enabled: true
+  ## The name of the service resources port for the metrics interface
+  servicePortName: debug
+  ## The service port of the services clusterIP
+  servicePort: 5001
+
+  ## The container port name of the registry pods
+  targetPortName: debug
+
+  ## Prometheus serviceMonitor specific configuration
+  ##
+  ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/master/Documentation/api.md#servicemonitor
+  serviceMonitor:
+    enabled: true
+    jobLabel: ""
+    targetLabels: {}
+    podTargetLabels: {}
+    targetPort: ""
+    ## The default path of the prometheus interface of the registry
+    ##
+    ## Adjust this if you configured configData.http.debug.prometheus.path
+    ## differently
+    path: /metrics
+    scheme: http
+    params: {}
+    interval: ""
+    scrapeTimeout: 10
+    tlsConfig: {}
+    bearerTokenFile: ""
+    bearerTokenSecret: {}
+    honorLabels: false
+    honorTimestamps: true
+    basicAuth: {}
+    metricRelabelings: {}
+    relabelings: {}
+    proxyUrl: ""
+    sampleLimit: ""
+    targetLimit: ""

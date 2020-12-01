@@ -13,10 +13,10 @@ spec:
       app: {{ template "docker-registry.name" . }}
       release: {{ .Release.Name }}
   replicas: {{ .Values.replicaCount }}
-{{- if .Values.updateStrategy }}
+  {{- if .Values.updateStrategy }}
   strategy:
-{{ toYaml .Values.updateStrategy | indent 4 }}
-{{- end }}
+    {{- toYaml .Values.updateStrategy | nindent 4 }}
+  {{- end }}
   minReadySeconds: 5
   template:
     metadata:
@@ -24,26 +24,26 @@ spec:
         app: {{ template "docker-registry.name" . }}
         release: {{ .Release.Name }}
         {{- if .Values.podLabels }}
-{{ toYaml .Values.podLabels | indent 8 }}
+          {{- toYaml .Values.podLabels | nindent 8 }}
         {{- end }}
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-{{- if $.Values.podAnnotations }}
-{{ toYaml $.Values.podAnnotations | indent 8 }}
-{{- end }}
+        {{- if $.Values.podAnnotations }}
+          {{- toYaml $.Values.podAnnotations | nindent 8 }}
+        {{- end }}
     spec:
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
-{{ toYaml .Values.imagePullSecrets | indent 8 }}
+        {{- toYaml .Values.imagePullSecrets | nindent 8 }}
       {{- end }}
-{{- if .Values.priorityClassName }}
+      {{- if .Values.priorityClassName }}
       priorityClassName: "{{ .Values.priorityClassName }}"
-{{- end }}
-{{- if .Values.securityContext.enabled }}
+      {{- end }}
+      {{- if .Values.securityContext.enabled }}
       securityContext:
         fsGroup: {{ .Values.securityContext.fsGroup }}
         runAsUser: {{ .Values.securityContext.runAsUser }}
-{{- end }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -54,46 +54,54 @@ spec:
           - /etc/docker/registry/config.yml
           ports:
             - containerPort: 5000
+            {{- if or .Values.metrics.enabled .Values.configData.http.debug.addr }}
+            - name: {{ .Values.metrics.targetPortName | default "debug" | quote }}
+              containerPort: {{ (split ":" .Values.configData.http.debug.addr)._1 }}
+            {{- else }}
+              {{- if .Values.metrics.serviceMonitor.enabled }}
+                {{- fail "You enabled the serviceMonitor without enabling the registry debug endpoint. Please set metrics.enabled: true or specify configData.http.debug.addr" }}
+              {{- end }}
+            {{- end }}
           livenessProbe:
             httpGet:
-{{- if .Values.tlsSecretName }}
+              {{- if .Values.tlsSecretName }}
               scheme: HTTPS
-{{- end }}
+              {{- end }}
               path: /
               port: 5000
           readinessProbe:
             httpGet:
-{{- if .Values.tlsSecretName }}
+              {{- if .Values.tlsSecretName }}
               scheme: HTTPS
-{{- end }}
+              {{- end }}
               path: /
               port: 5000
           resources:
-{{ toYaml .Values.resources | indent 12 }}
+            {{- toYaml .Values.resources | nindent 12 }}
           env:
-{{- if .Values.secrets.htpasswd }}
+          {{- if .Values.secrets.htpasswd }}
             - name: REGISTRY_AUTH
               value: "htpasswd"
             - name: REGISTRY_AUTH_HTPASSWD_REALM
               value: "Registry Realm"
             - name: REGISTRY_AUTH_HTPASSWD_PATH
               value: "/auth/htpasswd"
-{{- end }}
+          {{- end }}
             - name: REGISTRY_HTTP_SECRET
               valueFrom:
                 secretKeyRef:
                   name: {{ template "docker-registry.fullname" . }}-secret
                   key: haSharedSecret
-{{- if .Values.tlsSecretName }}
+          {{- if .Values.tlsSecretName }}
             - name: REGISTRY_HTTP_TLS_CERTIFICATE
               value: /etc/ssl/docker/tls.crt
             - name: REGISTRY_HTTP_TLS_KEY
               value: /etc/ssl/docker/tls.key
-{{- end }}
-{{- if eq .Values.storage "filesystem" }}
+          {{- end }}
+          {{- if eq .Values.storage "filesystem" }}
             - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
               value: "/var/lib/registry"
-{{- else if eq .Values.storage "azure" }}
+          {{- else if eq .Values.storage "azure" }}
             - name: REGISTRY_STORAGE_AZURE_ACCOUNTNAME
               valueFrom:
                 secretKeyRef:
@@ -109,8 +117,8 @@ spec:
                 secretKeyRef:
                   name: {{ template "docker-registry.fullname" . }}-secret
                   key: azureContainer
-{{- else if eq .Values.storage "s3" }}
-            {{- if and .Values.secrets.s3.secretKey .Values.secrets.s3.accessKey }}
+                      {{- else if eq .Values.storage "s3" }}
+          {{- if and .Values.secrets.s3.secretKey .Values.secrets.s3.accessKey }}
             - name: REGISTRY_STORAGE_S3_ACCESSKEY
               valueFrom:
                 secretKeyRef:
@@ -121,7 +129,7 @@ spec:
                 secretKeyRef:
                   name: {{ template "docker-registry.fullname" . }}-secret
                   key: s3SecretKey
-            {{- end }}
+          {{- end }}
             - name: REGISTRY_STORAGE_S3_REGION
               value: {{ required ".Values.s3.region is required" .Values.s3.region }}
           {{- if .Values.s3.regionEndpoint }}
@@ -138,7 +146,7 @@ spec:
             - name: REGISTRY_STORAGE_S3_SECURE
               value: {{ .Values.s3.secure | quote }}
           {{- end }}
-{{- else if eq .Values.storage "swift" }}
+          {{- else if eq .Values.storage "swift" }}
             - name: REGISTRY_STORAGE_SWIFT_AUTHURL
               value: {{ required ".Values.swift.authurl is required" .Values.swift.authurl }}
             - name: REGISTRY_STORAGE_SWIFT_USERNAME
@@ -153,69 +161,69 @@ spec:
                   key: swiftPassword
             - name: REGISTRY_STORAGE_SWIFT_CONTAINER
               value: {{ required ".Values.swift.container is required" .Values.swift.container }}
-{{- end }}
-{{- if .Values.persistence.deleteEnabled }}
+          {{- end }}
+          {{- if .Values.persistence.deleteEnabled }}
             - name: REGISTRY_STORAGE_DELETE_ENABLED
               value: "true"
-{{- end }}
+          {{- end }}
           volumeMounts:
-{{- if .Values.secrets.htpasswd }}
+          {{- if .Values.secrets.htpasswd }}
             - name: auth
               mountPath: /auth
               readOnly: true
-{{- end }}
-{{- if eq .Values.storage "filesystem" }}
+          {{- end }}
+          {{- if eq .Values.storage "filesystem" }}
             - name: data
               mountPath: /var/lib/registry/
-{{- end }}
+          {{- end }}
             - name: "{{ template "docker-registry.fullname" . }}-config"
               mountPath: "/etc/docker/registry"
-{{- if .Values.tlsSecretName }}
+          {{- if .Values.tlsSecretName }}
             - mountPath: /etc/ssl/docker
               name: tls-cert
               readOnly: true
-{{- end }}
-{{- with .Values.extraVolumeMounts }}
+          {{- end }}
+          {{- with .Values.extraVolumeMounts }}
             {{- toYaml . | nindent 12 }}
-{{- end }}
-{{- if .Values.nodeSelector }}
+          {{- end }}
+      {{- if .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml .Values.nodeSelector | indent 8 }}
-{{- end }}
-{{- if .Values.affinity }}
+        {{- toYaml .Values.nodeSelector | nindent 8 }}
+      {{- end }}
+      {{- if .Values.affinity }}
       affinity:
-{{ toYaml .Values.affinity | indent 8 }}
-{{- end }}
-{{- if .Values.tolerations }}
+        {{- toYaml .Values.affinity | nindent 8 }}
+      {{- end }}
+      {{- if .Values.tolerations }}
       tolerations:
-{{ toYaml .Values.tolerations | indent 8 }}
-{{- end }}
+        {{- toYaml .Values.tolerations | nindent 8 }}
+      {{- end }}
       volumes:
-{{- if .Values.secrets.htpasswd }}
+        {{- if .Values.secrets.htpasswd }}
         - name: auth
           secret:
             secretName: {{ template "docker-registry.fullname" . }}-secret
             items:
             - key: htpasswd
               path: htpasswd
-{{- end }}
-{{- if eq .Values.storage "filesystem" }}
+        {{- end }}
+        {{- if eq .Values.storage "filesystem" }}
         - name: data
-      {{- if .Values.persistence.enabled }}
+          {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "docker-registry.fullname" . }}{{- end }}
-      {{- else }}
+          {{- else }}
           emptyDir: {}
-      {{- end -}}
-{{- end }}
+          {{- end -}}
+        {{- end }}
         - name: {{ template "docker-registry.fullname" . }}-config
           configMap:
             name: {{ template "docker-registry.fullname" . }}-config
-{{- if .Values.tlsSecretName }}
+        {{- if .Values.tlsSecretName }}
         - name: tls-cert
           secret:
             secretName: {{ .Values.tlsSecretName }}
-{{- end }}
-{{- with .Values.extraVolumes }}
-        {{- toYaml . | nindent 8 }}
-{{- end }}
+        {{- end }}
+        {{- with .Values.extraVolumes }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}

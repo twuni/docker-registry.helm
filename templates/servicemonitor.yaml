@@ -1,0 +1,97 @@
+{{- if and .Values.metrics.enabled .Values.metrics.serviceMonitor.enabled -}}
+{{- if .Capabilities.APIVersions.Has "monitoring.coreos.com/v1" -}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "docker-registry.fullname" . | quote }}
+  labels:
+    app: {{ include "docker-registry.name" . | quote }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+    {{- if .Values.metrics.serviceMonitor.labels }}
+      {{- toYaml .Values.metrics.serviceMonitor.labels | nindent 4 }}
+    {{- end }}
+spec:
+  {{- if .Values.metrics.serviceMonitor.jobLabel }}
+  jobLabel: {{ .Values.metrics.serviceMonitor.jobLabel | quote }}
+  {{- end }}
+  {{- if .Values.metrics.serviceMonitor.targetLabels }}
+  targetLabels:
+    {{- toYaml .Values.metrics.serviceMonitor.targetLabels | nindent 4 }}
+  {{- end }}
+  {{- if .Values.metrics.serviceMonitor.podTargetLabels }}
+  podTargetLabels:
+    {{- toYaml .Values.metrics.serviceMonitor.podTargetLabels | nindent 4 }}
+  {{- end }}
+  endpoints:
+  - {{ if .Values.metrics.serviceMonitor.targetPort -}}
+    targetPort: {{ .Values.metrics.serviceMonitor.targetPort }}
+    {{- else -}}
+    port: {{ .Values.metrics.servicePortName | quote }}
+    {{- end }}
+    {{- if .Values.metrics.serviceMonitor.path }}
+    path: {{ .Values.metrics.serviceMonitor.path | quote }}
+    {{- end }}
+    {{- if .Values.metrics.serviceMonitor.scheme }}
+    scheme: {{ .Values.metrics.serviceMonitor.scheme | quote }}
+    {{- end }}
+    {{- if .Values.metrics.serviceMonitor.params }}
+    params:
+      {{- toYaml .Values.metrics.serviceMonitor.params | nindent 6 }}
+    {{- end }}
+    {{- if .Values.metrics.serviceMonitor.interval }}
+    interval: {{ .Values.metrics.serviceMonitor.interval | quote }}
+    {{- end }}
+    {{- if .Values.metrics.serviceMonitor.scrapeTimeout }}
+    scrapeTimeout: {{ .Values.metrics.serviceMonitor.scrapeTimeout | quote }}
+    {{- end }}
+    {{- if .Values.metrics.serviceMonitor.tlsConfig }}
+    tlsConfig:
+      {{- toYaml .Values.metrics.serviceMonitor.tlsConfig | nindent 6 }}
+    {{- end }}
+    {{- if .Values.metrics.serviceMonitor.bearerTokenFile }}
+    bearerTokenFile: {{ .Values.metrics.serviceMonitor.bearerTokenFile | quote }}
+    {{- end }}
+    {{- if .Values.metrics.serviceMonitor.bearerTokenSecret }}
+    bearerTokenSecret:
+      {{- toYaml .Values.metrics.serviceMonitor.bearerTokenSecret | nindent 6 }}
+    {{- end }}
+    {{- if .Values.metrics.serviceMonitor.honorLabels }}
+    honorLabels: {{ .Values.metrics.serviceMonitor.honorLabels }}
+    {{- end }}
+    {{- if .Values.metrics.serviceMonitor.honorTimestamps }}
+    honorTimestamps: {{ .Values.metrics.serviceMonitor.honorTimestamps }}
+    {{- end }}
+    {{- if .Values.metrics.serviceMonitor.basicAuth }}
+    basicAuth:
+      {{- toYaml .Values.metrics.serviceMonitor.basicAuth | nindent 6 }}
+    {{- end }}
+    {{- if .Values.metrics.serviceMonitor.metricRelabelings }}
+    metricRelabelings:
+      {{- toYaml .Values.metrics.serviceMonitor.metricRelabelings | nindent 6 }}
+    {{- end }}
+    {{- if .Values.metrics.serviceMonitor.relabelings }}
+    relabelings:
+      {{- toYaml .Values.metrics.serviceMonitor.relabelings | nindent 6 }}
+    {{- end }}
+    {{- if .Values.metrics.serviceMonitor.proxyUrl -}}
+    proxyUrl: {{ .Values.metrics.serviceMonitor.proxyUrl }}
+    {{- end }}
+  selector:
+    matchLabels:
+      app: {{ include "docker-registry.name" . | quote }}
+      chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+      release: {{ .Release.Name | quote }}
+      heritage: {{ .Release.Service | quote }}
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace | quote }}
+  {{- if .Values.metrics.serviceMonitor.sampleLimit }}
+  sampleLimit: {{ .Values.metrics.serviceMonitor.sampleLimit }}
+  {{- end }}
+  {{- if .Values.metrics.serviceMonitor.targetLimit }}
+  targetLimit: {{ .Values.metrics.serviceMonitor.targetLimit }}
+  {{- end }}
+{{- end }}
+{{- end }}

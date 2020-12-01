@@ -37,6 +37,14 @@ spec:
 {{- if (and (eq .Values.service.type "NodePort") (not (empty .Values.service.nodePort))) }}
       nodePort: {{ .Values.service.nodePort }}
 {{- end }}
+    {{- if .Values.metrics.enabled }}
+    - name: {{ .Values.metrics.servicePortName | quote }}
+      port: {{ .Values.metrics.servicePort }}
+      {{- if and ( eq .Values.service.type "NodePort" ) .Values.service.metrics.nodePort }}
+      nodePort: {{ .Values.service.metrics.nodePort }}
+      {{- end }}
+      targetPort: {{ .Values.metrics.targetPortName | quote }}
+    {{- end }}
   selector:
     app: {{ template "docker-registry.name" . }}
     release: {{ .Release.Name }}
