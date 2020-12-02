@@ -22,6 +22,13 @@ spec:
 {{- if (and (eq .Values.service.type "LoadBalancer") (not (empty .Values.service.loadBalancerSourceRanges))) }}
   loadBalancerSourceRanges: {{ .Values.service.loadBalancerSourceRanges }}
 {{- end }}
+{{- if .Values.service.sessionAffinity }}
+  sessionAffinity: {{ .Values.service.sessionAffinity }}
+  {{- if .Values.service.sessionAffinityConfig }}
+  sessionAffinityConfig:
+    {{ toYaml .Values.service.sessionAffinityConfig | nindent 4 }}
+  {{- end -}}
+{{- end }}
   ports:
     - port: {{ .Values.service.port }}
       protocol: TCP
