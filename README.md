@@ -86,6 +86,13 @@ their default values.
 | `ingress.tls`               | Ingress TLS configuration (YAML)                                                           | `[]`            |
 | `extraVolumeMounts`         | Additional volumeMounts to the registry container                                          | `[]`            |
 | `extraVolumes`              | Additional volumes to the pod                                                              | `[]`            |
+| `metrics.enabled`           | Enable the debug metrics interface of the registry                                         | `false`         |
+| `metrics.servicePortName    | The name of the service port for the debug interface                                       | `debug`         |
+| `metrics.servicePort        | The port number of the service port for the debug interface                                | `5001`          |
+| `metrics.targetPortName     | The name of the container port of the debug interface                                      | `debug`         |
+| `metrics.serviceMonitor     | Various Prometheus serviceMonitor resource configs                                         | `nil`           |
+| `metrics.serviceMonitor.enabled` | Deploy a prometheus serviceMonitor                                                    | `false`         |
+| `metrics.serviceMonitor.path` | The debug interface path for prometheus metrics. Adjust this if you set it via configData.http.debug.prometheus.path | `/metrics` |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to
 `helm install`.
