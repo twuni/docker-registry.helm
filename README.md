@@ -75,6 +75,9 @@ their default values.
 | `s3.secure`                 | Use HTTPS                                                                                  | `nil`           |
 | `swift.authurl`             | Swift authurl                                                                              | `nil`           |
 | `swift.container`           | Swift container                                                                            | `nil`           |
+| `proxy.remoteurl`           | The URL for the repository being cached                                                    | `nil`           |
+| `proxy.username`            | The username which has access to the respository                                           | `nil`           |
+| `proxy.password`            | The password to authenticate using the username specified                                  | `nil`           |
 | `nodeSelector`              | node labels for pod assignment                                                             | `{}`            |
 | `affinity`                  | affinity settings                                                                          | `{}`            |
 | `tolerations`               | pod tolerations                                                                            | `[]`            |

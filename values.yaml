@@ -97,6 +97,12 @@ secrets:
 #  authurl: http://swift.example.com/
 #  container: my-container
 
+# Options for pull through cache
+# proxy:
+#   remoteurl: https://registry-1.docker.io
+#   username: [username]
+#   password: [password]
+
 configData:
   version: 0.1
   log:

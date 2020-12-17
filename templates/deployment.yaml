@@ -154,6 +154,18 @@ spec:
             - name: REGISTRY_STORAGE_SWIFT_CONTAINER
               value: {{ required ".Values.swift.container is required" .Values.swift.container }}
 {{- end }}
+{{- if .Values.proxy.remoteurl }}
+            - name: REGISTRY_PROXY_REMOTEURL
+              value: {{ .Values.proxy.remoteurl | quote }}
+          {{- if .Values.proxy.username }}
+            - name: REGISTRY_PROXY_USERNAME
+              value: {{ .Values.proxy.username | quote }}
+          {{- end }}
+          {{- if .Values.proxy.password }}
+            - name: REGISTRY_PROXY_PASSWORD
+              value: {{ .Values.proxy.password | quote }}
+          {{- end }}
+{{- end }}
 {{- if .Values.persistence.deleteEnabled }}
             - name: REGISTRY_STORAGE_DELETE_ENABLED
               value: "true"
