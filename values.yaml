@@ -147,3 +147,8 @@ extraVolumes: []
 #        - key: cloudfront.pem
 #          path: cloudfront.pem
 #          mode: 511
+
+extraEnv: []
+## Additional environment variables for the registry container.
+#  - name: REGISTRY_HTTP_ADDR
+#    value: "0.0.0.0:5000"
