@@ -27,12 +27,22 @@ spec:
 {{ toYaml .Values.podLabels | indent 8 }}
         {{- end }}
       annotations:
+{{- if .Values.envRenderSecret }}
+        checksum/secret-env: {{ include (print $.Template.BasePath "/secret-env.yaml") . | sha256sum }}
+{{- end }}
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-{{- if $.Values.podAnnotations }}
-{{ toYaml $.Values.podAnnotations | indent 8 }}
+{{- if .Values.podAnnotations }}
+{{ toYaml .Values.podAnnotations | indent 8 }}
 {{- end }}
     spec:
-      {{- if .Values.imagePullSecrets }}
+    {{- if .Values.serviceAccount.create }}
+    {{- if .Values.serviceAccount.name }}
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+    {{- else }}
+      serviceAccountName: {{ include "docker-registry.fullname" . }}
+    {{- end }}
+    {{- end }}
+    {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}
       {{- end }}
@@ -70,6 +80,11 @@ spec:
               port: 5000
           resources:
 {{ toYaml .Values.resources | indent 12 }}
+{{- if .Values.envRenderSecret }}
+          envFrom:
+            - secretRef:
+                name: {{ template "docker-registry.fullname" . }}-env
+{{- end }}
           env:
 {{- if .Values.secrets.htpasswd }}
             - name: REGISTRY_AUTH
