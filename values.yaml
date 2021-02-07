@@ -12,6 +12,12 @@ updateStrategy: {}
 podAnnotations: {}
 podLabels: {}
 
+serviceAccount:
+  create: false
+  # name:
+  ## Annotations for the Service Account
+  annotations: {}
+
 image:
   repository: registry
   tag: 2.7.1
@@ -131,6 +137,10 @@ nodeSelector: {}
 affinity: {}
 
 tolerations: []
+
+envRenderSecret: {}
+## Sensible environment variables that will be rendered as new secret object
+## This can be useful for auth tokens, etc
 
 extraVolumeMounts: []
 ## Additional volumeMounts to the registry container.
