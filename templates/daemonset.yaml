@@ -1,6 +1,6 @@
-{{- if eq .Values.kind "Deployment" -}}
+{{- if eq .Values.kind "DaemonSet" -}}
 apiVersion: apps/v1
-kind: Deployment
+kind: DaemonSet
 metadata:
   name: {{ template "docker-registry.fullname" . }}
   labels:
@@ -13,9 +13,8 @@ spec:
     matchLabels:
       app: {{ template "docker-registry.name" . }}
       release: {{ .Release.Name }}
-  replicas: {{ .Values.replicaCount }}
 {{- if .Values.updateStrategy }}
-  strategy:
+  updateStrategy:
 {{ toYaml .Values.updateStrategy | indent 4 }}
 {{- end }}
   minReadySeconds: 5
@@ -200,15 +199,6 @@ spec:
             - key: htpasswd
               path: htpasswd
 {{- end }}
-{{- if eq .Values.storage "filesystem" }}
-        - name: data
-      {{- if .Values.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "docker-registry.fullname" . }}{{- end }}
-      {{- else }}
-          emptyDir: {}
-      {{- end -}}
-{{- end }}
         - name: {{ template "docker-registry.fullname" . }}-config
           configMap:
             name: {{ template "docker-registry.fullname" . }}-config
@@ -220,4 +210,4 @@ spec:
 {{- with .Values.extraVolumes }}
         {{- toYaml . | nindent 8 }}
 {{- end }}
-{{- end }}
+{{- end -}}
