@@ -97,6 +97,13 @@ secrets:
 #  authurl: http://swift.example.com/
 #  container: my-container
 
+# https://docs.docker.com/registry/recipes/mirror/
+proxy:
+  enabled: false
+  remoteurl: https://registry-1.docker.io
+  username: ""
+  password: ""
+
 configData:
   version: 0.1
   log:
