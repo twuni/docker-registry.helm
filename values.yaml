@@ -24,6 +24,7 @@ service:
   # sessionAffinity: None
   # sessionAffinityConfig: {}
   # clusterIP:
+  # externalIPs: []
   port: 5000
   # nodePort:
   # loadBalancerIP:
