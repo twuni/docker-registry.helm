@@ -79,6 +79,7 @@ their default values.
 | `proxy.remoteurl`           | Remote registry URL to proxy requests to                                                   | `https://registry-1.docker.io`            |
 | `proxy.username`            | Remote registry login username                                                             | `nil`           |
 | `proxy.password`            | Remote registry login password                                                             | `nil`           |
+| `proxy.secretRef`           | The ref for an external secret containing the proxyUsername and proxyPassword keys         | `""`            |
 | `nodeSelector`              | node labels for pod assignment                                                             | `{}`            |
 | `affinity`                  | affinity settings                                                                          | `{}`            |
 | `tolerations`               | pod tolerations                                                                            | `[]`            |

@@ -160,12 +160,12 @@ spec:
             - name: REGISTRY_PROXY_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ template "docker-registry.fullname" . }}-secret
+                  name: {{ if .Values.proxy.secretRef }}{{ .Values.proxy.secretRef }}{{ else }}{{ template "docker-registry.fullname" . }}-secret{{ end }}
                   key: proxyUsername
             - name: REGISTRY_PROXY_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ template "docker-registry.fullname" . }}-secret
+                  name: {{ if .Values.proxy.secretRef }}{{ .Values.proxy.secretRef }}{{ else }}{{ template "docker-registry.fullname" . }}-secret{{ end }}
                   key: proxyPassword
 {{- end }}
 {{- if .Values.persistence.deleteEnabled }}
