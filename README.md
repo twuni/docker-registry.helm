@@ -64,6 +64,7 @@ their default values.
 | `secrets.htpasswd`          | Htpasswd authentication                                                                    | `nil`           |
 | `secrets.s3.accessKey`      | Access Key for S3 configuration                                                            | `nil`           |
 | `secrets.s3.secretKey`      | Secret Key for S3 configuration                                                            | `nil`           |
+| `secrets.s3.secretRef`      | The ref for an external secret containing the accessKey and secretKey keys                 | `""`            |
 | `secrets.swift.username`    | Username for Swift configuration                                                           | `nil`           |
 | `secrets.swift.password`    | Password for Swift configuration                                                           | `nil`           |
 | `haSharedSecret`            | Shared secret for Registry                                                                 | `nil`           |

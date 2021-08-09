@@ -76,7 +76,9 @@ secrets:
 #     accountKey: ""
 #     container: ""
 # Secrets for S3 access and secret keys
+# Use a secretRef with keys (accessKey, secretKey) for secrets stored outside the chart
 #   s3:
+#     secretRef: ""
 #     accessKey: ""
 #     secretKey: ""
 # Secrets for Swift username and password
