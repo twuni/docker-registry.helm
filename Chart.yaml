@@ -4,7 +4,7 @@ name: docker-registry
 version: 1.13.0
 appVersion: 2.7.1
 home: https://hub.docker.com/_/registry/
-icon: https://hub.docker.com/public/images/logos/mini-logo.svg
+icon: https://helm.twun.io/docker-registry.png
 maintainers:
 - email: devin@canterberry.cc
   name: Devin Canterberry
