@@ -95,6 +95,7 @@ their default values.
 | `ingress.path`              | Ingress service path                                                                       | `/`             |
 | `ingress.hosts`             | Ingress hostnames                                                                          | `[]`            |
 | `ingress.tls`               | Ingress TLS configuration (YAML)                                                           | `[]`            |
+| `ingress.className`         | Ingress controller class name                                                              | `nginx`         |
 | `metrics.enabled`           | Enable metrics on Service                                                                  | `false`         |
 | `metrics.port`              | TCP port on which the service metrics is exposed                                           | `5001`          |
 | `metrics.serviceMonitor.annotations` | Prometheus Operator ServiceMonitor annotations                                    | `{}`            |

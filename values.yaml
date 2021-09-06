@@ -37,6 +37,7 @@ service:
   # foo.io/bar: "true"
 ingress:
   enabled: false
+  className: nginx
   path: /
   # Used to create an Ingress record.
   hosts:
