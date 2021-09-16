@@ -82,7 +82,9 @@ secrets:
 #     accountKey: ""
 #     container: ""
 # Secrets for S3 access and secret keys
+# Use a secretRef with keys (accessKey, secretKey) for secrets stored outside the chart
 #   s3:
+#     secretRef: ""
 #     accessKey: ""
 #     secretKey: ""
 # Secrets for Swift username and password
@@ -102,6 +104,16 @@ secrets:
 # swift:
 #  authurl: http://swift.example.com/
 #  container: my-container
+
+# https://docs.docker.com/registry/recipes/mirror/
+proxy:
+  enabled: false
+  remoteurl: https://registry-1.docker.io
+  username: ""
+  password: ""
+  # the ref for a secret stored outside of this chart
+  # Keys: proxyUsername, proxyPassword
+  secretRef: ""
 
 configData:
   version: 0.1

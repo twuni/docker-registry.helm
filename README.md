@@ -64,6 +64,7 @@ their default values.
 | `secrets.htpasswd`          | Htpasswd authentication                                                                    | `nil`           |
 | `secrets.s3.accessKey`      | Access Key for S3 configuration                                                            | `nil`           |
 | `secrets.s3.secretKey`      | Secret Key for S3 configuration                                                            | `nil`           |
+| `secrets.s3.secretRef`      | The ref for an external secret containing the accessKey and secretKey keys                 | `""`            |
 | `secrets.swift.username`    | Username for Swift configuration                                                           | `nil`           |
 | `secrets.swift.password`    | Password for Swift configuration                                                           | `nil`           |
 | `haSharedSecret`            | Shared secret for Registry                                                                 | `nil`           |
@@ -75,6 +76,11 @@ their default values.
 | `s3.secure`                 | Use HTTPS                                                                                  | `nil`           |
 | `swift.authurl`             | Swift authurl                                                                              | `nil`           |
 | `swift.container`           | Swift container                                                                            | `nil`           |
+| `proxy.enabled`             | If true, registry will function as a proxy/mirror                                          | `false`         |
+| `proxy.remoteurl`           | Remote registry URL to proxy requests to                                                   | `https://registry-1.docker.io`            |
+| `proxy.username`            | Remote registry login username                                                             | `nil`           |
+| `proxy.password`            | Remote registry login password                                                             | `nil`           |
+| `proxy.secretRef`           | The ref for an external secret containing the proxyUsername and proxyPassword keys         | `""`            |
 | `nodeSelector`              | node labels for pod assignment                                                             | `{}`            |
 | `affinity`                  | affinity settings                                                                          | `{}`            |
 | `tolerations`               | pod tolerations                                                                            | `[]`            |
