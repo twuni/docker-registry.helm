@@ -138,10 +138,6 @@ affinity: {}
 
 tolerations: []
 
-envRenderSecret: {}
-## Sensible environment variables that will be rendered as new secret object
-## This can be useful for auth tokens, etc
-
 extraVolumeMounts: []
 ## Additional volumeMounts to the registry container.
 #  - mountPath: /secret-data
