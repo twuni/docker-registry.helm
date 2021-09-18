@@ -92,6 +92,9 @@ their default values.
 | `ingress.tls`               | Ingress TLS configuration (YAML)                                                           | `[]`            |
 | `extraVolumeMounts`         | Additional volumeMounts to the registry container                                          | `[]`            |
 | `extraVolumes`              | Additional volumes to the pod                                                              | `[]`            |
+| `garbageCollect.enabled`    | If true, will deploy garbage-collector cronjob                                             | `false`         |
+| `garbageCollect.deleteUntagged` | If true, garbage-collector will delete manifests that are not currently referenced via tag | `true` |    |
+| `garbageCollect.schedule`   | CronTab schedule, please use standard crontab format                                        | `0 1 * * *` |  |   
 
 Specify each parameter using the `--set key=value[,key=value]` argument to
 `helm install`.

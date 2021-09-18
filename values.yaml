@@ -166,3 +166,8 @@ extraVolumes: []
 #        - key: cloudfront.pem
 #          path: cloudfront.pem
 #          mode: 511
+
+garbageCollect:
+  enabled: false
+  deleteUntagged: true
+  schedule: "0 1 * * *"

@@ -1,0 +1,47 @@
+{{- if .Values.garbageCollect.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ template "docker-registry.fullname" . }}-garbage-collector
+  labels:
+    app: {{ template "docker-registry.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  schedule: {{ .Values.garbageCollect.schedule | quote }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          {{- if .Values.imagePullSecrets }}
+          imagePullSecrets: {{ toYaml .Values.imagePullSecrets | nindent 12 }}
+          {{- end }}
+          {{- if .Values.securityContext.enabled }}
+          securityContext:
+            fsGroup: {{ .Values.securityContext.fsGroup }}
+            runAsUser: {{ .Values.securityContext.runAsUser }}
+          {{- end }}
+          containers:
+            - name: {{ .Chart.Name }}
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              command:
+              - /bin/registry
+              - garbage-collect
+              - --delete-untagged={{ .Values.garbageCollect.deleteUntagged }}
+              - /etc/docker/registry/config.yml
+              env: {{ include "docker-registry.envs" . | nindent 16 }}
+              volumeMounts: {{ include "docker-registry.volumeMounts" . | nindent 16 }}
+          restartPolicy: OnFailure
+          {{- if .Values.nodeSelector }}
+          nodeSelector: {{ toYaml .Values.nodeSelector | nindent 12 }}
+          {{- end }}
+          {{- if .Values.affinity }}
+          affinity: {{ toYaml .Values.affinity | nindent 12 }}
+          {{- end }}
+          {{- if .Values.tolerations }}
+          tolerations: {{ toYaml .Values.tolerations | nindent 12 }}
+          {{- end }}
+          volumes: {{ include "docker-registry.volumes" . | nindent 12 }}
+{{- end }}
