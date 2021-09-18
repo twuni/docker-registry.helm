@@ -13,37 +13,35 @@ spec:
       app: {{ template "docker-registry.name" . }}
       release: {{ .Release.Name }}
   replicas: {{ .Values.replicaCount }}
-{{- if .Values.updateStrategy }}
-  strategy:
-{{ toYaml .Values.updateStrategy | indent 4 }}
-{{- end }}
+  {{- if .Values.updateStrategy }}
+  strategy: {{ toYaml .Values.updateStrategy | nindent 4 }}
+  {{- end }}
   minReadySeconds: 5
   template:
     metadata:
       labels:
         app: {{ template "docker-registry.name" . }}
         release: {{ .Release.Name }}
-        {{- if .Values.podLabels }}
-{{ toYaml .Values.podLabels | indent 8 }}
+        {{- with .Values.podLabels }}
+        {{ toYaml . | nindent 8 }}
         {{- end }}
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-{{- if $.Values.podAnnotations }}
-{{ toYaml $.Values.podAnnotations | indent 8 }}
-{{- end }}
+        {{- with .Values.podAnnotations }}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       {{- if .Values.imagePullSecrets }}
-      imagePullSecrets:
-{{ toYaml .Values.imagePullSecrets | indent 8 }}
+      imagePullSecrets: {{ toYaml .Values.imagePullSecrets | nindent 8 }}
       {{- end }}
-{{- if .Values.priorityClassName }}
+      {{- if .Values.priorityClassName }}
       priorityClassName: "{{ .Values.priorityClassName }}"
-{{- end }}
-{{- if .Values.securityContext.enabled }}
+      {{- end }}
+      {{- if .Values.securityContext.enabled }}
       securityContext:
         fsGroup: {{ .Values.securityContext.fsGroup }}
         runAsUser: {{ .Values.securityContext.runAsUser }}
-{{- end }}
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -56,16 +54,16 @@ spec:
             - containerPort: 5000
           livenessProbe:
             httpGet:
-{{- if .Values.tlsSecretName }}
+              {{- if .Values.tlsSecretName }}
               scheme: HTTPS
-{{- end }}
+              {{- end }}
               path: /
               port: 5000
           readinessProbe:
             httpGet:
-{{- if .Values.tlsSecretName }}
+              {{- if .Values.tlsSecretName }}
               scheme: HTTPS
-{{- end }}
+              {{- end }}
               path: /
               port: 5000
           resources: {{ toYaml .Values.resources | nindent 12 }}
