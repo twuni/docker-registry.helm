@@ -14,8 +14,6 @@ podLabels: {}
 
 serviceAccount:
   create: false
-  # name:
-  ## Annotations for the Service Account
   annotations: {}
 
 image:
