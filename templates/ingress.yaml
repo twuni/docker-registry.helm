@@ -1,8 +1,9 @@
 {{- if .Values.ingress.enabled -}}
 {{- $serviceName := include "docker-registry.fullname" . -}}
 {{- $servicePort := .Values.service.port -}}
+{{- $apiVersion := .Capabilities.APIVersions -}}
 {{- $path := .Values.ingress.path -}}
-apiVersion: {{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1" }} networking.k8s.io/v1 {{- else }} networking.k8s.io/v1beta1 {{- end }}
+apiVersion: {{- if $apiVersion.Has "networking.k8s.io/v1" }} networking.k8s.io/v1 {{- else }} networking.k8s.io/v1beta1 {{- end }}
 kind: Ingress
 metadata:
   name: {{ template "docker-registry.fullname" . }}
@@ -25,7 +26,7 @@ spec:
       http:
         paths:
           - path: {{ $path }}
-{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1" }}
+{{- if $apiVersion.Has "networking.k8s.io/v1" }}
             pathType: Prefix
             backend:
               service:
