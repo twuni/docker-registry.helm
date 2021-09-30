@@ -130,6 +130,10 @@ spec:
           {{- end }}
             - name: REGISTRY_STORAGE_S3_BUCKET
               value: {{ required ".Values.s3.bucket is required" .Values.s3.bucket }}
+          {{- if .Values.s3.rootdirectory }}
+            - name: REGISTRY_STORAGE_S3_ROOTDIRECTORY
+              value: {{ .Values.s3.rootdirectory | quote }}
+          {{- end }}
           {{- if .Values.s3.encrypt }}
             - name: REGISTRY_STORAGE_S3_ENCRYPT
               value: {{ .Values.s3.encrypt | quote }}

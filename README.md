@@ -72,6 +72,7 @@ their default values.
 | `s3.region`                 | S3 region                                                                                  | `nil`           |
 | `s3.regionEndpoint`         | S3 region endpoint                                                                         | `nil`           |
 | `s3.bucket`                 | S3 bucket name                                                                             | `nil`           |
+| `s3.rootdirectory`          | S3 prefix that is applied to allow you to segment data                                     | `nil`           |
 | `s3.encrypt`                | Store images in encrypted format                                                           | `nil`           |
 | `s3.secure`                 | Use HTTPS                                                                                  | `nil`           |
 | `swift.authurl`             | Swift authurl                                                                              | `nil`           |
