@@ -1,0 +1,21 @@
+{{- if .Values.configData.http.debug.prometheus.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "docker-registry.fullname" . }}-metrics
+  labels:
+    app: {{ template "docker-registry.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ include "split-host-port" .Values.configData.http.debug.addr }}
+      protocol: TCP
+      name: metrics
+      targetPort: {{ include "split-host-port" .Values.configData.http.debug.addr }}
+  selector:
+    app: {{ template "docker-registry.name" . }}
+    release: {{ .Release.Name }}
+{{- end }}

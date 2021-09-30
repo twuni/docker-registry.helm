@@ -22,3 +22,11 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Extract port from host:port
+*/}}
+{{- define "split-host-port" -}}
+{{- $hp := split ":" . -}}
+{{- printf "%s" $hp._1 -}}
+{{- end -}}
