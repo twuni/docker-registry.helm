@@ -54,6 +54,11 @@ spec:
           - /etc/docker/registry/config.yml
           ports:
             - containerPort: 5000
+{{- if .Values.configData.http.debug.prometheus.enabled }}
+            - containerPort: {{ (split ":" .Values.configData.http.debug.addr)._1 }}
+              name: metrics
+              protocol: TCP
+{{- end }}
           livenessProbe:
             httpGet:
 {{- if .Values.tlsSecretName }}
