@@ -184,7 +184,7 @@ spec:
 {{- end }}
 {{- if eq .Values.storage "filesystem" }}
             - name: data
-              mountPath: /var/lib/registry/
+              mountPath: {{ .Values.storagePath | default "/var/lib/registry/" | quote }}
 {{- end }}
             - name: "{{ template "docker-registry.fullname" . }}-config"
               mountPath: "/etc/docker/registry"

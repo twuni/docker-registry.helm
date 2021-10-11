@@ -64,6 +64,7 @@ persistence:
 
 # set the type of filesystem to use: filesystem, s3
 storage: filesystem
+storagePath: "/mnt/example"
 
 # Set this to name of secret for tls certs
 # tlsSecretName: registry.docker.example.com
