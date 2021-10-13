@@ -176,6 +176,9 @@ spec:
             - name: REGISTRY_STORAGE_DELETE_ENABLED
               value: "true"
 {{- end }}
+{{- with .Values.extraEnvVars }}
+        {{- toYaml . | nindent 12 }}
+{{- end }}
           volumeMounts:
 {{- if .Values.secrets.htpasswd }}
             - name: auth
