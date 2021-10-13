@@ -122,8 +122,6 @@ configData:
     addr: :5000
     headers:
       X-Content-Type-Options: [nosniff]
-    ## https://docs.docker.com/registry/configuration/#debug
-    ## to enable metrics set debug.prometheus.enabled true
     debug:
       addr: :5001
       prometheus:
