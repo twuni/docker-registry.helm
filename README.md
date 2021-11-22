@@ -91,7 +91,7 @@ their default values.
 | `ingress.path`              | Ingress service path                                                                       | `/`             |
 | `ingress.hosts`             | Ingress hostnames                                                                          | `[]`            |
 | `ingress.tls`               | Ingress TLS configuration (YAML)                                                           | `[]`            |
-| `metrics.enable`            | Enable metrics on Service                                                                  | `false`         |
+| `metrics.enabled`           | Enable metrics on Service                                                                  | `false`         |
 | `metrics.port`              | TCP port on which the service metrics is exposed                                           | `5001`          |
 | `metrics.serviceMonitor.annotations` | Prometheus Operator ServiceMonitor annotations                                    | `{}`            |
 | `metrics.serviceMonitor.enable` | If true, Prometheus Operator ServiceMonitor will be created                            | `false`         |

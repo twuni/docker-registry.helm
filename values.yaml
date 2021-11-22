@@ -111,7 +111,7 @@ proxy:
   secretRef: ""
 
 metrics:
-  enable: false
+  enabled: false
   port: 5001
   # Create a prometheus-operator servicemonitor
   serviceMonitor:
