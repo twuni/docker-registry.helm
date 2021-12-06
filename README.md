@@ -92,6 +92,15 @@ their default values.
 | `ingress.path`              | Ingress service path                                                                       | `/`             |
 | `ingress.hosts`             | Ingress hostnames                                                                          | `[]`            |
 | `ingress.tls`               | Ingress TLS configuration (YAML)                                                           | `[]`            |
+| `metrics.enabled`           | Enable metrics on Service                                                                  | `false`         |
+| `metrics.port`              | TCP port on which the service metrics is exposed                                           | `5001`          |
+| `metrics.serviceMonitor.annotations` | Prometheus Operator ServiceMonitor annotations                                    | `{}`            |
+| `metrics.serviceMonitor.enable` | If true, Prometheus Operator ServiceMonitor will be created                            | `false`         |
+| `metrics.serviceMonitor.labels` | Prometheus Operator ServiceMonitor labels                                              | `{}`            |
+| `metrics.prometheusRule.annotations` | Prometheus Operator PrometheusRule annotations                                    | `{}`            |
+| `metrics.prometheusRule.enable` | If true, Prometheus Operator prometheusRule will be created                            | `false`         |
+| `metrics.prometheusRule.labels` | Prometheus Operator prometheusRule labels                                              | `{}`            |
+| `metrics.prometheusRule.rules` | PrometheusRule defining alerting rules for a Prometheus instance                        | `{}`            |
 | `extraVolumeMounts`         | Additional volumeMounts to the registry container                                          | `[]`            |
 | `extraVolumes`              | Additional volumes to the pod                                                              | `[]`            |
 | `extraEnvVars`              | Additional environment variables to the pod                                                | `[]`            |

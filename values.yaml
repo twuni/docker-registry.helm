@@ -110,6 +110,19 @@ proxy:
   # Keys: proxyUsername, proxyPassword
   secretRef: ""
 
+metrics:
+  enabled: false
+  port: 5001
+  # Create a prometheus-operator servicemonitor
+  serviceMonitor:
+    enabled: false
+    labels: {}
+  # prometheus-operator PrometheusRule defining alerting rules for a Prometheus instance
+  prometheusRule:
+    enabled: false
+    labels: {}
+    rules: {}
+
 configData:
   version: 0.1
   log:
@@ -122,6 +135,11 @@ configData:
     addr: :5000
     headers:
       X-Content-Type-Options: [nosniff]
+    debug:
+      addr: :5001
+      prometheus:
+        enabled: false
+        path: /metrics
   health:
     storagedriver:
       enabled: true
