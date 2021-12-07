@@ -12,6 +12,11 @@ updateStrategy: {}
 podAnnotations: {}
 podLabels: {}
 
+serviceAccount:
+  create: false
+  name: ""
+  annotations: {}
+
 image:
   repository: registry
   tag: 2.7.1

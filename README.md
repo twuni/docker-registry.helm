@@ -43,6 +43,9 @@ their default values.
 | `persistence.size`          | Amount of space to claim for PVC                                                           | `10Gi`          |
 | `persistence.storageClass`  | Storage Class to use for PVC                                                               | `-`             |
 | `persistence.existingClaim` | Name of an existing PVC to use for config                                                  | `nil`           |
+| `serviceAccount.create`     | Create ServiceAccount                                                                      | `false`         |
+| `serviceAccount.name`       | ServiceAccount name                                                                        | `nil`           |
+| `serviceAccount.annotations` | Annotations to add to the ServiceAccount                                                  | `{}`            |
 | `service.port`              | TCP port on which the service is exposed                                                   | `5000`          |
 | `service.type`              | service type                                                                               | `ClusterIP`     |
 | `service.clusterIP`         | if `service.type` is `ClusterIP` and this is non-empty, sets the cluster IP of the service | `nil`           |

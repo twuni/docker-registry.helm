@@ -33,6 +33,9 @@ spec:
 {{ toYaml $.Values.podAnnotations | indent 8 }}
 {{- end }}
     spec:
+{{- if or (eq .Values.serviceAccount.create true) (ne .Values.serviceAccount.name "") }}
+      serviceAccountName: {{ .Values.serviceAccount.name | default (include "docker-registry.fullname" .) }}
+{{- end }}
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}
