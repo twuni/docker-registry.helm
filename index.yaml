@@ -3,9 +3,9 @@ entries:
   docker-registry:
   - apiVersion: v1
     appVersion: 2.7.1
-    created: "2021-12-11T11:27:23.967205968-08:00"
+    created: "2021-12-11T12:01:13.844723372-08:00"
     description: A Helm chart for Docker Registry
-    digest: 840a837ce64e7a516692e8a404cb7d6bb3a6a4fbdc8027a3475837d304c12149
+    digest: 9e13c55de4e35fa0826d53e262e438faa248dfd57d63550d52f6d97a1ecd394c
     home: https://hub.docker.com/_/registry/
     icon: https://helm.twun.io/docker-registry.png
     maintainers:
@@ -20,9 +20,9 @@ entries:
     version: 1.15.0
   - apiVersion: v1
     appVersion: 2.7.1
-    created: "2021-12-11T11:27:23.965040192-08:00"
+    created: "2021-12-11T12:01:13.84355574-08:00"
     description: A Helm chart for Docker Registry
-    digest: a9475d12fa74be5f9989491409901b4f9a8b83819627b9f9d9bd76c596b5a9b3
+    digest: f6ad1ac1d464e455d6f3c19e7035b6cd84b16cb47d11b933b14f941a37dbff8e
     home: https://hub.docker.com/_/registry/
     icon: https://helm.twun.io/docker-registry.png
     maintainers:
@@ -37,9 +37,9 @@ entries:
     version: 1.14.0
   - apiVersion: v1
     appVersion: 2.7.1
-    created: "2021-12-11T11:27:23.963628704-08:00"
+    created: "2021-12-11T12:01:13.842487019-08:00"
     description: A Helm chart for Docker Registry
-    digest: bfb712a5681311a09e1a43aa48d3cbd465dd4a6f408b55fca37219f47802d3c1
+    digest: ca794f71d314137a1d4dfa3ee5819748a4710261a7711c0ac322b08e8e8ebf91
     home: https://hub.docker.com/_/registry/
     icon: https://helm.twun.io/docker-registry.png
     maintainers:
@@ -54,9 +54,9 @@ entries:
     version: 1.13.2
   - apiVersion: v1
     appVersion: 2.7.1
-    created: "2021-12-11T11:27:23.962270242-08:00"
+    created: "2021-12-11T12:01:13.841377171-08:00"
     description: A Helm chart for Docker Registry
-    digest: cc82c825eb98b4772da755af4cf982eb5b6ef8db9d5ba074cbb55ab5604f02f8
+    digest: 59d1d634163fbab77ed696c72838bf257eb4c796edd485351cd99e46591de0ff
     home: https://hub.docker.com/_/registry/
     icon: https://helm.twun.io/docker-registry.png
     maintainers:
@@ -71,9 +71,9 @@ entries:
     version: 1.13.1
   - apiVersion: v1
     appVersion: 2.7.1
-    created: "2021-12-11T11:27:23.960902144-08:00"
+    created: "2021-12-11T12:01:13.839334279-08:00"
     description: A Helm chart for Docker Registry
-    digest: eef4bf0135dc31b11059da50b422659f14b17891efc14e00e186125480f26ba5
+    digest: 029644764fcac5761f4ad644c6553625df9479198ff4e441871b5a10d2e5234d
     home: https://hub.docker.com/_/registry/
     icon: https://hub.docker.com/public/images/logos/mini-logo.svg
     maintainers:
@@ -88,9 +88,9 @@ entries:
     version: 1.13.0
   - apiVersion: v1
     appVersion: 2.7.1
-    created: "2021-12-11T11:27:23.959469736-08:00"
+    created: "2021-12-11T12:01:13.83817223-08:00"
     description: A Helm chart for Docker Registry
-    digest: 6f70a37c811e513ddcc4927557ea9b0bb9b6035b307ffdb396fb10847aba0e53
+    digest: f451ffe741638245d9050244523b433355bd573c115f0da49512b598035b6377
     home: https://hub.docker.com/_/registry/
     icon: https://hub.docker.com/public/images/logos/mini-logo.svg
     maintainers:
@@ -105,9 +105,9 @@ entries:
     version: 1.12.0
   - apiVersion: v1
     appVersion: 2.7.1
-    created: "2021-12-11T11:27:23.958066529-08:00"
+    created: "2021-12-11T12:01:13.837017214-08:00"
     description: A Helm chart for Docker Registry
-    digest: 5215359d46dffffdfd7ca7e9f19021d099b7a5203fc1f3c2247c91b462e714d3
+    digest: 9e0cbfeb7ffeb07394265ef7f7f5393fd9e1608411f4b8557dd69efddd02f1a1
     home: https://hub.docker.com/_/registry/
     icon: https://hub.docker.com/public/images/logos/mini-logo.svg
     maintainers:
@@ -122,9 +122,9 @@ entries:
     version: 1.11.0
   - apiVersion: v1
     appVersion: 2.7.1
-    created: "2021-12-11T11:27:23.956793787-08:00"
+    created: "2021-12-11T12:01:13.835854569-08:00"
     description: A Helm chart for Docker Registry
-    digest: ba7d21cf60c4e54379e22a601139c50af66e315bb0804bd23a84da6d26a3e3a2
+    digest: 99ef39ed8786bd0dda558b1b03528c840e43bbcdd8a3fb0d21733a56839da70f
     home: https://hub.docker.com/_/registry/
     icon: https://hub.docker.com/public/images/logos/mini-logo.svg
     maintainers:
@@ -139,9 +139,9 @@ entries:
     version: 1.10.1
   - apiVersion: v1
     appVersion: 2.7.1
-    created: "2021-12-11T11:27:23.955560585-08:00"
+    created: "2021-12-11T12:01:13.834803267-08:00"
     description: A Helm chart for Docker Registry
-    digest: 9e4b1744bead5dad2d672da9bf1b4232201669dfc49f3feb6a65f84d6fe437b9
+    digest: d7323737c98c0745b69055eb71fd4a8bf52b02c9e9a315c9b1384c3a4c15f005
     home: https://hub.docker.com/_/registry/
     icon: https://hub.docker.com/public/images/logos/mini-logo.svg
     maintainers:
@@ -156,9 +156,9 @@ entries:
     version: 1.10.0
   - apiVersion: v1
     appVersion: 2.7.1
-    created: "2021-12-11T11:27:23.969946339-08:00"
+    created: "2021-12-11T12:01:13.846543296-08:00"
     description: A Helm chart for Docker Registry
-    digest: 7fed26dffe2d843febd3e8fce63e84247fa67ed1e7d06ae9cbb07827f66210d3
+    digest: bd3fed6eab51320044b5af6af9e6c94c30016daef87222284cfaf6ec8e10efd5
     home: https://hub.docker.com/_/registry/
     icon: https://hub.docker.com/public/images/logos/mini-logo.svg
     maintainers:
@@ -173,7 +173,7 @@ entries:
     version: 1.9.7
   - apiVersion: v1
     appVersion: 2.7.1
-    created: "2021-12-11T11:27:23.96880162-08:00"
+    created: "2021-12-11T12:01:13.845523434-08:00"
     description: A Helm chart for Docker Registry
     digest: fdaf3dc3d024ed1bdb5db24ff3c1a6693efb7550f560c0d3c16e37618e526bdb
     home: https://hub.docker.com/_/registry/
@@ -184,4 +184,4 @@ entries:
     urls:
     - docker-registry-1.9.6.tgz
     version: 1.9.6
-generated: "2021-12-11T11:27:23.954142217-08:00"
+generated: "2021-12-11T12:01:13.833514303-08:00"

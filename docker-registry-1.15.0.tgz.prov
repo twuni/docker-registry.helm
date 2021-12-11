@@ -1,0 +1,36 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+apiVersion: v1
+appVersion: 2.7.1
+description: A Helm chart for Docker Registry
+home: https://hub.docker.com/_/registry/
+icon: https://helm.twun.io/docker-registry.png
+maintainers:
+- - email: devin@canterberry.cc
+  name: Devin Canterberry
+  url: https://canterberry.cc/
+name: docker-registry
+sources:
+- - https://github.com/docker/distribution-library-image
+version: 1.15.0
+
+...
+files:
+  docker-registry-1.15.0.tgz: sha256:9e13c55de4e35fa0826d53e262e438faa248dfd57d63550d52f6d97a1ecd394c
+-----BEGIN PGP SIGNATURE-----
+
+wsFcBAEBCgAQBQJhtQHxCRB7NYC5+qEufgAAhqIQAFFvfE/gvJXZUdu9EkcN+olW
+z6O0x7CSv4MTfsi3/AE1aJ8gx4lAkTZTT11hJYZRx67zDOpTHqkS5uRFF/KyZDNJ
+MiDplo0Jy9KdHsgHWWvXfBsXOYtXFoeLyVdz9QQuLuQIfht3QHNu9gGW5r+D370c
+KSCoO3MSgT0JHVnC7tjrcAYOOvfAzSGQXmVlxub4mO7KO3k4mDfvJ3+7yCt+HVF4
+/04u7SI5X60a/RiTzTXdki/LtNu1xS7lj02t2TcLeaIIFZfKf1udgljcCDpzhkum
+TqXR6YVOpM6uUb9H8V/Tk7IfV/iY2RMsBvqDIHrtlZXji6nwZwCAueONMC2KWq9X
+5Ui8OOrL2ZIa7+UDFPnf0gPj/iNz9KU16Pi61ZjsgEUdoIlU9OT3WyQdY9MnOjsE
+g61NHhm5nki7akxVVYxivOApICNtA8EFRqEth4WQdFD01k0cXxMrRr24NO9ZtWBx
+7RM6VTQTzJ3ZZ8U0efvKhe9pKmqD1Xiu4D4Lw2K0cP5U4iaH9zTPNfz3BwdXD4Fk
+NeXEgFhztP6v2FIjS4eGT3dZRTmHWIfMpHDkojLc0+vv3HACIDs3UTOcsSPuO1YR
+SPEEdlYczUEVmofxI9+qUQChKG5rDHV7U5fPZxPcDYm9vSoilMn9yAGmzlDqcZG6
+vi6Fq98pxlB8rymwubfA
+=21Iv
+-----END PGP SIGNATURE-----
