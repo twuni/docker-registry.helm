@@ -1,0 +1,187 @@
+apiVersion: v1
+entries:
+  docker-registry:
+  - apiVersion: v1
+    appVersion: 2.7.1
+    created: "2021-12-11T11:27:23.967205968-08:00"
+    description: A Helm chart for Docker Registry
+    digest: 840a837ce64e7a516692e8a404cb7d6bb3a6a4fbdc8027a3475837d304c12149
+    home: https://hub.docker.com/_/registry/
+    icon: https://helm.twun.io/docker-registry.png
+    maintainers:
+    - email: devin@canterberry.cc
+      name: Devin Canterberry
+      url: https://canterberry.cc/
+    name: docker-registry
+    sources:
+    - https://github.com/docker/distribution-library-image
+    urls:
+    - docker-registry-1.15.0.tgz
+    version: 1.15.0
+  - apiVersion: v1
+    appVersion: 2.7.1
+    created: "2021-12-11T11:27:23.965040192-08:00"
+    description: A Helm chart for Docker Registry
+    digest: a9475d12fa74be5f9989491409901b4f9a8b83819627b9f9d9bd76c596b5a9b3
+    home: https://hub.docker.com/_/registry/
+    icon: https://helm.twun.io/docker-registry.png
+    maintainers:
+    - email: devin@canterberry.cc
+      name: Devin Canterberry
+      url: https://canterberry.cc/
+    name: docker-registry
+    sources:
+    - https://github.com/docker/distribution-library-image
+    urls:
+    - docker-registry-1.14.0.tgz
+    version: 1.14.0
+  - apiVersion: v1
+    appVersion: 2.7.1
+    created: "2021-12-11T11:27:23.963628704-08:00"
+    description: A Helm chart for Docker Registry
+    digest: bfb712a5681311a09e1a43aa48d3cbd465dd4a6f408b55fca37219f47802d3c1
+    home: https://hub.docker.com/_/registry/
+    icon: https://helm.twun.io/docker-registry.png
+    maintainers:
+    - email: devin@canterberry.cc
+      name: Devin Canterberry
+      url: https://canterberry.cc/
+    name: docker-registry
+    sources:
+    - https://github.com/docker/distribution-library-image
+    urls:
+    - docker-registry-1.13.2.tgz
+    version: 1.13.2
+  - apiVersion: v1
+    appVersion: 2.7.1
+    created: "2021-12-11T11:27:23.962270242-08:00"
+    description: A Helm chart for Docker Registry
+    digest: cc82c825eb98b4772da755af4cf982eb5b6ef8db9d5ba074cbb55ab5604f02f8
+    home: https://hub.docker.com/_/registry/
+    icon: https://helm.twun.io/docker-registry.png
+    maintainers:
+    - email: devin@canterberry.cc
+      name: Devin Canterberry
+      url: https://canterberry.cc/
+    name: docker-registry
+    sources:
+    - https://github.com/docker/distribution-library-image
+    urls:
+    - docker-registry-1.13.1.tgz
+    version: 1.13.1
+  - apiVersion: v1
+    appVersion: 2.7.1
+    created: "2021-12-11T11:27:23.960902144-08:00"
+    description: A Helm chart for Docker Registry
+    digest: eef4bf0135dc31b11059da50b422659f14b17891efc14e00e186125480f26ba5
+    home: https://hub.docker.com/_/registry/
+    icon: https://hub.docker.com/public/images/logos/mini-logo.svg
+    maintainers:
+    - email: devin@canterberry.cc
+      name: Devin Canterberry
+      url: https://canterberry.cc/
+    name: docker-registry
+    sources:
+    - https://github.com/docker/distribution-library-image
+    urls:
+    - docker-registry-1.13.0.tgz
+    version: 1.13.0
+  - apiVersion: v1
+    appVersion: 2.7.1
+    created: "2021-12-11T11:27:23.959469736-08:00"
+    description: A Helm chart for Docker Registry
+    digest: 6f70a37c811e513ddcc4927557ea9b0bb9b6035b307ffdb396fb10847aba0e53
+    home: https://hub.docker.com/_/registry/
+    icon: https://hub.docker.com/public/images/logos/mini-logo.svg
+    maintainers:
+    - email: devin@canterberry.cc
+      name: Devin Canterberry
+      url: https://canterberry.cc/
+    name: docker-registry
+    sources:
+    - https://github.com/docker/distribution-library-image
+    urls:
+    - docker-registry-1.12.0.tgz
+    version: 1.12.0
+  - apiVersion: v1
+    appVersion: 2.7.1
+    created: "2021-12-11T11:27:23.958066529-08:00"
+    description: A Helm chart for Docker Registry
+    digest: 5215359d46dffffdfd7ca7e9f19021d099b7a5203fc1f3c2247c91b462e714d3
+    home: https://hub.docker.com/_/registry/
+    icon: https://hub.docker.com/public/images/logos/mini-logo.svg
+    maintainers:
+    - email: devin@canterberry.cc
+      name: Devin Canterberry
+      url: https://canterberry.cc/
+    name: docker-registry
+    sources:
+    - https://github.com/docker/distribution-library-image
+    urls:
+    - docker-registry-1.11.0.tgz
+    version: 1.11.0
+  - apiVersion: v1
+    appVersion: 2.7.1
+    created: "2021-12-11T11:27:23.956793787-08:00"
+    description: A Helm chart for Docker Registry
+    digest: ba7d21cf60c4e54379e22a601139c50af66e315bb0804bd23a84da6d26a3e3a2
+    home: https://hub.docker.com/_/registry/
+    icon: https://hub.docker.com/public/images/logos/mini-logo.svg
+    maintainers:
+    - email: devin@canterberry.cc
+      name: Devin Canterberry
+      url: https://canterberry.cc/
+    name: docker-registry
+    sources:
+    - https://github.com/docker/distribution-library-image
+    urls:
+    - docker-registry-1.10.1.tgz
+    version: 1.10.1
+  - apiVersion: v1
+    appVersion: 2.7.1
+    created: "2021-12-11T11:27:23.955560585-08:00"
+    description: A Helm chart for Docker Registry
+    digest: 9e4b1744bead5dad2d672da9bf1b4232201669dfc49f3feb6a65f84d6fe437b9
+    home: https://hub.docker.com/_/registry/
+    icon: https://hub.docker.com/public/images/logos/mini-logo.svg
+    maintainers:
+    - email: devin@canterberry.cc
+      name: Devin Canterberry
+      url: https://canterberry.cc/
+    name: docker-registry
+    sources:
+    - https://github.com/docker/distribution-library-image
+    urls:
+    - docker-registry-1.10.0.tgz
+    version: 1.10.0
+  - apiVersion: v1
+    appVersion: 2.7.1
+    created: "2021-12-11T11:27:23.969946339-08:00"
+    description: A Helm chart for Docker Registry
+    digest: 7fed26dffe2d843febd3e8fce63e84247fa67ed1e7d06ae9cbb07827f66210d3
+    home: https://hub.docker.com/_/registry/
+    icon: https://hub.docker.com/public/images/logos/mini-logo.svg
+    maintainers:
+    - email: devin@canterberry.cc
+      name: Devin Canterberry
+      url: https://canterberry.cc/
+    name: docker-registry
+    sources:
+    - https://github.com/docker/distribution-library-image
+    urls:
+    - docker-registry-1.9.7.tgz
+    version: 1.9.7
+  - apiVersion: v1
+    appVersion: 2.7.1
+    created: "2021-12-11T11:27:23.96880162-08:00"
+    description: A Helm chart for Docker Registry
+    digest: fdaf3dc3d024ed1bdb5db24ff3c1a6693efb7550f560c0d3c16e37618e526bdb
+    home: https://hub.docker.com/_/registry/
+    icon: https://hub.docker.com/public/images/logos/mini-logo.svg
+    name: docker-registry
+    sources:
+    - https://github.com/docker/distribution-library-image
+    urls:
+    - docker-registry-1.9.6.tgz
+    version: 1.9.6
+generated: "2021-12-11T11:27:23.954142217-08:00"
