@@ -188,3 +188,6 @@ extraEnvVars: []
 ## Additional ENV variables to set
 # - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
 #   value: "/var/lib/example"
+
+sidecars: []
+## Add additional sidecar containers

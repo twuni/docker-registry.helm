@@ -208,6 +208,9 @@ spec:
 {{- with .Values.extraVolumeMounts }}
             {{- toYaml . | nindent 12 }}
 {{- end }}
+{{- with .Values.sidecars }}
+{{- toYaml . | nindent 8 }}
+{{- end }}
 {{- if .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
