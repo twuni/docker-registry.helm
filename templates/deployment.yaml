@@ -60,7 +60,7 @@ spec:
             - containerPort: 5000
 {{- if .Values.metrics.enabled }}
             - containerPort: {{ (split ":" .Values.configData.http.debug.addr)._1 }}
-              name: metrics
+              name: http-metrics
               protocol: TCP
 {{- end }}
           livenessProbe:
