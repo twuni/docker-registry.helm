@@ -61,6 +61,12 @@ their default values.
 | `podDisruptionBudget`       | Pod disruption budget                                                                      | `{}`            |
 | `resources.limits.cpu`      | Container requested CPU                                                                    | `nil`           |
 | `resources.limits.memory`   | Container requested memory                                                                 | `nil`           |
+| `autoscaling.enabled`       | Enable autoscaling using HorizontalPodAutoscaler                                           | `false`         |
+| `autoscaling.minReplicas`   | Minimal number of replicas                                                                 | `1`             |
+| `autoscaling.maxReplicas`   | Maximal number of replicas                                                                 | `2`             |
+| `autoscaling.targetCPUUtilizationPercentage` | Target average utilization of CPU on Pods                                 | `60`            |
+| `autoscaling.targetMemoryUtilizationPercentage` | (Kubernetes ≥1.23) Target average utilization of Memory on Pods        | `60`            |
+| `autoscaling.behavior`      | (Kubernetes ≥1.23) Configurable scaling behavior                                           | `{}`            |
 | `priorityClassName      `   | priorityClassName                                                                          | `""`            |
 | `storage`                   | Storage system to use                                                                      | `filesystem`    |
 | `tlsSecretName`             | Name of secret for TLS certs                                                               | `nil`           |
