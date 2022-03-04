@@ -114,6 +114,8 @@ their default values.
 | `extraVolumeMounts`         | Additional volumeMounts to the registry container                                          | `[]`            |
 | `extraVolumes`              | Additional volumes to the pod                                                              | `[]`            |
 | `extraEnvVars`              | Additional environment variables to the pod                                                | `[]`            |
+| `livenessProbe`             | Optional livenessProbe definition                                                          | `nil`           |
+| `readinessProbe`            | Optional readinessProbe definition                                                         | `nil`           |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to
 `helm install`.

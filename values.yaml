@@ -168,8 +168,8 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 2
   targetCPUUtilizationPercentage: 60
-  targetMemoryUtilizationPercentage: 60 # available only on Kubernetes ≥1.23 [required "autoscaling/v2"]
-  behavior: {} # available only on Kubernetes ≥1.23 [required "autoscaling/v2"]
+  targetMemoryUtilizationPercentage: 60  # available only on Kubernetes ≥1.23 [required "autoscaling/v2"]
+  behavior: {}  # available only on Kubernetes ≥1.23 [required "autoscaling/v2"]
 #   scaleDown:
 #     stabilizationWindowSeconds: 300
 #     policies:
@@ -213,3 +213,13 @@ extraEnvVars: []
 ## Additional ENV variables to set
 # - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
 #   value: "/var/lib/example"
+
+# # Custom LivenessProbe config to override default
+# livenessProbe:
+#   tcpSocket:
+#     port: 5000
+
+# # Custom readinessProbe config to override default
+# readinessProbe:
+#   tcpSocket:
+#     port: 5000
