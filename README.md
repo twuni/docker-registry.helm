@@ -114,6 +114,7 @@ their default values.
 | `extraVolumeMounts`         | Additional volumeMounts to the registry container                                          | `[]`            |
 | `extraVolumes`              | Additional volumes to the pod                                                              | `[]`            |
 | `extraEnvVars`              | Additional environment variables to the pod                                                | `[]`            |
+| `initContainers`            | Init containers to be created in the pod                                                   | `[]`            |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to
 `helm install`.

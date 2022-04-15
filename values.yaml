@@ -213,3 +213,9 @@ extraEnvVars: []
 ## Additional ENV variables to set
 # - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
 #   value: "/var/lib/example"
+
+initContainers: []
+## Init containers to add to the Deployment
+# - name: init
+#   image: busybox
+#   command: []
