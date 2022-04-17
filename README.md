@@ -61,6 +61,12 @@ their default values.
 | `podDisruptionBudget`       | Pod disruption budget                                                                      | `{}`            |
 | `resources.limits.cpu`      | Container requested CPU                                                                    | `nil`           |
 | `resources.limits.memory`   | Container requested memory                                                                 | `nil`           |
+| `autoscaling.enabled`       | Enable autoscaling using HorizontalPodAutoscaler                                           | `false`         |
+| `autoscaling.minReplicas`   | Minimal number of replicas                                                                 | `1`             |
+| `autoscaling.maxReplicas`   | Maximal number of replicas                                                                 | `2`             |
+| `autoscaling.targetCPUUtilizationPercentage` | Target average utilization of CPU on Pods                                 | `60`            |
+| `autoscaling.targetMemoryUtilizationPercentage` | (Kubernetes ≥1.23) Target average utilization of Memory on Pods        | `60`            |
+| `autoscaling.behavior`      | (Kubernetes ≥1.23) Configurable scaling behavior                                           | `{}`            |
 | `priorityClassName      `   | priorityClassName                                                                          | `""`            |
 | `storage`                   | Storage system to use                                                                      | `filesystem`    |
 | `tlsSecretName`             | Name of secret for TLS certs                                                               | `nil`           |
@@ -95,6 +101,7 @@ their default values.
 | `ingress.path`              | Ingress service path                                                                       | `/`             |
 | `ingress.hosts`             | Ingress hostnames                                                                          | `[]`            |
 | `ingress.tls`               | Ingress TLS configuration (YAML)                                                           | `[]`            |
+| `ingress.className`         | Ingress controller class name                                                              | `nginx`         |
 | `metrics.enabled`           | Enable metrics on Service                                                                  | `false`         |
 | `metrics.port`              | TCP port on which the service metrics is exposed                                           | `5001`          |
 | `metrics.serviceMonitor.annotations` | Prometheus Operator ServiceMonitor annotations                                    | `{}`            |
@@ -107,6 +114,7 @@ their default values.
 | `extraVolumeMounts`         | Additional volumeMounts to the registry container                                          | `[]`            |
 | `extraVolumes`              | Additional volumes to the pod                                                              | `[]`            |
 | `extraEnvVars`              | Additional environment variables to the pod                                                | `[]`            |
+| `initContainers`            | Init containers to be created in the pod                                                   | `[]`            |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to
 `helm install`.
