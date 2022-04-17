@@ -37,6 +37,7 @@ service:
   # foo.io/bar: "true"
 ingress:
   enabled: false
+  className: nginx
   path: /
   # Used to create an Ingress record.
   hosts:
@@ -162,6 +163,30 @@ podDisruptionBudget: {}
   # maxUnavailable: 1
   # minAvailable: 2
 
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 60
+  targetMemoryUtilizationPercentage: 60 # available only on Kubernetes ≥1.23 [required "autoscaling/v2"]
+  behavior: {} # available only on Kubernetes ≥1.23 [required "autoscaling/v2"]
+#   scaleDown:
+#     stabilizationWindowSeconds: 300
+#     policies:
+#     - type: Percent
+#       value: 100
+#       periodSeconds: 15
+#   scaleUp:
+#     stabilizationWindowSeconds: 0
+#     policies:
+#     - type: Percent
+#       value: 100
+#       periodSeconds: 15
+#     - type: Pods
+#       value: 4
+#       periodSeconds: 15
+#     selectPolicy: Max
+
 nodeSelector: {}
 
 affinity: {}
@@ -191,3 +216,9 @@ extraEnvVars: []
 
 sidecars: []
 ## Add additional sidecar containers
+
+initContainers: []
+## Init containers to add to the Deployment
+# - name: init
+#   image: busybox
+#   command: []

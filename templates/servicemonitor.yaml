@@ -16,6 +16,6 @@ spec:
       release: {{ .Release.Name }}
       heritage: {{ .Release.Service }}
   endpoints:
-  - port: metrics
+  - port: http-metrics
     interval: 15s
 {{- end }}

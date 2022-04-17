@@ -29,6 +29,7 @@ spec:
         {{- end }}
       annotations:
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
 {{- if $.Values.podAnnotations }}
 {{ toYaml $.Values.podAnnotations | indent 8 }}
 {{- end }}
@@ -48,6 +49,10 @@ spec:
         fsGroup: {{ .Values.securityContext.fsGroup }}
         runAsUser: {{ .Values.securityContext.runAsUser }}
 {{- end }}
+{{- with .Values.initContainers }}
+      initContainers:
+        {{- toYaml . | nindent 8 }}
+{{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -60,7 +65,7 @@ spec:
             - containerPort: 5000
 {{- if .Values.metrics.enabled }}
             - containerPort: {{ (split ":" .Values.configData.http.debug.addr)._1 }}
-              name: metrics
+              name: http-metrics
               protocol: TCP
 {{- end }}
           livenessProbe:

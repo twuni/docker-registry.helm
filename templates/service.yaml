@@ -41,7 +41,7 @@ spec:
 {{- if .Values.metrics.enabled }}
     - port: {{ .Values.metrics.port }}
       protocol: TCP
-      name: metrics
+      name: http-metrics
       targetPort: {{ (split ":" .Values.configData.http.debug.addr)._1 }}
 {{- end }}
   selector:
