@@ -28,7 +28,7 @@ Create a livenessProbe.
 Allow the default value to be completely overriden by an optional value.
 Retain he original livenessProbe logic.
 */}}
-{{- define "livenessProbe" -}}
+{{- define "docker-registry.livenessProbe" -}}
 livenessProbe:
 {{- if .Values.livenessProbe }}
 {{ .Values.livenessProbe | toYaml | indent 2 }}
@@ -47,7 +47,7 @@ Create a readinessProbe.
 Allow the default value to be completely overriden by an optional value.
 Retain he original readinessProbe logic.
 */}}
-{{- define "readinessProbe" -}}
+{{- define "docker-registry.readinessProbe" -}}
 readinessProbe:
 {{- if .Values.readinessProbe }}
 {{ .Values.readinessProbe | toYaml | indent 2 }}

@@ -168,8 +168,8 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 2
   targetCPUUtilizationPercentage: 60
-  targetMemoryUtilizationPercentage: 60  # available only on Kubernetes ≥1.23 [required "autoscaling/v2"]
-  behavior: {}  # available only on Kubernetes ≥1.23 [required "autoscaling/v2"]
+  targetMemoryUtilizationPercentage: 60 # available only on Kubernetes ≥1.23 [required "autoscaling/v2"]
+  behavior: {} # available only on Kubernetes ≥1.23 [required "autoscaling/v2"]
 #   scaleDown:
 #     stabilizationWindowSeconds: 300
 #     policies:
@@ -223,3 +223,9 @@ extraEnvVars: []
 # readinessProbe:
 #   tcpSocket:
 #     port: 5000
+
+initContainers: []
+## Init containers to add to the Deployment
+# - name: init
+#   image: busybox
+#   command: []

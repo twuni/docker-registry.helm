@@ -116,6 +116,7 @@ their default values.
 | `extraEnvVars`              | Additional environment variables to the pod                                                | `[]`            |
 | `livenessProbe`             | Optional livenessProbe definition                                                          | `nil`           |
 | `readinessProbe`            | Optional readinessProbe definition                                                         | `nil`           |
+| `initContainers`            | Init containers to be created in the pod                                                   | `[]`            |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to
 `helm install`.
