@@ -90,6 +90,11 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
   value: {{ .Values.s3.regionEndpoint }}
 {{- end }}
 
+{{- if .Values.s3.rootdirectory }}
+- name: REGISTRY_STORAGE_S3_ROOTDIRECTORY
+  value: {{ .Values.s3.rootdirectory | quote }}
+{{- end }}
+
 {{- if .Values.s3.encrypt }}
 - name: REGISTRY_STORAGE_S3_ENCRYPT
   value: {{ .Values.s3.encrypt | quote }}
@@ -135,6 +140,10 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- if .Values.persistence.deleteEnabled }}
 - name: REGISTRY_STORAGE_DELETE_ENABLED
   value: "true"
+{{- end }}
+
+{{- with .Values.extraEnvVars }}
+        {{- toYaml . | nindent 12 }}
 {{- end }}
 
 {{- end -}}

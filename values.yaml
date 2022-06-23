@@ -12,6 +12,11 @@ updateStrategy: {}
 podAnnotations: {}
 podLabels: {}
 
+serviceAccount:
+  create: false
+  name: ""
+  annotations: {}
+
 image:
   repository: registry
   tag: 2.7.1
@@ -32,6 +37,7 @@ service:
   # foo.io/bar: "true"
 ingress:
   enabled: false
+  className: nginx
   path: /
   # Used to create an Ingress record.
   hosts:
@@ -97,6 +103,7 @@ s3: {}
 #  region: us-east-1
 #  regionEndpoint: s3.us-east-1.amazonaws.com
 #  bucket: my-bucket
+#  rootdirectory: /object/prefix
 #  encrypt: false
 #  secure: true
 
@@ -116,6 +123,19 @@ proxy:
   # Keys: proxyUsername, proxyPassword
   secretRef: ""
 
+metrics:
+  enabled: false
+  port: 5001
+  # Create a prometheus-operator servicemonitor
+  serviceMonitor:
+    enabled: false
+    labels: {}
+  # prometheus-operator PrometheusRule defining alerting rules for a Prometheus instance
+  prometheusRule:
+    enabled: false
+    labels: {}
+    rules: {}
+
 configData:
   version: 0.1
   log:
@@ -128,6 +148,11 @@ configData:
     addr: :5000
     headers:
       X-Content-Type-Options: [nosniff]
+    debug:
+      addr: :5001
+      prometheus:
+        enabled: false
+        path: /metrics
   health:
     storagedriver:
       enabled: true
@@ -144,6 +169,30 @@ priorityClassName: ""
 podDisruptionBudget: {}
   # maxUnavailable: 1
   # minAvailable: 2
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 60
+  targetMemoryUtilizationPercentage: 60 # available only on Kubernetes ≥1.23 [required "autoscaling/v2"]
+  behavior: {} # available only on Kubernetes ≥1.23 [required "autoscaling/v2"]
+#   scaleDown:
+#     stabilizationWindowSeconds: 300
+#     policies:
+#     - type: Percent
+#       value: 100
+#       periodSeconds: 15
+#   scaleUp:
+#     stabilizationWindowSeconds: 0
+#     policies:
+#     - type: Percent
+#       value: 100
+#       periodSeconds: 15
+#     - type: Pods
+#       value: 4
+#       periodSeconds: 15
+#     selectPolicy: Max
 
 nodeSelector: {}
 
@@ -166,6 +215,17 @@ extraVolumes: []
 #        - key: cloudfront.pem
 #          path: cloudfront.pem
 #          mode: 511
+
+extraEnvVars: []
+## Additional ENV variables to set
+# - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
+#   value: "/var/lib/example"
+
+initContainers: []
+## Init containers to add to the Deployment
+# - name: init
+#   image: busybox
+#   command: []
 
 garbageCollect:
   enabled: false
