@@ -80,6 +80,7 @@ secrets:
   azure: {}
   s3: {}
   swift: {}
+
 # Secrets for Azure
 #   azure:
 #     accountName: ""
