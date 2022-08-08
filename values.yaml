@@ -77,9 +77,6 @@ storage: filesystem
 secrets:
   haSharedSecret: ""
   htpasswd: ""
-  azure: {}
-  s3: {}
-  swift: {}
 # Secrets for Azure
 #   azure:
 #     accountName: ""
@@ -96,7 +93,6 @@ secrets:
 #     username: ""
 #     password: ""
 
-s3: {}
 # Options for s3 storage type:
 # s3:
 #  region: us-east-1
@@ -106,7 +102,6 @@ s3: {}
 #  encrypt: false
 #  secure: true
 
-swift: {}
 # Options for swift storage type:
 # swift:
 #  authurl: http://swift.example.com/

@@ -3,6 +3,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ template "docker-registry.fullname" . }}-garbage-collector
+  namespace: {{ .Values.namespace | default .Release.Namespace }}
   labels:
     app: {{ template "docker-registry.name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -11,11 +12,30 @@ metadata:
 spec:
   schedule: {{ .Values.garbageCollect.schedule | quote }}
   jobTemplate:
+    metadata:
+      labels:
+        app: {{ template "docker-registry.name" . }}
+        release: {{ .Release.Name }}
+        {{- with .Values.podLabels }}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+{{- if $.Values.podAnnotations }}
+{{ toYaml $.Values.podAnnotations | indent 8 }}
+{{- end }}
     spec:
       template:
         spec:
+          {{- if or (eq .Values.serviceAccount.create true) (ne .Values.serviceAccount.name "") }}
+          serviceAccountName: {{ .Values.serviceAccount.name | default (include "docker-registry.fullname" .) }}
+          {{- end }}
           {{- if .Values.imagePullSecrets }}
           imagePullSecrets: {{ toYaml .Values.imagePullSecrets | nindent 12 }}
+          {{- end }}
+          {{- if .Values.priorityClassName }}
+          priorityClassName: "{{ .Values.priorityClassName }}"
           {{- end }}
           {{- if .Values.securityContext.enabled }}
           securityContext:
