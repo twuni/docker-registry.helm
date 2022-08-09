@@ -68,20 +68,8 @@ spec:
               name: http-metrics
               protocol: TCP
 {{- end }}
-          livenessProbe:
-            httpGet:
-{{- if .Values.tlsSecretName }}
-              scheme: HTTPS
-{{- end }}
-              path: /
-              port: 5000
-          readinessProbe:
-            httpGet:
-{{- if .Values.tlsSecretName }}
-              scheme: HTTPS
-{{- end }}
-              path: /
-              port: 5000
+{{ include "docker-registry.livenessProbe" . | indent 10 }}
+{{ include "docker-registry.readinessProbe" . | indent 10 }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
           env:

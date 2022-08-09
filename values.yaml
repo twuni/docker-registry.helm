@@ -214,6 +214,16 @@ extraEnvVars: []
 # - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
 #   value: "/var/lib/example"
 
+# # Custom LivenessProbe config to override default
+# livenessProbe:
+#   tcpSocket:
+#     port: 5000
+
+# # Custom readinessProbe config to override default
+# readinessProbe:
+#   tcpSocket:
+#     port: 5000
+
 initContainers: []
 ## Init containers to add to the Deployment
 # - name: init

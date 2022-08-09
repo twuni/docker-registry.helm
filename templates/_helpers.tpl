@@ -22,3 +22,41 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Create a livenessProbe.
+Allow the default value to be completely overriden by an optional value.
+Retain he original livenessProbe logic.
+*/}}
+{{- define "docker-registry.livenessProbe" -}}
+livenessProbe:
+{{- if .Values.livenessProbe }}
+{{ .Values.livenessProbe | toYaml | indent 2 }}
+{{- else }}
+  httpGet:
+{{- if .Values.tlsSecretName }}
+    scheme: HTTPS
+{{- end }}
+    path: /
+    port: 5000
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create a readinessProbe.
+Allow the default value to be completely overriden by an optional value.
+Retain he original readinessProbe logic.
+*/}}
+{{- define "docker-registry.readinessProbe" -}}
+readinessProbe:
+{{- if .Values.readinessProbe }}
+{{ .Values.readinessProbe | toYaml | indent 2 }}
+{{- else }}
+  httpGet:
+{{- if .Values.tlsSecretName }}
+    scheme: HTTPS
+{{- end }}
+    path: /
+    port: 5000
+{{- end -}}
+{{- end -}}
