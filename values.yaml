@@ -67,7 +67,6 @@ persistence:
   enabled: false
   size: 10Gi
   # storageClass: '-'
-  deleteEnabled: false
 
 # set the type of filesystem to use: filesystem, s3
 storage: filesystem
@@ -77,7 +76,6 @@ storage: filesystem
 secrets:
   haSharedSecret: ""
   htpasswd: ""
-
 # Secrets for Azure
 #   azure:
 #     accountName: ""
