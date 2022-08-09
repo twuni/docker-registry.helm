@@ -219,3 +219,8 @@ initContainers: []
 # - name: init
 #   image: busybox
 #   command: []
+
+garbageCollect:
+  enabled: false
+  deleteUntagged: true
+  schedule: "0 1 * * *"
