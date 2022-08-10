@@ -28,9 +28,11 @@ jobs:
             --set s3.bucket=abc
             --set s3.encrypt=abc
           )
+          helm template --debug ${OPTIONS[@]} --output-dir before ${{ github.server_url }}/${{ github.repository }}/archive/refs/heads/${{ github.base_ref }}.tar.gz
+          helm template --debug ${OPTIONS[@]} --output-dir after .
           # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
           echo 'HELM_DIFF<<EOF' >> $GITHUB_ENV
-          echo "$(diff -u <(helm template --debug ${OPTIONS[@]} ${{ github.server_url }}/${{ github.repository }}/archive/refs/heads/${{ github.base_ref }}.tar.gz) <(helm template --debug ${OPTIONS[@]} .))" >> $GITHUB_ENV
+          echo "$(diff -ur before after)" >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
