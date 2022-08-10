@@ -40,7 +40,9 @@ jobs:
             Running a `helm template` smoketest on this branch results in the following diff against `${{ github.base_ref }}`:
             
             <details><summary>diff</summary><p>
+            
             ```diff
             ${{ env.HELM_DIFF }}
             ```
+            
             </p></details>
