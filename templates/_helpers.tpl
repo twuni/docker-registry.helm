@@ -24,6 +24,12 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{- define "docker-registry.envs" -}}
+- name: REGISTRY_HTTP_SECRET
+  valueFrom:
+    secretKeyRef:
+      name: {{ template "docker-registry.fullname" . }}-secret
+      key: haSharedSecret
+
 {{- if .Values.secrets.htpasswd }}
 - name: REGISTRY_AUTH
   value: "htpasswd"
@@ -33,18 +39,12 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
   value: "/auth/htpasswd"
 {{- end }}
 
-- name: REGISTRY_HTTP_SECRET
-  valueFrom:
-    secretKeyRef:
-      name: {{ template "docker-registry.fullname" . }}-secret
-      key: haSharedSecret
-
 {{- if .Values.tlsSecretName }}
 - name: REGISTRY_HTTP_TLS_CERTIFICATE
   value: /etc/ssl/docker/tls.crt
 - name: REGISTRY_HTTP_TLS_KEY
   value: /etc/ssl/docker/tls.key
-{{- end }}
+{{- end -}}
 
 {{- if eq .Values.storage "filesystem" }}
 - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
@@ -66,12 +66,10 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
       name: {{ template "docker-registry.fullname" . }}-secret
       key: azureContainer
 {{- else if eq .Values.storage "s3" }}
-
 - name: REGISTRY_STORAGE_S3_REGION
   value: {{ required ".Values.s3.region is required" .Values.s3.region }}
 - name: REGISTRY_STORAGE_S3_BUCKET
   value: {{ required ".Values.s3.bucket is required" .Values.s3.bucket }}
-
 {{- if or (and .Values.secrets.s3.secretKey .Values.secrets.s3.accessKey) .Values.secrets.s3.secretRef }}
 - name: REGISTRY_STORAGE_S3_ACCESSKEY
   valueFrom:
@@ -83,27 +81,27 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
     secretKeyRef:
       name: {{ if .Values.secrets.s3.secretRef }}{{ .Values.secrets.s3.secretRef }}{{ else }}{{ template "docker-registry.fullname" . }}-secret{{ end }}
       key: s3SecretKey
-{{- end }}
+{{- end -}}
 
 {{- if .Values.s3.regionEndpoint }}
 - name: REGISTRY_STORAGE_S3_REGIONENDPOINT
   value: {{ .Values.s3.regionEndpoint }}
-{{- end }}
+{{- end -}}
 
 {{- if .Values.s3.rootdirectory }}
 - name: REGISTRY_STORAGE_S3_ROOTDIRECTORY
   value: {{ .Values.s3.rootdirectory | quote }}
-{{- end }}
+{{- end -}}
 
 {{- if .Values.s3.encrypt }}
 - name: REGISTRY_STORAGE_S3_ENCRYPT
   value: {{ .Values.s3.encrypt | quote }}
-{{- end }}
+{{- end -}}
 
 {{- if .Values.s3.secure }}
 - name: REGISTRY_STORAGE_S3_SECURE
   value: {{ .Values.s3.secure | quote }}
-{{- end }}
+{{- end -}}
 
 {{- else if eq .Values.storage "swift" }}
 - name: REGISTRY_STORAGE_SWIFT_AUTHURL
@@ -120,7 +118,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
       key: swiftPassword
 - name: REGISTRY_STORAGE_SWIFT_CONTAINER
   value: {{ required ".Values.swift.container is required" .Values.swift.container }}
-{{- end }}
+{{- end -}}
 
 {{- if .Values.proxy.enabled }}
 - name: REGISTRY_PROXY_REMOTEURL
@@ -135,16 +133,16 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
     secretKeyRef:
       name: {{ if .Values.proxy.secretRef }}{{ .Values.proxy.secretRef }}{{ else }}{{ template "docker-registry.fullname" . }}-secret{{ end }}
       key: proxyPassword
-{{- end }}
+{{- end -}}
 
 {{- if .Values.persistence.deleteEnabled }}
 - name: REGISTRY_STORAGE_DELETE_ENABLED
   value: "true"
-{{- end }}
+{{- end -}}
 
 {{- with .Values.extraEnvVars }}
-        {{- toYaml . | nindent 12 }}
-{{- end }}
+{{ toYaml . }}
+{{- end -}}
 
 {{- end -}}
 
