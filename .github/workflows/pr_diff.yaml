@@ -11,6 +11,7 @@ jobs:
       - name: Run diff
         id: diff
         run: |
+          shopt -s expand_aliases
           alias helm_test_template='helm template --debug \
             --set serviceAccount.create=true \
             --set priorityClassName=high \
