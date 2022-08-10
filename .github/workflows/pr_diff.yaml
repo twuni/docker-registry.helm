@@ -1,0 +1,37 @@
+name: PR Diff for Helm chart
+on:
+  pull_request:
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: azure/setup-helm@v3
+      - id: diff
+        run: |
+          alias helm_test_template='helm template --debug \
+            --set serviceAccount.create=true \
+            --set priorityClassName=high \
+            --set podAnnotations.test=annotation \
+            --set extraEnvVars[0].name=TEST_NAME \
+            --set extraEnvVars[0].value=TEST_VALUE \
+            --set secrets.htpasswd=abc \
+            --set tlsSecretName=abc \
+            --set garbageCollect.enabled=true \
+            --set proxy.enabled=true \
+            --set storage=s3 /
+            --set secrets.s3.secretKey=abc /
+            --set secrets.s3.accessKey=def /
+            --set s3.region=us-42 /
+            --set s3.bucket=abc /
+            --set s3.encrypt=abc'
+          OUTPUT="$(diff -u <(helm_test_template ${{ github.server_url }}/${{ github.repository }}/archive/refs/heads/${{ github.base_ref }}.tar.gz) <(helm_test_template .))"
+          echo "::set-output name=result::$OUTPUT"
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            This PR results in the following smoketest diff:
+            ```diff
+            ${{ steps.diff.outputs.result }}
+            ```
