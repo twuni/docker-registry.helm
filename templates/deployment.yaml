@@ -136,7 +136,7 @@ spec:
                   name: {{ if .Values.secrets.s3.secretRef }}{{ .Values.secrets.s3.secretRef }}{{ else }}{{ template "docker-registry.fullname" . }}-secret{{ end }}
                   key: s3SecretKey
             {{- end }}
-            - name: REGISTRY_STORAGE_S3_REGION
+            - name: REGISTRY_STORAGE_S3_REGION4242424
               value: {{ required ".Values.s3.region is required" .Values.s3.region }}
           {{- if .Values.s3.regionEndpoint }}
             - name: REGISTRY_STORAGE_S3_REGIONENDPOINT
@@ -191,7 +191,7 @@ spec:
               value: "true"
 {{- end }}
 {{- with .Values.extraEnvVars }}
-        {{- toYaml . | nindent 12 }}
+        {{- toYaml . | nindent 16 }}
 {{- end }}
           volumeMounts:
 {{- if .Values.secrets.htpasswd }}
