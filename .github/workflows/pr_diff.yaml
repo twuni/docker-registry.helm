@@ -8,7 +8,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: azure/setup-helm@v3
-      - id: diff
+      - name: Run diff
+        id: diff
         run: |
           alias helm_test_template='helm template --debug \
             --set serviceAccount.create=true \
@@ -26,12 +27,15 @@ jobs:
             --set s3.region=us-42 /
             --set s3.bucket=abc /
             --set s3.encrypt=abc'
-          OUTPUT="$(diff -u <(helm_test_template ${{ github.server_url }}/${{ github.repository }}/archive/refs/heads/${{ github.base_ref }}.tar.gz) <(helm_test_template .))"
-          echo "::set-output name=result::$OUTPUT"
+          # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
+          echo 'HELM_DIFF<<EOF' >> $GITHUB_ENV
+          diff -u <(helm_test_template ${{ github.server_url }}/${{ github.repository }}/archive/refs/heads/${{ github.base_ref }}.tar.gz) <(helm_test_template .) >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
-            This PR results in the following smoketest diff:
+            Running a `helm template` smoketest on this branch results in the following diff against `${{ github.base_ref }}`:
+            
             ```diff
-            ${{ steps.diff.outputs.result }}
+            ${{ env.HELM_DIFF }}
             ```
