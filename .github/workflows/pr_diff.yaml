@@ -11,26 +11,26 @@ jobs:
       - name: Run diff
         id: diff
         run: |
-          shopt -s expand_aliases
-          alias helm_test_template='helm template --debug \
-            --set serviceAccount.create=true \
-            --set priorityClassName=high \
-            --set podAnnotations.test=annotation \
-            --set extraEnvVars[0].name=TEST_NAME \
-            --set extraEnvVars[0].value=TEST_VALUE \
-            --set secrets.htpasswd=abc \
-            --set tlsSecretName=abc \
-            --set garbageCollect.enabled=true \
-            --set proxy.enabled=true \
-            --set storage=s3 /
-            --set secrets.s3.secretKey=abc /
-            --set secrets.s3.accessKey=def /
-            --set s3.region=us-42 /
-            --set s3.bucket=abc /
-            --set s3.encrypt=abc'
+          OPTIONS=(
+            --set serviceAccount.create=true
+            --set priorityClassName=high
+            --set podAnnotations.test=annotation
+            --set extraEnvVars[0].name=TEST_NAME
+            --set extraEnvVars[0].value=TEST_VALUE
+            --set secrets.htpasswd=abc
+            --set tlsSecretName=abc
+            --set garbageCollect.enabled=true
+            --set proxy.enabled=true
+            --set storage=s3
+            --set secrets.s3.secretKey=abc
+            --set secrets.s3.accessKey=def
+            --set s3.region=us-42
+            --set s3.bucket=abc
+            --set s3.encrypt=abc
+          )
           # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
           echo 'HELM_DIFF<<EOF' >> $GITHUB_ENV
-          diff -u <(helm_test_template ${{ github.server_url }}/${{ github.repository }}/archive/refs/heads/${{ github.base_ref }}.tar.gz) <(helm_test_template .) >> $GITHUB_ENV
+          diff -u <(helm template --debug ${OPTIONS[@]} ${{ github.server_url }}/${{ github.repository }}/archive/refs/heads/${{ github.base_ref }}.tar.gz) <(helm template --debug ${OPTIONS[@]} .) >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
