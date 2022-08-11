@@ -1,6 +1,10 @@
 name: PR Diff for Helm chart
 on:
   pull_request:
+  pull_request_target:
+  
+permissions:
+  pull-requests: write
 
 jobs:
   diff:
@@ -34,7 +38,7 @@ jobs:
           echo 'HELM_DIFF<<EOF' >> $GITHUB_ENV
           echo "$(diff -ur before after)" >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
-      - uses: marocchino/sticky-pull-request-comment@v2
+      - uses: marocchino/sticky-pull-request-comment@39c5b5dc7717447d0cba270cd115037d32d28443
         with:
           message: |
             Running a `helm template` smoketest on this branch results in the following diff against `${{ github.base_ref }}`:
