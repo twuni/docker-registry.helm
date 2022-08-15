@@ -1,0 +1,52 @@
+name: PR Diff for Helm chart
+on:
+  pull_request:
+  pull_request_target:
+  
+permissions:
+  pull-requests: write
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: azure/setup-helm@v3
+      - name: Run diff
+        id: diff
+        run: |
+          OPTIONS=(
+            --set serviceAccount.create=true
+            --set priorityClassName=high
+            --set podAnnotations.test=annotation
+            --set extraEnvVars[0].name=TEST_NAME
+            --set extraEnvVars[0].value=TEST_VALUE
+            --set secrets.htpasswd=abc
+            --set tlsSecretName=abc
+            --set garbageCollect.enabled=true
+            --set proxy.enabled=true
+            --set storage=s3
+            --set secrets.s3.secretKey=abc
+            --set secrets.s3.accessKey=def
+            --set s3.region=us-42
+            --set s3.bucket=abc
+            --set s3.encrypt=abc
+          )
+          helm template --debug ${OPTIONS[@]} --output-dir before ${{ github.server_url }}/${{ github.repository }}/archive/refs/heads/${{ github.base_ref }}.tar.gz
+          helm template --debug ${OPTIONS[@]} --output-dir after .
+          # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
+          echo 'HELM_DIFF<<EOF' >> $GITHUB_ENV
+          echo "$(diff -ur before after)" >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+      - uses: marocchino/sticky-pull-request-comment@39c5b5dc7717447d0cba270cd115037d32d28443
+        with:
+          message: |
+            Running a `helm template` smoketest on commit ${{ github.ref }} results in the following diff against `${{ github.base_ref }}`:
+            
+            <details><summary>diff</summary><p>
+            
+            ```diff
+            ${{ env.HELM_DIFF }}
+            ```
+            
+            </p></details>
