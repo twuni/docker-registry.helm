@@ -168,7 +168,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end }}
 
 {{- with .Values.extraVolumeMounts }}
-{{- toYaml . }}
+{{ toYaml . }}
 {{- end }}
 
 {{- end -}}
@@ -204,6 +204,6 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end }}
 
 {{- with .Values.extraVolumes }}
-{{- toYaml . }}
+{{ toYaml . }}
 {{- end }}
 {{- end -}}
