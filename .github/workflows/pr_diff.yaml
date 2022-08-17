@@ -1,8 +1,8 @@
 name: PR Diff for Helm chart
+
 on:
-  pull_request:
   pull_request_target:
-  
+
 permissions:
   pull-requests: write
 
@@ -16,14 +16,20 @@ jobs:
         id: diff
         run: |
           OPTIONS=(
+            --namespace meta-namespace
             --set serviceAccount.create=true
             --set priorityClassName=high
             --set podAnnotations.test=annotation
             --set extraEnvVars[0].name=TEST_NAME
             --set extraEnvVars[0].value=TEST_VALUE
+            --set extraVolumes[0].name=test
+            --set extraVolumes[0].emptyDir.medium=Memory
+            --set extraVolumeMounts[0].name=test
+            --set extraVolumeMounts[0].mountPath=/test
             --set secrets.htpasswd=abc
             --set tlsSecretName=abc
             --set garbageCollect.enabled=true
+            --set namespace=target-namespace
             --set proxy.enabled=true
             --set storage=s3
             --set secrets.s3.secretKey=abc
@@ -32,7 +38,7 @@ jobs:
             --set s3.bucket=abc
             --set s3.encrypt=abc
           )
-          helm template --debug ${OPTIONS[@]} --output-dir before ${{ github.server_url }}/${{ github.repository }}/archive/refs/heads/${{ github.base_ref }}.tar.gz
+          helm template --debug ${OPTIONS[@]} --output-dir before https://github.com/twuni/docker-registry.helm/archive/refs/heads/main.tar.gz
           helm template --debug ${OPTIONS[@]} --output-dir after .
           # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
           echo 'HELM_DIFF<<EOF' >> $GITHUB_ENV
