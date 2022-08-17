@@ -41,7 +41,7 @@ jobs:
       - uses: marocchino/sticky-pull-request-comment@39c5b5dc7717447d0cba270cd115037d32d28443
         with:
           message: |
-            Running a `helm template` smoketest on commit ${{ github.ref }} results in the following diff against `${{ github.base_ref }}`:
+            Running a `helm template` smoketest on commit ${{ github.sha }} results in the following diff against `${{ github.base_ref }}`:
             
             <details><summary>diff</summary><p>
             
