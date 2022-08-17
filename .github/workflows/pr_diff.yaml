@@ -20,6 +20,10 @@ jobs:
             --set podAnnotations.test=annotation
             --set extraEnvVars[0].name=TEST_NAME
             --set extraEnvVars[0].value=TEST_VALUE
+            --set extraVolumes[0].name=test
+            --set extraVolumes[0].emptyDir.medium=Memory
+            --set extraVolumeMounts[0].name=test
+            --set extraVolumeMounts[0].mountPath=/test
             --set secrets.htpasswd=abc
             --set tlsSecretName=abc
             --set garbageCollect.enabled=true
