@@ -15,6 +15,7 @@ jobs:
         id: diff
         run: |
           OPTIONS=(
+            --namespace meta-namespace
             --set serviceAccount.create=true
             --set priorityClassName=high
             --set podAnnotations.test=annotation
@@ -27,6 +28,7 @@ jobs:
             --set secrets.htpasswd=abc
             --set tlsSecretName=abc
             --set garbageCollect.enabled=true
+            --set namespace=target-namespace
             --set proxy.enabled=true
             --set storage=s3
             --set secrets.s3.secretKey=abc
