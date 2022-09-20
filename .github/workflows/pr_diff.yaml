@@ -1,10 +1,7 @@
 name: PR Diff for Helm chart
 
 on:
-  pull_request_target:
-
-permissions:
-  pull-requests: write
+  pull_request:
 
 jobs:
   diff:
@@ -38,7 +35,7 @@ jobs:
             --set s3.bucket=abc
             --set s3.encrypt=abc
           )
-          helm template --debug ${OPTIONS[@]} --output-dir before https://github.com/twuni/docker-registry.helm/archive/refs/heads/main.tar.gz
+          helm template --debug ${OPTIONS[@]} --output-dir before ${{ github.server_url }}/${{ github.repository }}/archive/refs/heads/${{ github.base_ref }}.tar.gz
           helm template --debug ${OPTIONS[@]} --output-dir after .
           # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
           echo 'HELM_DIFF<<EOF' >> $GITHUB_ENV
