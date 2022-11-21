@@ -63,10 +63,14 @@ resources: {}
   #  cpu: 100m
   #  memory: 128Mi
 persistence:
+  # Persistence can be achieved either with a PVC or StatefulSet. Default to PVC.
+  type: pvc
   accessMode: 'ReadWriteOnce'
   enabled: false
   size: 10Gi
   # storageClass: '-'
+  ## Name of an existing PVC. Can be templated.
+  # existingClaim:
 
 # set the type of filesystem to use: filesystem, s3
 storage: filesystem
@@ -224,3 +228,6 @@ garbageCollect:
   enabled: false
   deleteUntagged: true
   schedule: "0 1 * * *"
+
+# Use StatefulSet instead of Deployment. Default uses Deployment.
+useStatefulSet: false
