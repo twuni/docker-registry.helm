@@ -1,8 +1,3 @@
-# File              : statefulset.yaml
-# Author            : TheDetective
-# Date              : 28.11.2022
-# Last Modified Date: 28.11.2022
-# Last Modified By  : TheDetective
 {{- $sts := list "sts" "StatefulSet" -}}
 {{- if (or (.Values.useStatefulSet) (and .Values.persistence.enabled (not .Values.persistence.existingClaim) (has .Values.persistence.type $sts)))}}
 apiVersion: apps/v1
