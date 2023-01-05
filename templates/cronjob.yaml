@@ -53,6 +53,7 @@ spec:
               - /etc/docker/registry/config.yml
               env: {{ include "docker-registry.envs" . | nindent 16 }}
               volumeMounts: {{ include "docker-registry.volumeMounts" . | nindent 16 }}
+              resources: {{ toYaml .Values.resources | nindent 16 }}
           restartPolicy: OnFailure
           {{- if .Values.nodeSelector }}
           nodeSelector: {{ toYaml .Values.nodeSelector | nindent 12 }}
