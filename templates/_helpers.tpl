@@ -193,7 +193,8 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
   persistentVolumeClaim:
     claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "docker-registry.fullname" . }}{{- end }}
   {{- else }}
-  emptyDir: {}
+  emptyDir:
+    sizeLimit: {{ .Values.emptydir.size }}
   {{- end -}}
 {{- end }}
 
