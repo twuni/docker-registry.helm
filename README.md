@@ -69,6 +69,7 @@ their default values.
 | `autoscaling.behavior`      | (Kubernetes ≥1.23) Configurable scaling behavior                                           | `{}`            |
 | `priorityClassName      `   | priorityClassName                                                                          | `""`            |
 | `storage`                   | Storage system to use                                                                      | `filesystem`    |
+| `emptydir.size`             | Amount of space to claim for emptyDir ephemeral storage                                    | `0`             |
 | `tlsSecretName`             | Name of secret for TLS certs                                                               | `nil`           |
 | `secrets.htpasswd`          | Htpasswd authentication                                                                    | `nil`           |
 | `secrets.s3.accessKey`      | Access Key for S3 configuration                                                            | `nil`           |
