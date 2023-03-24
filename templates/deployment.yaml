@@ -52,6 +52,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
+        {{- with .Values.sidecars }}
+          {{- toYaml .Values.sidecars | nindent 8 }}
+        {{- end }}
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
