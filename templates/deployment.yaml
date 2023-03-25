@@ -53,7 +53,7 @@ spec:
       {{- end }}
       containers:
         {{- with .Values.sidecars }}
-          {{- toYaml .Values.sidecars | nindent 8 }}
+          {{- toYaml . | nindent 8 }}
         {{- end }}
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
