@@ -222,7 +222,7 @@ initContainers: []
 
 sidecars: []
 ## Sidecar containers to add to the Deployment
-# - name: init
+# - name: sidecar-container
 #   image: busybox
 #   command: []
 
