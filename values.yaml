@@ -23,6 +23,8 @@ image:
   pullPolicy: IfNotPresent
 # imagePullSecrets:
     # - name: docker
+deployment: {}
+  # annotations:
 service:
   name: registry
   type: ClusterIP
