@@ -38,12 +38,6 @@ spec:
 {{- if (and (eq .Values.service.type "NodePort") (not (empty .Values.service.nodePort))) }}
       nodePort: {{ .Values.service.nodePort }}
 {{- end }}
-{{- if .Values.metrics.enabled }}
-    - port: {{ .Values.metrics.port }}
-      protocol: TCP
-      name: http-metrics
-      targetPort: {{ (split ":" .Values.configData.http.debug.addr)._1 }}
-{{- end }}
   selector:
     app: {{ template "docker-registry.name" . }}
     release: {{ .Release.Name }}
