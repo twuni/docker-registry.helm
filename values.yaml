@@ -24,7 +24,7 @@ image:
 # imagePullSecrets:
     # - name: docker
 service:
-  name: registry
+  name: "" 
   type: ClusterIP
   # sessionAffinity: None
   # sessionAffinityConfig: {}
