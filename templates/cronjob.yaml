@@ -38,9 +38,7 @@ spec:
           priorityClassName: "{{ .Values.priorityClassName }}"
           {{- end }}
           {{- if .Values.securityContext.enabled }}
-          securityContext:
-            fsGroup: {{ .Values.securityContext.fsGroup }}
-            runAsUser: {{ .Values.securityContext.runAsUser }}
+          securityContext: {{ omit .Values.securityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
           containers:
             - name: {{ .Chart.Name }}
@@ -52,6 +50,9 @@ spec:
               - --delete-untagged={{ .Values.garbageCollect.deleteUntagged }}
               - /etc/docker/registry/config.yml
               env: {{ include "docker-registry.envs" . | nindent 16 }}
+              {{- if .Values.containerSecurityContext.enabled }}
+              securityContext: {{ omit .Values.containerSecurityContext "enabled" | toYaml | nindent 16 }}
+              {{- end }}
               volumeMounts: {{ include "docker-registry.volumeMounts" . | nindent 16 }}
           restartPolicy: OnFailure
           {{- if .Values.nodeSelector }}
