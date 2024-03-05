@@ -43,9 +43,7 @@ spec:
       priorityClassName: "{{ .Values.priorityClassName }}"
       {{- end }}
       {{- if .Values.securityContext.enabled }}
-      securityContext:
-        fsGroup: {{ .Values.securityContext.fsGroup }}
-        runAsUser: {{ .Values.securityContext.runAsUser }}
+      securityContext: {{ omit .Values.securityContext "enabled" | toYaml | nindent 8 }}
       {{- end }}
       {{- with .Values.initContainers }}
       initContainers:
@@ -82,6 +80,9 @@ spec:
               port: 5000
           resources: {{ toYaml .Values.resources | nindent 12 }}
           env: {{ include "docker-registry.envs" . | nindent 12 }}
+          {{- if .Values.containerSecurityContext.enabled }}
+          securityContext: {{ omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+          {{- end }}
           volumeMounts: {{ include "docker-registry.volumeMounts" . | nindent 12 }}
       {{- if .Values.nodeSelector }}
       nodeSelector: {{ toYaml .Values.nodeSelector | nindent 8 }}
