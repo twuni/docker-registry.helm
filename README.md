@@ -103,10 +103,9 @@ their default values.
 | `ingress.tls`               | Ingress TLS configuration (YAML)                                                           | `[]`            |
 | `ingress.className`         | Ingress controller class name                                                              | `nginx`         |
 | `metrics.enabled`           | Enable metrics on Service                                                                  | `false`         |
-| `metrics.port`              | TCP port on which the service metrics is exposed                                           | `5001`          |
-| `metrics.serviceMonitor.annotations` | Prometheus Operator ServiceMonitor annotations                                    | `{}`            |
-| `metrics.serviceMonitor.enable` | If true, Prometheus Operator ServiceMonitor will be created                            | `false`         |
-| `metrics.serviceMonitor.labels` | Prometheus Operator ServiceMonitor labels                                              | `{}`            |
+| `metrics.podMonitor.annotations` | Prometheus Operator PodMonitor annotations                                    | `{}`            |
+| `metrics.podMonitor.enable` | If true, Prometheus Operator PodMonitor will be created                            | `false`         |
+| `metrics.podMonitor.labels` | Prometheus Operator PodMonitor labels                                              | `{}`            |
 | `metrics.prometheusRule.annotations` | Prometheus Operator PrometheusRule annotations                                    | `{}`            |
 | `metrics.prometheusRule.enable` | If true, Prometheus Operator prometheusRule will be created                            | `false`         |
 | `metrics.prometheusRule.labels` | Prometheus Operator prometheusRule labels                                              | `{}`            |

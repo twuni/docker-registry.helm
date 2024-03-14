@@ -118,9 +118,8 @@ proxy:
 
 metrics:
   enabled: false
-  port: 5001
-  # Create a prometheus-operator servicemonitor
-  serviceMonitor:
+  # Create a prometheus-operator podmonitor
+  podMonitor:
     enabled: false
     labels: {}
   # prometheus-operator PrometheusRule defining alerting rules for a Prometheus instance
