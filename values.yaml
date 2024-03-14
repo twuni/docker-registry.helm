@@ -74,6 +74,7 @@ storage: filesystem
 # Set this to name of secret for tls certs
 # tlsSecretName: registry.docker.example.com
 secrets:
+  create: true
   haSharedSecret: ""
   htpasswd: ""
 # Secrets for Azure
