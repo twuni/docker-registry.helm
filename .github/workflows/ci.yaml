@@ -14,11 +14,31 @@ concurrency:
   cancel-in-progress: true
 permissions: read-all
 jobs:
-  lint:
-    name: Lint
+  helm-lint:
+    name: Helm Lint
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4.1.1
-      - name: Helm Lint
-        run: |
+      - uses: actions/checkout@v4.1.2
+      - run: |
           helm lint --strict
+  integration-stest:
+    name: Integration Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4.1.2
+      - uses: AbsaOSS/k3d-action@v2.4.0
+        name: Create K3D Cluster with Container Registry
+        with:
+          cluster-name: local-ci-k3d-cluster
+          args: >-
+            --agents 1
+            --registry-create local-ci-k3d-registry
+      - name: Setup
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/tilt-dev/tilt/master/scripts/install.sh | bash
+      - name: Test
+        run: |
+          helm install docker-registry . --wait --wait-for-jobs
+          kubectl get all
