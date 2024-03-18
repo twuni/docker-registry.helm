@@ -35,9 +35,6 @@ jobs:
           args: >-
             --agents 1
             --registry-create local-ci-k3d-registry
-      - name: Setup
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/tilt-dev/tilt/master/scripts/install.sh | bash
       - name: Test
         run: |
           helm install docker-registry . --wait --wait-for-jobs
