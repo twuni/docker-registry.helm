@@ -38,4 +38,4 @@ jobs:
       - name: Test
         run: |
           helm install docker-registry . --wait --wait-for-jobs
-          kubectl get all
+          kubectl get all,pvc
