@@ -1,0 +1,24 @@
+---
+# GitHub Actions Workflows Ref: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+name: CI
+"on":
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "**"
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.event_name }}-${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+permissions: read-all
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+      - name: Helm Lint
+        run: |
+          helm lint --strict
