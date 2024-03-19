@@ -1,0 +1,41 @@
+---
+# GitHub Actions Workflows Ref: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
+name: CI
+"on":
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "**"
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.event_name }}-${{ github.ref }}-${{ github.workflow }}
+  cancel-in-progress: true
+permissions: read-all
+jobs:
+  helm-lint:
+    name: Helm Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4.1.2
+      - run: |
+          helm lint --strict
+  integration-stest:
+    name: Integration Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4.1.2
+      - uses: AbsaOSS/k3d-action@v2.4.0
+        name: Create K3D Cluster with Container Registry
+        with:
+          cluster-name: local-ci-k3d-cluster
+          args: >-
+            --agents 1
+            --registry-create local-ci-k3d-registry
+      - name: Test
+        run: |
+          helm install docker-registry . --wait --wait-for-jobs
+          kubectl get all,pvc
