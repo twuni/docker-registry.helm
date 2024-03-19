@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "docker-registry.fullname" . }}
+  name: {{ .Values.service.name | default (include "docker-registry.fullname" .) }}
   namespace: {{ .Values.namespace | default .Release.Namespace }}
   labels:
     app: {{ template "docker-registry.name" . }}
