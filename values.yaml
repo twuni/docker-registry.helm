@@ -97,7 +97,7 @@ secrets:
 # Options for s3 storage type:
 # s3:
 #  region: us-east-1
-#  regionEndpoint: s3.us-east-1.amazonaws.com
+#  regionEndpoint: https://s3.us-east-1.amazonaws.com
 #  bucket: my-bucket
 #  rootdirectory: /object/prefix
 #  encrypt: false
