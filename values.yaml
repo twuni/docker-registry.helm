@@ -229,3 +229,4 @@ garbageCollect:
   enabled: false
   deleteUntagged: true
   schedule: "0 1 * * *"
+  resources: {}
