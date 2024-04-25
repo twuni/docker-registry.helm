@@ -1,6 +1,7 @@
-{{- if (and (not .Values.useStatefulSet) (or (not .Values.persistence.enabled) (eq .Values.persistence.type "pvc"))) }}
+{{- $sts := list "sts" "StatefulSet" -}}
+{{- if (or (.Values.useStatefulSet) (and .Values.persistence.enabled (not .Values.persistence.existingClaim) (has .Values.persistence.type $sts)))}}
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ template "docker-registry.fullname" . }}
   namespace: {{ .Values.namespace | default .Release.Namespace }}
@@ -9,16 +10,13 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-{{- if .Values.deployment.annotations }}
-  annotations:
-{{ toYaml .Values.deployment.annotations | indent 4 }}
-{{- end }}
 spec:
   selector:
     matchLabels:
       app: {{ template "docker-registry.name" . }}
       release: {{ .Release.Name }}
   replicas: {{ .Values.replicaCount }}
+  serviceName: {{ .Values.service.name }}
   {{- if .Values.updateStrategy }}
   strategy: {{ toYaml .Values.updateStrategy | nindent 4 }}
   {{- end }}
@@ -48,7 +46,9 @@ spec:
       priorityClassName: "{{ .Values.priorityClassName }}"
       {{- end }}
       {{- if .Values.securityContext.enabled }}
-      securityContext: {{ omit .Values.securityContext "enabled" | toYaml | nindent 8 }}
+      securityContext:
+        fsGroup: {{ .Values.securityContext.fsGroup }}
+        runAsUser: {{ .Values.securityContext.runAsUser }}
       {{- end }}
       {{- with .Values.initContainers }}
       initContainers:
@@ -88,9 +88,6 @@ spec:
               port: 5000
           resources: {{ toYaml .Values.resources | nindent 12 }}
           env: {{ include "docker-registry.envs" . | nindent 12 }}
-          {{- if .Values.containerSecurityContext.enabled }}
-          securityContext: {{ omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
-          {{- end }}
           volumeMounts: {{ include "docker-registry.volumeMounts" . | nindent 12 }}
       {{- if .Values.nodeSelector }}
       nodeSelector: {{ toYaml .Values.nodeSelector | nindent 8 }}
@@ -102,4 +99,29 @@ spec:
       tolerations: {{ toYaml .Values.tolerations | nindent 8 }}
       {{- end }}
       volumes: {{ include "docker-registry.volumes" . | nindent 8 }}
+  {{- if .Values.persistence.enabled}}
+  volumeClaimTemplates:
+  - metadata:
+      # This should match the name defined in the file _helpers.tpl when the 
+      # condition (if eq .Values.storage "filesystem") is met.
+      name: data
+      namespace: {{ .Values.namespace | default .Release.Namespace }}
+      labels:
+        app: {{ template "docker-registry.fullname" . }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
+    spec:
+      accessModes:
+        - {{ .Values.persistence.accessMode | quote }}
+      storageClassName: {{ .Values.persistence.storageClass }}
+      resources:
+        requests:
+          storage: {{ .Values.persistence.size }}
+      {{- with .Values.persistence.selectorLabels }}
+      selector:
+        matchLabels:
+          {{- toYaml . | nindent 10 }}
+      {{- end }}
+  {{- end }}
 {{- end }}
