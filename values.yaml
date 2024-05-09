@@ -154,13 +154,6 @@ configData:
       interval: 10s
       threshold: 3
 
-podSecurityContext:
-  enabled: true
-  fsGroupChangePolicy: Always
-  sysctls: []
-  supplementalGroups: []
-  fsGroup: 1000
-
 containerSecurityContext:
   enabled: true
   seLinuxOptions: {}
@@ -175,6 +168,13 @@ containerSecurityContext:
   runAsNonRoot: true
   seccompProfile:
     type: RuntimeDefault
+
+securityContext:
+  enabled: true
+  fsGroupChangePolicy: Always
+  sysctls: []
+  supplementalGroups: []
+  fsGroup: 1000
 
 priorityClassName: ""
 
