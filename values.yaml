@@ -155,12 +155,21 @@ configData:
       threshold: 3
 
 containerSecurityContext:
-  enabled: false
-
-securityContext:
   enabled: true
   runAsUser: 1000
-  fsGroup: 1000
+
+podSecurityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  privileged: false
+  readOnlyRootFilesystem: true
+  runAsGroup: 1000
+  runAsNonRoot: true
+  runAsUser: 1000
+  seccompProfile:
+    type: RuntimeDefault
 
 priorityClassName: ""
 
