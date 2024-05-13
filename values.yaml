@@ -155,11 +155,25 @@ configData:
       threshold: 3
 
 containerSecurityContext:
-  enabled: false
+  enabled: true
+  seLinuxOptions: {}
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  privileged: false
+  readOnlyRootFilesystem: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
 
 securityContext:
   enabled: true
-  runAsUser: 1000
+  fsGroupChangePolicy: Always
+  sysctls: []
+  supplementalGroups: []
   fsGroup: 1000
 
 priorityClassName: ""
