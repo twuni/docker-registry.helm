@@ -37,6 +37,8 @@ service:
   # loadBalancerSourceRanges:
   annotations: {}
   # foo.io/bar: "true"
+  labels: {}
+  # foo.io/baz: "false"
 ingress:
   enabled: false
   className: nginx
