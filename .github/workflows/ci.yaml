@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v4
       - run: |
           helm lint --strict
   integration-test:
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v4
       - uses: AbsaOSS/k3d-action@v2.4.0
         name: Create K3D Cluster with Container Registry
         with:
