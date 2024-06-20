@@ -27,6 +27,19 @@ spec:
         {{- end }}
     spec:
       template:
+        metadata:
+          labels:
+            app: {{ template "docker-registry.name" . }}
+            release: {{ .Release.Name }}
+            {{- with .Values.podLabels }}
+            {{ toYaml . | nindent 8 }}
+            {{- end }}
+          annotations:
+            checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+            checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+            {{- if .Values.podAnnotations }}
+            {{ toYaml .Values.podAnnotations | nindent 8 }}
+            {{- end }}
         spec:
           {{- if or (eq .Values.serviceAccount.create true) (ne .Values.serviceAccount.name "") }}
           serviceAccountName: {{ .Values.serviceAccount.name | default (include "docker-registry.fullname" .) }}
@@ -55,6 +68,7 @@ spec:
               securityContext: {{ omit .Values.containerSecurityContext "enabled" | toYaml | nindent 16 }}
               {{- end }}
               volumeMounts: {{ include "docker-registry.volumeMounts" . | nindent 16 }}
+              resources: {{ toYaml .Values.resources | nindent 16 }}
           restartPolicy: OnFailure
           {{- if .Values.nodeSelector }}
           nodeSelector: {{ toYaml .Values.nodeSelector | nindent 12 }}
