@@ -17,13 +17,13 @@ This chart will do the following:
 First, add the repo:
 
 ```console
-$ helm repo add twuni https://helm.twun.io
+helm repo add twuni https://helm.twun.io
 ```
 
 To install the chart, use the following:
 
 ```console
-$ helm install twuni/docker-registry
+helm install twuni/docker-registry
 ```
 
 ## Configuration
