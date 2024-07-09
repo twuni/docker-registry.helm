@@ -48,7 +48,8 @@ jobs:
           echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ${{ env.GCR_IMAGE }} --username ${{ github.repository_owner }} --password-stdin
       - name: save helm chart to local registry
         run: |
-           helm chart save ${{ github.workspace }}/ ${{ env.GCR_IMAGE }}:${{ github.sha }}
+           helm package ${{ github.workspace }}/
+           ls
 
       - name: publish chart to acr
         run: |
