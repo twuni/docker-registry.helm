@@ -43,13 +43,10 @@ jobs:
           # Version of helm
           version: ${{ env.HELM_VERSION_TO_INSTALL }} # default is latest
 
-      - name: login to acr using helm
+      - name: publish to oci registry
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ${{ env.GCR_IMAGE }} --username ${{ github.repository_owner }} --password-stdin
-          
-      - name: save helm chart to local registry
-        run: |
-           helm package ${{ github.workspace }}/
-           package=`ls -t docker-registry-*.tgz | head -n 1`
-           echo "helm push ${package} oci://${{ env.GCR_IMAGE }}"
-           helm push "${package}" oci://${{ env.GCR_IMAGE }}
+          helm package ${{ github.workspace }}/
+          package=`ls -t docker-registry-*.tgz | head -n 1`
+          echo "helm push ${package} oci://${{ env.GCR_IMAGE }}"
+          helm push "${package}" oci://${{ env.GCR_IMAGE }}
