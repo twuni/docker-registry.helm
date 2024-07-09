@@ -50,8 +50,5 @@ jobs:
       - name: save helm chart to local registry
         run: |
            helm package ${{ github.workspace }}/
-           ls
-
-      - name: publish chart to acr
-        run: |
-            helm push dockery-registry-{{ .Version }}.tgz ${{ env.GCR_IMAGE }}:${{ .Version }}
+           package=`ls -t docker-registry-*.tgz | head -n 1`
+           helm push "${package}" ${{ env.GCR_IMAGE }}:{{ .Version }}
