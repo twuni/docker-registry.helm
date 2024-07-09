@@ -1,7 +1,7 @@
 name: Release Charts
 env:
   HELM_VERSION_TO_INSTALL: 3.14.0
-  GCR_IMAGE: ghcr.io/${{ github.repository_owner }}/docker-registry
+  GCR_IMAGE: ghcr.io/${{ github.repository_owner }}/charts
   
 on:
   workflow_dispatch:
