@@ -51,5 +51,6 @@ jobs:
         run: |
            helm package ${{ github.workspace }}/
            package=`ls -t docker-registry-*.tgz | head -n 1`
-           echo "helm push ${package} oci://${{ env.GCR_IMAGE }}:{{ .Version }}"
-           helm push "${package}" oci://${{ env.GCR_IMAGE }}:{{ .Version }}
+           version=`echo "${package}"| sed "s|docker-registry-\(.*\)[.]tgz|\1|g"`
+           echo "helm push ${package} oci://${{ env.GCR_IMAGE }}:${version}"
+           helm push "${package}" oci://${{ env.GCR_IMAGE }}:${version}
