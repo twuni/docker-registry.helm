@@ -1,7 +1,7 @@
 name: Release Charts
 env:
   HELM_VERSION_TO_INSTALL: 3.14.0
-  GCR_IMAGE: ghcr.io/${{ github.repository_owner }}/doker-registry
+  GCR_IMAGE: ghcr.io/${{ github.repository_owner }}/docker-registry
   
 on:
   workflow_dispatch:
@@ -46,6 +46,7 @@ jobs:
       - name: login to acr using helm
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ${{ env.GCR_IMAGE }} --username ${{ github.repository_owner }} --password-stdin
+          
       - name: save helm chart to local registry
         run: |
            helm package ${{ github.workspace }}/
@@ -53,4 +54,4 @@ jobs:
 
       - name: publish chart to acr
         run: |
-            helm chart push ${{ env.GCR_IMAGE }}:${{ github.sha }}
+            helm push dockery-registry-{{ .Version }}.tgz ${{ env.GCR_IMAGE }}:${{ .Version }}
