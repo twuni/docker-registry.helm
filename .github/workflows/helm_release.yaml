@@ -28,18 +28,18 @@ jobs:
         with:
           install_only: true
 
-      - name: Run chart-releaser
-        env:
-          CR_TOKEN: "${{ secrets.CR_TOKEN }}"
-        run: |
-          owner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
-          repo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
-          cr package
-          cr upload --owner="$owner" --git-repo "$repo" --token="$CR_TOKEN" --release-name-template="v{{ .Version }}" --packages-with-index --push --skip-existing --generate-release-notes --commit main
-          cr index --owner="$owner" --git-repo "$repo" --token="$CR_TOKEN" --release-name-template="v{{ .Version }}" --packages-with-index --push --index-path="."
+#      - name: Run chart-releaser
+#        env:
+#          CR_TOKEN: "${{ secrets.CR_TOKEN }}"
+#        run: |
+#          owner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
+#          repo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
+#          cr package
+#          cr upload --owner="$owner" --git-repo "$repo" --token="$CR_TOKEN" --release-name-template="v{{ .Version }}" --packages-with-index --push --skip-existing --generate-release-notes --commit main
+#          cr index --owner="$owner" --git-repo "$repo" --token="$CR_TOKEN" --release-name-template="v{{ .Version }}" --packages-with-index --push --index-path="."
 
       - name: install helm
-        uses: Azure/setup-helm@v1
+        uses: Azure/setup-helm@v4.2.0
         with:
           # Version of helm
           version: ${{ env.HELM_VERSION_TO_INSTALL }} # default is latest
