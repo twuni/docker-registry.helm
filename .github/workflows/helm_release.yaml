@@ -45,8 +45,8 @@ jobs:
 
       - name: publish to oci registry
         run: |
-          echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ${{ env.GCR_IMAGE }} --username ${{ github.repository_owner }} --password-stdin
+          echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ghcr.io --username ${{ github.repository_owner }} --password-stdin
           helm package ${{ github.workspace }}/
           package=`ls -t docker-registry-*.tgz | head -n 1`
-          echo "helm push ${package} oci://${{ env.GCR_IMAGE }}/charts"
-          helm push "${package}" oci://${{ env.GCR_IMAGE }}/charts
+          echo "helm push ${package} oci://${{ env.GCR_IMAGE }}"
+          helm push "${package}" oci://${{ env.GCR_IMAGE }}
