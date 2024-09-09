@@ -19,7 +19,7 @@ serviceAccount:
 
 image:
   repository: registry
-  tag: 2.8.1
+  tag: 2.8.3
   pullPolicy: IfNotPresent
 # imagePullSecrets:
     # - name: docker
@@ -78,6 +78,7 @@ storage: filesystem
 # Set this to name of secret for tls certs
 # tlsSecretName: registry.docker.example.com
 secrets:
+  create: true
   haSharedSecret: ""
   htpasswd: ""
 # Secrets for Azure
