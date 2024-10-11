@@ -148,7 +148,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 
 {{- define "docker-registry.volumeMounts" -}}
 - name: "{{ template "docker-registry.fullname" . }}-config"
-  mountPath: "/etc/docker/registry"
+  mountPath: {{ .Values.configPath }}
 
 {{- if .Values.secrets.htpasswd }}
 - name: auth
