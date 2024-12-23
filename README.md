@@ -107,6 +107,7 @@ their default values.
 | `metrics.port`              | TCP port on which the service metrics is exposed                                           | `5001`          |
 | `metrics.serviceMonitor.annotations` | Prometheus Operator ServiceMonitor annotations                                    | `{}`            |
 | `metrics.serviceMonitor.enable` | If true, Prometheus Operator ServiceMonitor will be created                            | `false`         |
+| `metrics.serviceMonitor.namespace` | Namespace where ServiceMonitor should be installed (defaults to current one)        | `""`            |
 | `metrics.serviceMonitor.labels` | Prometheus Operator ServiceMonitor labels                                              | `{}`            |
 | `metrics.prometheusRule.annotations` | Prometheus Operator PrometheusRule annotations                                    | `{}`            |
 | `metrics.prometheusRule.enable` | If true, Prometheus Operator prometheusRule will be created                            | `false`         |
