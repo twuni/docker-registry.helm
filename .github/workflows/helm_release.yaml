@@ -1,8 +1,4 @@
 name: Release Charts
-env:
-  HELM_VERSION_TO_INSTALL: 3.14.0
-  GCR_IMAGE: ghcr.io/${{ github.repository_owner }}
-  
 on:
   workflow_dispatch:
 
@@ -10,7 +6,6 @@ jobs:
   release:
     permissions:
       contents: write
-      packages: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -37,16 +32,3 @@ jobs:
           cr package
           cr upload --owner="$owner" --git-repo "$repo" --token="$CR_TOKEN" --release-name-template="v{{ .Version }}" --packages-with-index --push --skip-existing --generate-release-notes --commit main
           cr index --owner="$owner" --git-repo "$repo" --token="$CR_TOKEN" --release-name-template="v{{ .Version }}" --packages-with-index --push --index-path="."
-
-      - name: install helm
-        uses: Azure/setup-helm@v4.2.0
-        with:
-          # Version of helm
-          version: ${{ env.HELM_VERSION_TO_INSTALL }} # default is latest
-
-      - name: publish to oci registry
-        run: |
-          echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ghcr.io --username ${{ github.repository_owner }} --password-stdin
-          helm package ${{ github.workspace }}/
-          package=`ls -t docker-registry-*.tgz | head -n 1`
-          helm push "${package}" oci://${{ env.GCR_IMAGE }}
