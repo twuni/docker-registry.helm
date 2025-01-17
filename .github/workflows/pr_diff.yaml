@@ -44,7 +44,7 @@ jobs:
           echo 'HELM_DIFF<<EOF' >> $GITHUB_ENV
           echo "$(diff -ur before after)" >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
-      - uses: marocchino/sticky-pull-request-comment@39c5b5dc7717447d0cba270cd115037d32d28443
+      - uses: marocchino/sticky-pull-request-comment@52423e01640425a022ef5fd42c6fb5f633a02728
         with:
           message: |
             Running a `helm template` smoketest on commit ${{ github.ref }} results in the following diff against `${{ github.base_ref }}`:
