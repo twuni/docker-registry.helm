@@ -55,7 +55,7 @@ spec:
               securityContext: {{ omit .Values.containerSecurityContext "enabled" | toYaml | nindent 16 }}
               {{- end }}
               volumeMounts: {{ include "docker-registry.volumeMounts" . | nindent 16 }}
-          restartPolicy: OnFailure
+          restartPolicy: {{ .Values.garbageCollect.restartPolicy }}
           {{- if .Values.nodeSelector }}
           nodeSelector: {{ toYaml .Values.nodeSelector | nindent 12 }}
           {{- end }}

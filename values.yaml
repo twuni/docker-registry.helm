@@ -246,3 +246,4 @@ garbageCollect:
   deleteUntagged: true
   schedule: "0 1 * * *"
   resources: {}
+  restartPolicy: OnFailure
