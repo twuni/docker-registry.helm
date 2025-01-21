@@ -88,6 +88,11 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
   value: {{ .Values.s3.regionEndpoint }}
 {{- end -}}
 
+{{- if .Values.storageRedirectDisable }}
+- name: REGISTRY_STORAGE_REDIRECT_DISABLE
+  value: {{ .Values.storageRedirectDisable | quote }}
+{{- end -}}
+
 {{- if .Values.s3.rootdirectory }}
 - name: REGISTRY_STORAGE_S3_ROOTDIRECTORY
   value: {{ .Values.s3.rootdirectory | quote }}
