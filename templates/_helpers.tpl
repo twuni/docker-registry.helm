@@ -1,5 +1,16 @@
 {{/* vim: set filetype=mustache: */}}
 {{/*
+Allow the release namespace to be overridden for multi-namespace deployments in combined charts
+*/}}
+{{- define "docker-registry.namespace" -}}
+  {{- if .Values.namespace -}}
+    {{- .Values.namespace -}}
+  {{- else -}}
+    {{- .Release.Namespace -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*
 Expand the name of the chart.
 */}}
 {{- define "docker-registry.name" -}}
