@@ -47,6 +47,7 @@ their default values.
 | `serviceAccount.name`       | ServiceAccount name                                                                        | `nil`           |
 | `serviceAccount.annotations` | Annotations to add to the ServiceAccount                                                  | `{}`            |
 | `deployment.annotations`    | Annotations to add to the Deployment                                                       | `{}`            |
+| `service.create`     | Create Service                                                                                    | `false`         |
 | `service.port`              | TCP port on which the service is exposed                                                   | `5000`          |
 | `service.type`              | service type                                                                               | `ClusterIP`     |
 | `service.clusterIP`         | if `service.type` is `ClusterIP` and this is non-empty, sets the cluster IP of the service | `nil`           |
