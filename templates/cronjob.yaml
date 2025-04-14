@@ -30,27 +30,13 @@ spec:
         metadata:
           labels:
             release: {{ .Release.Name }}
-            {{- if .Values.garbageCollect.podLabels }}
-            {{- with .Values.garbageCollect.podLabels }}
-            {{- toYaml . | nindent 12 }}
+            {{- if or .Values.podLabels .Values.garbageCollect.podLabels }}
+            {{- toYaml (merge (.Values.podLabels | default (dict)) (.Values.garbageCollect.podLabels | default (dict))) | nindent 12 }}
             {{- end }}
-            {{- else if .Values.podLabels }}
-            {{- with .Values.podLabels }}
-            {{- toYaml . | nindent 12 }}
-            {{- end }}
-            {{- end }}
+          {{- if or .Values.podAnnotations .Values.garbageCollect.podAnnotations }}
           annotations:
-            checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-            checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
-            {{- if .Values.garbageCollect.podAnnotations }}
-            {{- with .Values.garbageCollect.podAnnotations }}
-            {{- toYaml . | nindent 12 }}
-            {{- end }}
-            {{- else if .Values.podAnnotations }}
-            {{- with .Values.podAnnotations}}
-            {{- toYaml . | nindent 12 }}
-            {{- end }}
-            {{- end }}
+            {{- toYaml (merge (.Values.podAnnotations | default (dict)) (.Values.garbageCollect.podAnnotations | default (dict))) | nindent 12 }}
+          {{- end}}
         spec:
           {{- if or (eq .Values.serviceAccount.create true) (ne .Values.serviceAccount.name "") }}
           serviceAccountName: {{ .Values.serviceAccount.name | default (include "docker-registry.fullname" .) }}
@@ -73,7 +59,10 @@ spec:
               - garbage-collect
               - --delete-untagged={{ .Values.garbageCollect.deleteUntagged }}
               - /etc/docker/registry/config.yml
-              resources: {{ toYaml .Values.garbageCollect.resources | nindent 16 }}
+              {{- if .Values.garbageCollect.resources }}
+              resources:
+              {{- toYaml .Values.garbageCollect.resources | nindent 16 }}
+              {{- end }}
               env: {{ include "docker-registry.envs" . | nindent 16 }}
               {{- if .Values.containerSecurityContext.enabled }}
               securityContext: {{ omit .Values.containerSecurityContext "enabled" | toYaml | nindent 16 }}
