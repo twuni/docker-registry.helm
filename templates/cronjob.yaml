@@ -31,11 +31,11 @@ spec:
           labels:
             release: {{ .Release.Name }}
             {{- if or .Values.podLabels .Values.garbageCollect.podLabels }}
-            {{- toYaml (merge (.Values.podLabels | default (dict)) (.Values.garbageCollect.podLabels | default (dict))) | nindent 12 }}
+            {{- toYaml (merge (.Values.garbageCollect.podLabels | default (dict)) (.Values.podLabels | default (dict))) | nindent 12 }}
             {{- end }}
           {{- if or .Values.podAnnotations .Values.garbageCollect.podAnnotations }}
           annotations:
-            {{- toYaml (merge (.Values.podAnnotations | default (dict)) (.Values.garbageCollect.podAnnotations | default (dict))) | nindent 12 }}
+            {{- toYaml (merge (.Values.garbageCollect.podAnnotations | default (dict)) (.Values.podAnnotations | default (dict))) | nindent 12 }}
           {{- end}}
         spec:
           {{- if or (eq .Values.serviceAccount.create true) (ne .Values.serviceAccount.name "") }}
