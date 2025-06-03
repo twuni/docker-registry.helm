@@ -26,6 +26,15 @@ To install the chart, use the following:
 helm install twuni/docker-registry
 ```
 
+## Breaking changes in 3.0.0
+
+- This chart now supports only Docker Registry 3.x and newer.
+- The default configuration file path is now `/etc/distribution/config.yml`.
+- The Swift and OSS storage drivers are no longer supported and have been removed from all configuration and templates.
+- For S3-compatible storage (MinIO, Ceph, SeaweedFS, etc.), you must set `s3.forcepathstyle: true` in your values if not using AWS S3.
+- New features such as mTLS, OpenTelemetry, and improved Redis cache are available via `configData`.
+- If you use token authentication, you may need to explicitly set the signing algorithm in the `auth` section of your config.
+
 ## Configuration
 
 The following table lists the configurable parameters of the docker-registry chart and
@@ -35,7 +44,7 @@ their default values.
 |:----------------------------|:-------------------------------------------------------------------------------------------|:----------------|
 | `image.pullPolicy`          | Container pull policy                                                                      | `IfNotPresent`  |
 | `image.repository`          | Container image to use                                                                     | `registry`      |
-| `image.tag`                 | Container image tag to deploy                                                              | `2.8.1`         |
+| `image.tag`                 | Container image tag to deploy                                                              | `3.0.0`         |
 | `imagePullSecrets`          | Specify image pull secrets                                                                 | `nil` (does not add image pull secrets to deployed pods) |
 | `persistence.accessMode`    | Access mode to use for PVC                                                                 | `ReadWriteOnce` |
 | `persistence.enabled`       | Whether to use a PVC for the Docker storage                                                | `false`         |
@@ -74,9 +83,7 @@ their default values.
 | `secrets.htpasswd`          | Htpasswd authentication                                                                    | `nil`           |
 | `secrets.s3.accessKey`      | Access Key for S3 configuration                                                            | `nil`           |
 | `secrets.s3.secretKey`      | Secret Key for S3 configuration                                                            | `nil`           |
-| `secrets.s3.secretRef`      | The ref for an external secret containing the s3AccessKey and s3SecretKey keys                 | `""`            |
-| `secrets.swift.username`    | Username for Swift configuration                                                           | `nil`           |
-| `secrets.swift.password`    | Password for Swift configuration                                                           | `nil`           |
+| `secrets.s3.secretRef`      | The ref for an external secret containing the s3AccessKey and s3SecretKey keys             | `""`            |
 | `secrets.haSharedSecret`    | Shared secret for Registry                                                                 | `nil`           |
 | `configData`                | Configuration hash for docker                                                              | `nil`           |
 | `s3.region`                 | S3 region                                                                                  | `nil`           |
@@ -85,8 +92,7 @@ their default values.
 | `s3.rootdirectory`          | S3 prefix that is applied to allow you to segment data                                     | `nil`           |
 | `s3.encrypt`                | Store images in encrypted format                                                           | `nil`           |
 | `s3.secure`                 | Use HTTPS                                                                                  | `nil`           |
-| `swift.authurl`             | Swift authurl                                                                              | `nil`           |
-| `swift.container`           | Swift container                                                                            | `nil`           |
+| `s3.forcepathstyle`         | Set to true for S3-compatible storage (MinIO, Ceph, SeaweedFS, etc.)                       | `false`         |
 | `proxy.enabled`             | If true, registry will function as a proxy/mirror                                          | `false`         |
 | `proxy.remoteurl`           | Remote registry URL to proxy requests to                                                   | `https://registry-1.docker.io`            |
 | `proxy.username`            | Remote registry login username                                                             | `nil`           |

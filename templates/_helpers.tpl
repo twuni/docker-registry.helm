@@ -41,9 +41,9 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 
 {{- if .Values.tlsSecretName }}
 - name: REGISTRY_HTTP_TLS_CERTIFICATE
-  value: /etc/ssl/docker/tls.crt
+  value: /etc/distribution/tls/tls.crt
 - name: REGISTRY_HTTP_TLS_KEY
-  value: /etc/ssl/docker/tls.key
+  value: /etc/distribution/tls/tls.key
 {{- end -}}
 
 {{- if eq .Values.storage "filesystem" }}
@@ -97,6 +97,10 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 - name: REGISTRY_STORAGE_S3_ENCRYPT
   value: {{ .Values.s3.encrypt | quote }}
 {{- end -}}
+{{- if .Values.s3.forcepathstyle }}
+- name: REGISTRY_STORAGE_S3_FORCEPATHSTYLE
+  value: {{ .Values.s3.forcepathstyle | quote }}
+{{- end -}}
 
 {{- if .Values.s3.secure }}
 - name: REGISTRY_STORAGE_S3_SECURE
@@ -104,20 +108,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{- else if eq .Values.storage "swift" }}
-- name: REGISTRY_STORAGE_SWIFT_AUTHURL
-  value: {{ required ".Values.swift.authurl is required" .Values.swift.authurl }}
-- name: REGISTRY_STORAGE_SWIFT_USERNAME
-  valueFrom:
-    secretKeyRef:
-      name: {{ template "docker-registry.fullname" . }}-secret
-      key: swiftUsername
-- name: REGISTRY_STORAGE_SWIFT_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: {{ template "docker-registry.fullname" . }}-secret
-      key: swiftPassword
-- name: REGISTRY_STORAGE_SWIFT_CONTAINER
-  value: {{ required ".Values.swift.container is required" .Values.swift.container }}
+{{- fail "Swift storage driver is no longer supported in Docker Registry v3.0.0. Please choose a different storage backend." }}
 {{- end -}}
 
 {{- if .Values.proxy.enabled }}
@@ -148,7 +139,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 
 {{- define "docker-registry.volumeMounts" -}}
 - name: "{{ template "docker-registry.fullname" . }}-config"
-  mountPath: "/etc/docker/registry"
+  mountPath: "/etc/distribution"
 
 {{- if .Values.secrets.htpasswd }}
 - name: auth
@@ -162,7 +153,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end }}
 
 {{- if .Values.tlsSecretName }}
-- mountPath: /etc/ssl/docker
+- mountPath: /etc/distribution/tls
   name: tls-cert
   readOnly: true
 {{- end }}

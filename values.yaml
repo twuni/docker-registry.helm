@@ -19,7 +19,7 @@ serviceAccount:
 
 image:
   repository: registry
-  tag: 2.8.1
+  tag: 3.0.0
   pullPolicy: IfNotPresent
 # imagePullSecrets:
     # - name: docker
@@ -91,10 +91,6 @@ secrets:
 #     secretRef: ""
 #     accessKey: ""
 #     secretKey: ""
-# Secrets for Swift username and password
-#   swift:
-#     username: ""
-#     password: ""
 
 # Options for s3 storage type:
 # s3:
@@ -104,11 +100,7 @@ secrets:
 #   rootdirectory: /object/prefix
 #   encrypt: false
 #   secure: true
-
-# Options for swift storage type:
-# swift:
-#   authurl: http://swift.example.com/
-#   container: my-container
+#   forcepathstyle: false # Set to true if using S3-compatible storage like MinIO, Ceph, SeaweedFS, etc.
 
 # https://docs.docker.com/registry/recipes/mirror/
 proxy:
@@ -141,6 +133,25 @@ configData:
   storage:
     cache:
       blobdescriptor: inmemory
+    # example S3 configuration:
+    # s3:
+    #   region: us-east-1
+    #   regionendpoint: https://s3.us-east-1.amazonaws.com
+    #   bucket: my-bucket
+    #   rootdirectory: /object/prefix
+    #   encrypt: false
+    #   secure: true
+    #   forcepathstyle: true # Set to true for S3-compatible storage
+    # example Redis cache configuration:
+    # cache:
+    #   blobdescriptor: redis
+    #   redis:
+    #     addr: redis-master:6379
+    #     password: ""
+    #     db: 0
+    #     tls:
+    #       enabled: true
+    #       insecure_skip_verify: true
   http:
     addr: :5000
     headers:
@@ -150,6 +161,17 @@ configData:
       prometheus:
         enabled: false
         path: /metrics
+    # example mTLS configuration:
+    # tls:
+    #   certificate: /etc/distribution/tls/tls.crt
+    #   key: /etc/distribution/tls/tls.key
+    #   clientcas:
+    #     - /etc/distribution/tls/client-ca.crt
+  # example OpenTelemetry configuration:
+  # telemetry:
+  #   otlp:
+  #     endpoint: "otel-collector:4317"
+  #     insecure: true
   health:
     storagedriver:
       enabled: true
