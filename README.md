@@ -85,6 +85,7 @@ their default values.
 | `s3.rootdirectory`          | S3 prefix that is applied to allow you to segment data                                     | `nil`           |
 | `s3.encrypt`                | Store images in encrypted format                                                           | `nil`           |
 | `s3.secure`                 | Use HTTPS                                                                                  | `nil`           |
+| `s3.forcepathstyle`         | Use path-style addressing, needed for some s3 compatible storage (minio)                   | `nil`           |
 | `swift.authurl`             | Swift authurl                                                                              | `nil`           |
 | `swift.container`           | Swift container                                                                            | `nil`           |
 | `proxy.enabled`             | If true, registry will function as a proxy/mirror                                          | `false`         |
