@@ -104,6 +104,7 @@ secrets:
 #   rootdirectory: /object/prefix
 #   encrypt: false
 #   secure: true
+#   forcepathstyle: true
 
 # Options for swift storage type:
 # swift:
