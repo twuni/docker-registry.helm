@@ -19,7 +19,7 @@ serviceAccount:
 
 image:
   repository: registry
-  tag: 2.8.1
+  tag: 3.0.0
   pullPolicy: IfNotPresent
 # imagePullSecrets:
     # - name: docker
@@ -134,6 +134,7 @@ metrics:
     labels: {}
     rules: {}
 
+configPath: /etc/distribution
 configData:
   version: 0.1
   log:
@@ -177,6 +178,7 @@ securityContext:
   fsGroupChangePolicy: Always
   sysctls: []
   supplementalGroups: []
+  runAsUser: 1000
   fsGroup: 1000
 
 priorityClassName: ""

@@ -60,7 +60,7 @@ spec:
           command:
           - /bin/registry
           - serve
-          - /etc/docker/registry/config.yml
+          - {{ .Values.configPath }}/config.yml
           ports:
             - containerPort: 5000
             {{- if .Values.metrics.enabled }}
