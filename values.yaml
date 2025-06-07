@@ -157,6 +157,8 @@ configData:
       interval: 10s
       threshold: 3
 
+configPath: "/etc/docker/registry"
+
 containerSecurityContext:
   enabled: true
   seLinuxOptions: {}
