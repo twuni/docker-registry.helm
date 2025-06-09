@@ -87,6 +87,7 @@ their default values.
 | `s3.encrypt`                | Store images in encrypted format                                                           | `nil`           |
 | `s3.secure`                 | Use HTTPS                                                                                  | `nil`           |
 | `s3.forcepathstyle`         | Use path-style addressing, needed for some s3 compatible storage (minio)                   | `nil`           |
+| `s3.skipverify`             | Allows connection to s3 storage using TLS with untrusted/self-signed certificate           | `nil`           |
 | `swift.authurl`             | Swift authurl                                                                              | `nil`           |
 | `swift.container`           | Swift container                                                                            | `nil`           |
 | `proxy.enabled`             | If true, registry will function as a proxy/mirror                                          | `false`         |

@@ -105,6 +105,7 @@ secrets:
 #   encrypt: false
 #   secure: true
 #   forcepathstyle: true
+#   skipverify: true
 
 # Options for swift storage type:
 # swift:
