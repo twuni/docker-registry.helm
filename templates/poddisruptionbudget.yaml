@@ -9,14 +9,10 @@ metadata:
   name: {{ template "docker-registry.fullname" . }}
   namespace: {{ .Values.namespace | default .Release.Namespace }}
   labels:
-    app: {{ template "docker-registry.name" . }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{ include "docker-registry.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: {{ template "docker-registry.name" . }}
-      release: {{ .Release.Name }}
+{{ include "docker-registry.match-labels" . | indent 6 }}
 {{ toYaml .Values.podDisruptionBudget | indent 2 }}
 {{- end -}}
