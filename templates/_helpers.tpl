@@ -39,6 +39,18 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
   value: "/auth/htpasswd"
 {{- end }}
 
+{{- define "docker-registry.match-labels" -}}
+app.kubernetes.io/name: {{ template "docker-registry.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name | quote }}
+{{- end -}}
+
+{{- define "docker-registry.labels" -}}
+{{ include "docker-registry.match-labels" . }}
+helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end -}}
+
 {{- if .Values.tlsSecretName }}
 - name: REGISTRY_HTTP_TLS_CERTIFICATE
   value: /etc/ssl/docker/tls.crt
