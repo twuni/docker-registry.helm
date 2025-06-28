@@ -108,6 +108,11 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
   value: {{ .Values.s3.forcepathstyle | quote }}
 {{- end -}}
 
+{{- if .Values.s3.skipverify }}
+- name: REGISTRY_STORAGE_S3_SKIPVERIFY
+  value: {{ .Values.s3.skipverify | quote }}
+{{- end -}}
+
 {{- else if eq .Values.storage "swift" }}
 - name: REGISTRY_STORAGE_SWIFT_AUTHURL
   value: {{ required ".Values.swift.authurl is required" .Values.swift.authurl }}
