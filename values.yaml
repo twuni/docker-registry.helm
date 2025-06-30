@@ -12,10 +12,13 @@ updateStrategy: {}
 podAnnotations: {}
 podLabels: {}
 
+automountServiceAccountToken: false
+
 serviceAccount:
   create: false
   name: ""
   annotations: {}
+  automountServiceAccountToken: false
 
 image:
   repository: registry
@@ -181,6 +184,8 @@ securityContext:
   supplementalGroups: []
   runAsUser: 1000
   fsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
 
 priorityClassName: ""
 
