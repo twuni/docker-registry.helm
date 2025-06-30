@@ -3,6 +3,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ template "docker-registry.fullname" . }}-servicemonitor
+  namespace: {{ default .Release.Namespace .Values.metrics.serviceMonitor.namespace }}
   labels:
     app: {{ template "docker-registry.name" . }}-metrics
     release: {{ .Release.Name }}
@@ -10,6 +11,9 @@ metadata:
 {{ toYaml .Values.metrics.serviceMonitor.labels | indent 4 }}
 {{- end }}
 spec:
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
   selector:
     matchLabels:
       app: {{ template "docker-registry.name" . }}
