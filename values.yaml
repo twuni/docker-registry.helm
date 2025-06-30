@@ -25,6 +25,10 @@ image:
     # - name: docker
 deployment: {}
   # annotations:
+
+# Specify if host network should be enabled for docker-registry pod
+hostNetwork: false
+
 service:
   name: registry
   type: ClusterIP
