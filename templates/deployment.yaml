@@ -88,6 +88,9 @@ spec:
           securityContext: {{ omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
           {{- end }}
           volumeMounts: {{ include "docker-registry.volumeMounts" . | nindent 12 }}
+      {{- if .Values.extraContainers }}
+      {{- .Values.extraContainers | toYaml | nindent 8 }}
+      {{- end }}
       {{- if .Values.nodeSelector }}
       nodeSelector: {{ toYaml .Values.nodeSelector | nindent 8 }}
       {{- end }}
