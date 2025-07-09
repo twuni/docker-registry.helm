@@ -23,6 +23,20 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 {{- end -}}
 
+{{- define "docker-registry.match-labels" -}}
+app: {{ template "docker-registry.name" . }}
+release: {{ .Release.Name }}
+{{- end -}}
+
+{{- define "docker-registry.labels" -}}
+{{ include "docker-registry.match-labels" . }}
+chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+heritage: {{ .Release.Service }}
+helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end -}}
+
 {{- define "docker-registry.envs" -}}
 - name: REGISTRY_HTTP_SECRET
   valueFrom:

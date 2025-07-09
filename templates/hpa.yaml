@@ -6,10 +6,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: {{ template "docker-registry.fullname" . }}
   labels:
-    app: {{ template "docker-registry.name" . }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{ include "docker-registry.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
