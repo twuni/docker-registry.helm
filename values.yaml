@@ -26,7 +26,7 @@ image:
 deployment: {}
   # annotations:
 service:
-  name: registry
+  name: ""
   type: ClusterIP
   # sessionAffinity: None
   # sessionAffinityConfig: {}
