@@ -1,0 +1,21 @@
+{{- if and .Values.metrics.enabled .Values.metrics.podMonitor.enabled -}}
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: {{ template "docker-registry.fullname" . }}-podmonitor
+  labels:
+    app: {{ template "docker-registry.name" . }}-metrics
+    release: {{ .Release.Name }}
+{{- if .Values.metrics.podMonitor.labels }}
+{{ toYaml .Values.metrics.podMonitor.labels | indent 4 }}
+{{- end }}
+spec:
+  podMetricsEndpoints:
+  - interval: 15s
+    port: http-metrics
+  selector:
+    matchLabels:
+      app: {{ template "docker-registry.name" . }}
+      release: {{ .Release.Name }}
+      heritage: {{ .Release.Service }}
+{{- end }}
