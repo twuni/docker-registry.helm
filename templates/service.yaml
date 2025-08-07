@@ -4,10 +4,7 @@ metadata:
   name: {{ template "docker-registry.fullname" . }}
   namespace: {{ .Values.namespace | default .Release.Namespace }}
   labels:
-    app: {{ template "docker-registry.name" . }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+{{ include "docker-registry.labels" . | indent 4 }}
 {{- if .Values.service.labels }}
 {{ toYaml .Values.service.labels | indent 4 }}
 {{- end }}
@@ -48,5 +45,4 @@ spec:
       targetPort: {{ (split ":" .Values.configData.http.debug.addr)._1 }}
 {{- end }}
   selector:
-    app: {{ template "docker-registry.name" . }}
-    release: {{ .Release.Name }}
+    {{ include "docker-registry.match-labels" . | nindent 4 }}

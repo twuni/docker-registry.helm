@@ -5,17 +5,13 @@ metadata:
   name: {{ template "docker-registry.fullname" . }}-garbage-collector
   namespace: {{ .Values.namespace | default .Release.Namespace }}
   labels:
-    app: {{ template "docker-registry.name" . }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    {{ include "docker-registry.labels" . | nindent 4 }}
 spec:
   schedule: {{ .Values.garbageCollect.schedule | quote }}
   jobTemplate:
     metadata:
       labels:
-        app: {{ template "docker-registry.name" . }}
-        release: {{ .Release.Name }}
+        {{ include "docker-registry.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -29,7 +25,7 @@ spec:
       template:
         metadata:
           labels:
-            release: {{ .Release.Name }}
+            {{ include "docker-registry.labels" . | nindent 12 }}
             {{- if or .Values.podLabels .Values.garbageCollect.podLabels }}
             {{- toYaml (merge (.Values.garbageCollect.podLabels | default (dict)) (.Values.podLabels | default (dict))) | nindent 12 }}
             {{- end }}
