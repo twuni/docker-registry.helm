@@ -10,7 +10,7 @@ jobs:
   diff:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v5
       - uses: azure/setup-helm@v3
       - name: Run diff
         id: diff
