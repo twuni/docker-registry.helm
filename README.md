@@ -80,6 +80,7 @@ their default values.
 | `secrets.haSharedSecret`    | Shared secret for Registry                                                                 | `nil`           |
 | `configData`                | Configuration hash for docker                                                              | `nil`           |
 | `configPath` | Configuration mount point in docker, `/etc/docker/registry` for registry version 2, `/etc/distribution` for version 3 | `/etc/docker/registry` |
+| `enableServiceLinks`        | Whether or not to enable service links                                                     | `true`          |
 | `s3.region`                 | S3 region                                                                                  | `nil`           |
 | `s3.regionEndpoint`         | S3 region endpoint                                                                         | `nil`           |
 | `s3.bucket`                 | S3 bucket name                                                                             | `nil`           |
