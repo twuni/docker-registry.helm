@@ -1,3 +1,7 @@
+{{- /* Blob caching and the garbage-collection cronjob do not mix */ -}}
+{{- if .Values.garbageCollect.enabled -}}
+{{- $_ := set .Values.configData.storage.cache "blobdescriptor" "disabled" -}}
+{{- end -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
