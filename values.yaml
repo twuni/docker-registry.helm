@@ -245,6 +245,16 @@ initContainers: []
 #   image: busybox
 #   command: []
 
+extraContainers: []
+## Extra containers to add to the Deployment
+# - name: istio-proxy
+#   image: auto
+#   securityContext:
+#     allowPrivilegeEscalation: false
+#     capabilities:
+#       drop:
+#         - ALL
+
 garbageCollect:
   enabled: false
   deleteUntagged: true
