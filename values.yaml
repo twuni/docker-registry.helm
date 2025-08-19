@@ -69,6 +69,7 @@ resources: {}
 persistence:
   accessMode: 'ReadWriteOnce'
   enabled: false
+  keep: true
   size: 10Gi
   # storageClass: '-'
 
