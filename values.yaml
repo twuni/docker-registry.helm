@@ -78,21 +78,41 @@ storage: filesystem
 # Set this to name of secret for tls certs
 # tlsSecretName: registry.docker.example.com
 secrets:
+  # Specifies the name of an existing secret containing authorization credentials
+  # If set, overrides htpasswd and doesn't create secret
+  existingSecret: ""
+  # Specifies the key name in existing secret containing haSharedSecret
+  # If not set, defaults to haSharedSecret
+  haSharedSecretKey: ""
+  # Specifies the key name in existing secret containing htpasswd
+  # If not set, defaults to htpasswd
+  htpasswdKey: ""
+
+  # If existing secret is not set, this value will be used to generate secret
   haSharedSecret: ""
+  # If existing secret is not set, this value will be used to generate secret
   htpasswd: ""
 # Secrets for Azure
 #   azure:
+#     secretRef: ""
+#     accountNameKey: ""
+#     accountKeyKey: ""
+#     containerKey: ""
+#
 #     accountName: ""
 #     accountKey: ""
 #     container: ""
 # Secrets for S3 access and secret keys
 # Use a secretRef with keys (accessKey, secretKey) for secrets stored outside the chart
-#   s3:
+#   s3:    
 #     secretRef: ""
 #     accessKey: ""
 #     secretKey: ""
 # Secrets for Swift username and password
 #   swift:
+#     secretRef: ""
+#     usernameKey: ""
+#     passwordKey: ""
 #     username: ""
 #     password: ""
 
@@ -119,8 +139,14 @@ proxy:
   username: ""
   password: ""
   # the ref for a secret stored outside of this chart
-  # Keys: proxyUsername, proxyPassword
+  # Default keys: proxyUsername, proxyPassword
   secretRef: ""
+  # Specifies the key name for proxy username to look for in secretRef
+  # Defaults to proxyUsername
+  proxyUsernameKey: ""
+  # Specifies the key name for proxy password to look for in secretRef
+  # Defaults to proxyPassword
+  proxyPasswordKey: ""
 
 metrics:
   enabled: false

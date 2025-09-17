@@ -71,10 +71,24 @@ their default values.
 | `priorityClassName      `   | priorityClassName                                                                          | `""`            |
 | `storage`                   | Storage system to use                                                                      | `filesystem`    |
 | `tlsSecretName`             | Name of secret for TLS certs                                                               | `nil`           |
+| `secrets.existingSecret`    | Name of an existing secret                                                                 | `""`            |
+| `secrets.haSharedSecretKey` | Name of the haSharedSecretKey in existing secret                                           | `""`            |
+| `secrets.htpasswdKey`       | Name of the htpasswdKey in existing secret                                                 | `""`            |
+| `secrets.haSharedSecretKey`          | HA Shared Secret                                                                  | `nil`           |
 | `secrets.htpasswd`          | Htpasswd authentication                                                                    | `nil`           |
+| `secrets.azure.secretRef`          | The ref for an existing secret containing azure credentials                         | `""`            |
+| `secrets.azure.accountNameKey`          | Azure account name key defined in azure secret (if not default)                | `""`            |
+| `secrets.azure.accountKeyKey`          | Azure account key key defined in azure secret (if not default)                  | `""`            |
+| `secrets.azure.containerKey`          | Azure container key defined in azure secret (if not default)                     | `""`            |
+| `secrets.azure.accountName`          | Azure account name                                                                | `""`            |
+| `secrets.azure.accountKey`          | Azure account key                                                                  | `""`            |
+| `secrets.azure.container`          | Azure container                                                                     | `""`            |
 | `secrets.s3.accessKey`      | Access Key for S3 configuration                                                            | `nil`           |
 | `secrets.s3.secretKey`      | Secret Key for S3 configuration                                                            | `nil`           |
-| `secrets.s3.secretRef`      | The ref for an external secret containing the s3AccessKey and s3SecretKey keys                 | `""`            |
+| `secrets.s3.secretRef`      | The ref for an external secret containing the s3AccessKey and s3SecretKey keys             | `""`            |
+| `secrets.swift.secretRef`    | The ref for an existing secret containing swift credentials                               | `""`            |
+| `secrets.swift.usernameKey`    | Username key name defined in existing swift secret (if not default)                     | `""`            |
+| `secrets.swift.passwordKey`    | Password key name defined in existing swift secret (if not default)                     | `""`            |
 | `secrets.swift.username`    | Username for Swift configuration                                                           | `nil`           |
 | `secrets.swift.password`    | Password for Swift configuration                                                           | `nil`           |
 | `secrets.haSharedSecret`    | Shared secret for Registry                                                                 | `nil`           |
@@ -95,6 +109,8 @@ their default values.
 | `proxy.username`            | Remote registry login username                                                             | `nil`           |
 | `proxy.password`            | Remote registry login password                                                             | `nil`           |
 | `proxy.secretRef`           | The ref for an external secret containing the proxyUsername and proxyPassword keys         | `""`            |
+| `proxy.usernameKey`           | Username key name defined in proxy secret (if not default)                               | `""`            |
+| `proxy.passwordKey`           | Password key name defined in proxy secret (if not default)                               | `""`            |
 | `namespace`                 | specify a namespace to install the chart to - defaults to `.Release.Namespace`             | `{{ .Release.Namespace }}` |
 | `nodeSelector`              | node labels for pod assignment                                                             | `{}`            |
 | `affinity`                  | affinity settings                                                                          | `{}`            |
