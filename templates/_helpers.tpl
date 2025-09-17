@@ -53,11 +53,10 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
     secretKeyRef:
       name: {{ template "docker-registry.secretName" . }}
       {{- if and .Values.secrets.haSharedSecretKey .Values.secrets.existingSecret }}
-      key: {{- .Values.secrets.haSharedSecretKey }}
+      key: {{ .Values.secrets.haSharedSecretKey }}
       {{- else }}
       key: haSharedSecret
       {{- end }}
-{{- end }}
 
 {{- if .Values.secrets.htpasswd }}
 - name: REGISTRY_AUTH
@@ -161,20 +160,20 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
   valueFrom:
     secretKeyRef:
       name: {{ template "docker-registry.swiftSecretName" . }}
-      {{- if and .Values.secrets.swift.usernameKey .Values.secrets.swift.secretRef -}}
-      key: {{- .Values.secrets.swift.usernameKey -}}
-      {{- else -}}
+      {{- if and .Values.secrets.swift.usernameKey .Values.secrets.swift.secretRef }}
+      key: {{ .Values.secrets.swift.usernameKey }}
+      {{- else }}
       key: swiftUsername
-      {{- end -}}
+      {{- end }}
 - name: REGISTRY_STORAGE_SWIFT_PASSWORD
   valueFrom:
     secretKeyRef:
       name: {{ template "docker-registry.swiftSecretName" . }}
-      {{- if and .Values.secrets.swift.passwordKey .Values.secrets.swift.secretRef -}}
-      key: {{- .Values.secrets.swift.passwordKey -}}
-      {{- else -}}
+      {{- if and .Values.secrets.swift.passwordKey .Values.secrets.swift.secretRef }}
+      key: {{ .Values.secrets.swift.passwordKey }}
+      {{- else }}
       key: swiftPassword
-      {{- end -}}
+      {{- end }}
 - name: REGISTRY_STORAGE_SWIFT_CONTAINER
   value: {{ required ".Values.swift.container is required" .Values.swift.container }}
 {{- end -}}
@@ -186,20 +185,20 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
   valueFrom:
     secretKeyRef:
       name: {{ if .Values.proxy.secretRef }}{{ .Values.proxy.secretRef }}{{ else }}{{ template "docker-registry.secretName" . }}{{ end }}
-      {{- if and .Values.proxy.proxyUsernameKey .Values.proxy.secretRef -}}
-      key: {{- .Values.proxy.proxyUsernameKey -}}
-      {{- else -}}
+      {{- if and .Values.proxy.proxyUsernameKey .Values.proxy.secretRef }}
+      key: {{ .Values.proxy.proxyUsernameKey }}
+      {{- else }}
       key: proxyUsername
-      {{- end -}}
+      {{- end }}
 - name: REGISTRY_PROXY_PASSWORD
   valueFrom:
     secretKeyRef:
       name: {{ if .Values.proxy.secretRef }}{{ .Values.proxy.secretRef }}{{ else }}{{ template "docker-registry.secretName" . }}{{ end }}
-      {{- if and .Values.proxy.proxyPasswordKey .Values.proxy.secretRef -}}
-      key: {{- .Values.proxy.proxyPasswordKey -}}
-      {{- else -}}
+      {{- if and .Values.proxy.proxyPasswordKey .Values.proxy.secretRef }}
+      key: {{ .Values.proxy.proxyPasswordKey }}
+      {{- else }}
       key: proxyPassword
-      {{- end -}}
+      {{- end }}
 {{- end -}}
 
 {{- if .Values.persistence.deleteEnabled }}
@@ -211,11 +210,13 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{ toYaml . }}
 {{- end -}}
 
+{{- end }}
+
 {{- define "docker-registry.volumeMounts" -}}
 - name: "{{ template "docker-registry.fullname" . }}-config"
   mountPath: {{ .Values.configPath }}
 
-{{- if .Values.secrets.htpasswd }}
+{{- if or .Values.secrets.htpasswd .Values.secrets.existingSecret }}
 - name: auth
   mountPath: /auth
   readOnly: true
@@ -243,13 +244,13 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
   configMap:
     name: {{ template "docker-registry.fullname" . }}-config
 
-{{- if .Values.secrets.htpasswd }}
+{{- if or .Values.secrets.htpasswd .Values.secrets.existingSecret }}
 - name: auth
   secret:
     secretName: {{ template "docker-registry.secretName" . }}
     items:
     {{- if and .Values.secrets.htpasswdKey .Values.secrets.existingSecret }}
-    - key: {{- .Values.secrets.htpasswdKey }}
+    - key: {{ .Values.secrets.htpasswdKey }}
       path: htpasswd
     {{- else }}
     - key: htpasswd
