@@ -74,7 +74,7 @@ their default values.
 | `secrets.existingSecret`    | Name of an existing secret                                                                 | `""`            |
 | `secrets.haSharedSecretKey` | Name of the haSharedSecretKey in existing secret                                           | `""`            |
 | `secrets.htpasswdKey`       | Name of the htpasswdKey in existing secret                                                 | `""`            |
-| `secrets.haSharedSecretKey`          | HA Shared Secret                                                                  | `nil`           |
+| `secrets.haSharedSecret`          | HA Shared Secret                                                                  | `nil`           |
 | `secrets.htpasswd`          | Htpasswd authentication                                                                    | `nil`           |
 | `secrets.azure.secretRef`          | The ref for an existing secret containing azure credentials                         | `""`            |
 | `secrets.azure.accountNameKey`          | Azure account name key defined in azure secret (if not default)                | `""`            |
