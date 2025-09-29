@@ -9,6 +9,10 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+{{- if .Values.deployment.annotations }}
+  annotations:
+{{ toYaml .Values.deployment.annotations | indent 4 }}
+{{- end }}
 spec:
   selector:
     matchLabels:
@@ -44,9 +48,7 @@ spec:
       priorityClassName: "{{ .Values.priorityClassName }}"
       {{- end }}
       {{- if .Values.securityContext.enabled }}
-      securityContext:
-        fsGroup: {{ .Values.securityContext.fsGroup }}
-        runAsUser: {{ .Values.securityContext.runAsUser }}
+      securityContext: {{ omit .Values.securityContext "enabled" | toYaml | nindent 8 }}
       {{- end }}
       {{- with .Values.initContainers }}
       initContainers:
@@ -62,7 +64,7 @@ spec:
           command:
           - /bin/registry
           - serve
-          - /etc/docker/registry/config.yml
+          - {{ .Values.configPath }}/config.yml
           ports:
             - containerPort: 5000
             {{- if .Values.metrics.enabled }}
@@ -86,6 +88,9 @@ spec:
               port: 5000
           resources: {{ toYaml .Values.resources | nindent 12 }}
           env: {{ include "docker-registry.envs" . | nindent 12 }}
+          {{- if .Values.containerSecurityContext.enabled }}
+          securityContext: {{ omit .Values.containerSecurityContext "enabled" | toYaml | nindent 12 }}
+          {{- end }}
           volumeMounts: {{ include "docker-registry.volumeMounts" . | nindent 12 }}
       {{- if .Values.nodeSelector }}
       nodeSelector: {{ toYaml .Values.nodeSelector | nindent 8 }}

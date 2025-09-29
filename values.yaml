@@ -19,10 +19,12 @@ serviceAccount:
 
 image:
   repository: registry
-  tag: 2.8.1
+  tag: 3.0.0
   pullPolicy: IfNotPresent
 # imagePullSecrets:
     # - name: docker
+deployment: {}
+  # annotations:
 service:
   name: registry
   type: ClusterIP
@@ -35,6 +37,8 @@ service:
   # loadBalancerSourceRanges:
   annotations: {}
   # foo.io/bar: "true"
+  labels: {}
+  # foo.io/baz: "false"
 ingress:
   enabled: false
   className: nginx
@@ -57,11 +61,11 @@ resources: {}
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   # limits:
-  #  cpu: 100m
-  #  memory: 128Mi
+  #   cpu: 100m
+  #   memory: 128Mi
   # requests:
-  #  cpu: 100m
-  #  memory: 128Mi
+  #   cpu: 100m
+  #   memory: 128Mi
 persistence:
   # Persistence can be achieved either with a PVC or StatefulSet. Default to PVC.
   type: pvc
@@ -98,17 +102,19 @@ secrets:
 
 # Options for s3 storage type:
 # s3:
-#  region: us-east-1
-#  regionEndpoint: s3.us-east-1.amazonaws.com
-#  bucket: my-bucket
-#  rootdirectory: /object/prefix
-#  encrypt: false
-#  secure: true
+#   region: us-east-1
+#   regionEndpoint: https://s3.us-east-1.amazonaws.com
+#   bucket: my-bucket
+#   rootdirectory: /object/prefix
+#   encrypt: false
+#   secure: true
+#   forcepathstyle: true
+#   skipverify: true
 
 # Options for swift storage type:
 # swift:
-#  authurl: http://swift.example.com/
-#  container: my-container
+#   authurl: http://swift.example.com/
+#   container: my-container
 
 # https://docs.docker.com/registry/recipes/mirror/
 proxy:
@@ -133,6 +139,7 @@ metrics:
     labels: {}
     rules: {}
 
+configPath: /etc/distribution
 configData:
   version: 0.1
   log:
@@ -156,8 +163,26 @@ configData:
       interval: 10s
       threshold: 3
 
+containerSecurityContext:
+  enabled: true
+  seLinuxOptions: {}
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  privileged: false
+  readOnlyRootFilesystem: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
 securityContext:
   enabled: true
+  fsGroupChangePolicy: Always
+  sysctls: []
+  supplementalGroups: []
   runAsUser: 1000
   fsGroup: 1000
 
@@ -231,6 +256,19 @@ garbageCollect:
   enabled: false
   deleteUntagged: true
   schedule: "0 1 * * *"
+  podAnnotations: {}
+  podLabels: {}
+  resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
 
 # Use StatefulSet instead of Deployment. Default uses Deployment.
 useStatefulSet: false
