@@ -1,6 +1,11 @@
 # Default values for docker-registry.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
+
+# If set, use an existing Secret instead of creating one
+# The existing secret must contain the expected keys (haSharedSecret, htpasswd, storage/provider keys, proxy credentials as applicable)
+# existingSecret: ""
+
 replicaCount: 1
 
 updateStrategy: {}

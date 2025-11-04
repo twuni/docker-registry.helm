@@ -17,3 +17,9 @@
   echo "Visit http://127.0.0.1:8080 to use your application"
   kubectl -n {{ .Release.Namespace }} port-forward $POD_NAME 8080:5000
 {{- end }}
+
+{{- if .Values.existingSecret }}
+
+NOTE: You are using an existing secret "{{ .Values.existingSecret }}" for registry credentials.
+Ensure it contains required keys for your chosen auth/storage/proxy configuration.
+{{- end }}

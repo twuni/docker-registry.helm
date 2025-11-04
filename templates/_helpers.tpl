@@ -23,11 +23,19 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 {{- end -}}
 
+{{- define "docker-registry.secretName" -}}
+{{- if .Values.existingSecret -}}
+{{- .Values.existingSecret -}}
+{{- else -}}
+{{- template "docker-registry.fullname" . }}-secret
+{{- end -}}
+{{- end -}}
+
 {{- define "docker-registry.envs" -}}
 - name: REGISTRY_HTTP_SECRET
   valueFrom:
     secretKeyRef:
-      name: {{ template "docker-registry.fullname" . }}-secret
+      name: {{ template "docker-registry.secretName" . }}
       key: haSharedSecret
 
 {{- if .Values.secrets.htpasswd }}
@@ -53,17 +61,17 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 - name: REGISTRY_STORAGE_AZURE_ACCOUNTNAME
   valueFrom:
     secretKeyRef:
-      name: {{ template "docker-registry.fullname" . }}-secret
+      name: {{ template "docker-registry.secretName" . }}
       key: azureAccountName
 - name: REGISTRY_STORAGE_AZURE_ACCOUNTKEY
   valueFrom:
     secretKeyRef:
-      name: {{ template "docker-registry.fullname" . }}-secret
+      name: {{ template "docker-registry.secretName" . }}
       key: azureAccountKey
 - name: REGISTRY_STORAGE_AZURE_CONTAINER
   valueFrom:
     secretKeyRef:
-      name: {{ template "docker-registry.fullname" . }}-secret
+      name: {{ template "docker-registry.secretName" . }}
       key: azureContainer
 {{- else if eq .Values.storage "s3" }}
 - name: REGISTRY_STORAGE_S3_REGION
@@ -74,12 +82,12 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 - name: REGISTRY_STORAGE_S3_ACCESSKEY
   valueFrom:
     secretKeyRef:
-      name: {{ if .Values.secrets.s3.secretRef }}{{ .Values.secrets.s3.secretRef }}{{ else }}{{ template "docker-registry.fullname" . }}-secret{{ end }}
+      name: {{ if .Values.secrets.s3.secretRef }}{{ .Values.secrets.s3.secretRef }}{{ else }}{{ template "docker-registry.secretName" . }}{{ end }}
       key: s3AccessKey
 - name: REGISTRY_STORAGE_S3_SECRETKEY
   valueFrom:
     secretKeyRef:
-      name: {{ if .Values.secrets.s3.secretRef }}{{ .Values.secrets.s3.secretRef }}{{ else }}{{ template "docker-registry.fullname" . }}-secret{{ end }}
+      name: {{ if .Values.secrets.s3.secretRef }}{{ .Values.secrets.s3.secretRef }}{{ else }}{{ template "docker-registry.secretName" . }}{{ end }}
       key: s3SecretKey
 {{- end -}}
 
@@ -119,12 +127,12 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 - name: REGISTRY_STORAGE_SWIFT_USERNAME
   valueFrom:
     secretKeyRef:
-      name: {{ template "docker-registry.fullname" . }}-secret
+      name: {{ template "docker-registry.secretName" . }}
       key: swiftUsername
 - name: REGISTRY_STORAGE_SWIFT_PASSWORD
   valueFrom:
     secretKeyRef:
-      name: {{ template "docker-registry.fullname" . }}-secret
+      name: {{ template "docker-registry.secretName" . }}
       key: swiftPassword
 - name: REGISTRY_STORAGE_SWIFT_CONTAINER
   value: {{ required ".Values.swift.container is required" .Values.swift.container }}
@@ -136,12 +144,12 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 - name: REGISTRY_PROXY_USERNAME
   valueFrom:
     secretKeyRef:
-      name: {{ if .Values.proxy.secretRef }}{{ .Values.proxy.secretRef }}{{ else }}{{ template "docker-registry.fullname" . }}-secret{{ end }}
+      name: {{ if .Values.proxy.secretRef }}{{ .Values.proxy.secretRef }}{{ else }}{{ template "docker-registry.secretName" . }}{{ end }}
       key: proxyUsername
 - name: REGISTRY_PROXY_PASSWORD
   valueFrom:
     secretKeyRef:
-      name: {{ if .Values.proxy.secretRef }}{{ .Values.proxy.secretRef }}{{ else }}{{ template "docker-registry.fullname" . }}-secret{{ end }}
+      name: {{ if .Values.proxy.secretRef }}{{ .Values.proxy.secretRef }}{{ else }}{{ template "docker-registry.secretName" . }}{{ end }}
       key: proxyPassword
 {{- end -}}
 
@@ -191,7 +199,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- if .Values.secrets.htpasswd }}
 - name: auth
   secret:
-    secretName: {{ template "docker-registry.fullname" . }}-secret
+    secretName: {{ template "docker-registry.secretName" . }}
     items:
     - key: htpasswd
       path: htpasswd
