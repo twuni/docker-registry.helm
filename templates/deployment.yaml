@@ -40,6 +40,7 @@ spec:
       {{- if or (eq .Values.serviceAccount.create true) (ne .Values.serviceAccount.name "") }}
       serviceAccountName: {{ .Values.serviceAccount.name | default (include "docker-registry.fullname" .) }}
       {{- end }}
+      automountServiceAccountToken: {{ .Values.automountServiceAccountToken }}
       {{- if .Values.imagePullSecrets }}
       imagePullSecrets: {{ toYaml .Values.imagePullSecrets | nindent 8 }}
       {{- end }}
