@@ -128,6 +128,9 @@ metrics:
   # Create a prometheus-operator servicemonitor
   serviceMonitor:
     enabled: false
+    # Namespace where ServiceMonitor should be installed (i.e. `monitoring`)
+    # Defaults to namespace where the chart is installed.
+    namespace: ""
     labels: {}
   # prometheus-operator PrometheusRule defining alerting rules for a Prometheus instance
   prometheusRule:
