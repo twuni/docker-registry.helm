@@ -75,6 +75,10 @@ persistence:
 # set the type of filesystem to use: filesystem, s3
 storage: filesystem
 
+# set sizeLimit for emptyDir. Default is unlimited
+emptydir:
+  size: "0"
+
 # Set this to name of secret for tls certs
 # tlsSecretName: registry.docker.example.com
 secrets:
