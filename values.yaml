@@ -249,6 +249,7 @@ garbageCollect:
   enabled: false
   deleteUntagged: true
   schedule: "0 1 * * *"
+  restartPolicy: OnFailure
   podAnnotations: {}
   podLabels: {}
   resources: {}
