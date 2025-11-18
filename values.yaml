@@ -262,3 +262,7 @@ garbageCollect:
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+  extraEnvVars: []
+  ## Additional ENV variables to set
+  # - name: MY_GC_CRONJOB_VAR
+  #   value: "yes"

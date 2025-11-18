@@ -64,6 +64,9 @@ spec:
               {{- toYaml .Values.garbageCollect.resources | nindent 16 }}
               {{- end }}
               env: {{ include "docker-registry.envs" . | nindent 16 }}
+              {{- with .Values.garbageCollect.extraEnvVars }}
+              {{- toYaml . | nindent 16 }}
+              {{- end -}}
               {{- if .Values.containerSecurityContext.enabled }}
               securityContext: {{ omit .Values.containerSecurityContext "enabled" | toYaml | nindent 16 }}
               {{- end }}
