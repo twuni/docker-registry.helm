@@ -1,0 +1,127 @@
+{{- $sts := list "sts" "StatefulSet" -}}
+{{- if (or (.Values.useStatefulSet) (and .Values.persistence.enabled (not .Values.persistence.existingClaim) (has .Values.persistence.type $sts)))}}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ template "docker-registry.fullname" . }}
+  namespace: {{ .Values.namespace | default .Release.Namespace }}
+  labels:
+    app: {{ template "docker-registry.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "docker-registry.name" . }}
+      release: {{ .Release.Name }}
+  replicas: {{ .Values.replicaCount }}
+  serviceName: {{ .Values.service.name }}
+  {{- if .Values.updateStrategy }}
+  strategy: {{ toYaml .Values.updateStrategy | nindent 4 }}
+  {{- end }}
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: {{ template "docker-registry.name" . }}
+        release: {{ .Release.Name }}
+        {{- with .Values.podLabels }}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- if .Values.podAnnotations }}
+        {{ toYaml .Values.podAnnotations | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- if or (eq .Values.serviceAccount.create true) (ne .Values.serviceAccount.name "") }}
+      serviceAccountName: {{ .Values.serviceAccount.name | default (include "docker-registry.fullname" .) }}
+      {{- end }}
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets: {{ toYaml .Values.imagePullSecrets | nindent 8 }}
+      {{- end }}
+      {{- if .Values.priorityClassName }}
+      priorityClassName: "{{ .Values.priorityClassName }}"
+      {{- end }}
+      {{- if .Values.securityContext.enabled }}
+      securityContext:
+        fsGroup: {{ .Values.securityContext.fsGroup }}
+        runAsUser: {{ .Values.securityContext.runAsUser }}
+      {{- end }}
+      {{- with .Values.initContainers }}
+      initContainers:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        {{- if .Values.extraContainers -}}
+        {{ toYaml .Values.extraContainers | nindent 8 }}
+        {{- end }}
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+          - /bin/registry
+          - serve
+          - /etc/docker/registry/config.yml
+          ports:
+            - containerPort: 5000
+            {{- if .Values.metrics.enabled }}
+            - containerPort: {{ (split ":" .Values.configData.http.debug.addr)._1 }}
+              name: http-metrics
+              protocol: TCP
+            {{- end }}
+          livenessProbe:
+            httpGet:
+              {{- if .Values.tlsSecretName }}
+              scheme: HTTPS
+              {{- end }}
+              path: /
+              port: 5000
+          readinessProbe:
+            httpGet:
+              {{- if .Values.tlsSecretName }}
+              scheme: HTTPS
+              {{- end }}
+              path: /
+              port: 5000
+          resources: {{ toYaml .Values.resources | nindent 12 }}
+          env: {{ include "docker-registry.envs" . | nindent 12 }}
+          volumeMounts: {{ include "docker-registry.volumeMounts" . | nindent 12 }}
+      {{- if .Values.nodeSelector }}
+      nodeSelector: {{ toYaml .Values.nodeSelector | nindent 8 }}
+      {{- end }}
+      {{- if .Values.affinity }}
+      affinity: {{ toYaml .Values.affinity | nindent 8 }}
+      {{- end }}
+      {{- if .Values.tolerations }}
+      tolerations: {{ toYaml .Values.tolerations | nindent 8 }}
+      {{- end }}
+      volumes: {{ include "docker-registry.volumes" . | nindent 8 }}
+  {{- if .Values.persistence.enabled}}
+  volumeClaimTemplates:
+  - metadata:
+      # This should match the name defined in the file _helpers.tpl when the 
+      # condition (if eq .Values.storage "filesystem") is met.
+      name: data
+      namespace: {{ .Values.namespace | default .Release.Namespace }}
+      labels:
+        app: {{ template "docker-registry.fullname" . }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        release: "{{ .Release.Name }}"
+        heritage: "{{ .Release.Service }}"
+    spec:
+      accessModes:
+        - {{ .Values.persistence.accessMode | quote }}
+      storageClassName: {{ .Values.persistence.storageClass }}
+      resources:
+        requests:
+          storage: {{ .Values.persistence.size }}
+      {{- with .Values.persistence.selectorLabels }}
+      selector:
+        matchLabels:
+          {{- toYaml . | nindent 10 }}
+      {{- end }}
+  {{- end }}
+{{- end }}

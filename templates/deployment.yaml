@@ -1,3 +1,4 @@
+{{- if (and (not .Values.useStatefulSet) (or (not .Values.persistence.enabled) (eq .Values.persistence.type "pvc"))) }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -54,6 +55,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
+        {{- if .Values.extraContainers -}}
+        {{ toYaml .Values.extraContainers | nindent 8 }}
+        {{- end }}
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -98,3 +102,4 @@ spec:
       tolerations: {{ toYaml .Values.tolerations | nindent 8 }}
       {{- end }}
       volumes: {{ include "docker-registry.volumes" . | nindent 8 }}
+{{- end }}
