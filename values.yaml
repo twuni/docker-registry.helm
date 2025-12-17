@@ -245,6 +245,12 @@ initContainers: []
 #   image: busybox
 #   command: []
 
+sidecars: []
+## Sidecar containers to add to the Deployment
+# - name: sidecar-container
+#   image: busybox
+#   command: []
+
 garbageCollect:
   enabled: false
   deleteUntagged: true
