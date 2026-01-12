@@ -25,6 +25,7 @@ image:
     # - name: docker
 deployment: {}
   # annotations:
+  # labels:
 service:
   name: registry
   type: ClusterIP
