@@ -1,6 +1,6 @@
 {{- if .Values.ingress.enabled -}}
 {{- $apiVersions := .Capabilities.APIVersions -}}
-{{- $serviceName := include "docker-registry.fullname" . -}}
+{{- $serviceName := .Values.service.name | default (include "docker-registry.fullname" .) -}}
 {{- $servicePort := .Values.service.port -}}
 {{- $path := .Values.ingress.path -}}
 apiVersion: {{- if $apiVersions.Has "networking.k8s.io/v1" }} networking.k8s.io/v1 {{- else }} networking.k8s.io/v1beta1 {{- end }}
