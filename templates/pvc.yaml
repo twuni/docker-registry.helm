@@ -5,6 +5,10 @@ apiVersion: v1
 metadata:
   name: {{ template "docker-registry.fullname" . }}
   namespace: {{ .Values.namespace | default .Release.Namespace }}
+  {{- if .Values.persistence.keep }}
+  annotations:
+    "helm.sh/resource-policy": keep
+  {{- end }}
   labels:
     app: {{ template "docker-registry.fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
