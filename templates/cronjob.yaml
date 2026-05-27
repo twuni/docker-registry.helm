@@ -72,7 +72,9 @@ spec:
           {{- if .Values.nodeSelector }}
           nodeSelector: {{ toYaml .Values.nodeSelector | nindent 12 }}
           {{- end }}
-          {{- if .Values.affinity }}
+          {{- if .Values.garbageCollect.affinity }}
+          affinity: {{ toYaml .Values.garbageCollect.affinity | nindent 12 }}
+          {{- else if .Values.affinity }}
           affinity: {{ toYaml .Values.affinity | nindent 12 }}
           {{- end }}
           {{- if .Values.tolerations }}
