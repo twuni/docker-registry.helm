@@ -35,6 +35,8 @@ service:
   # nodePort:
   # loadBalancerIP:
   # loadBalancerSourceRanges:
+  # ipFamilyPolicy: PreferDualStack
+  # ipFamilies: []
   annotations: {}
   # foo.io/bar: "true"
   labels: {}
@@ -215,6 +217,8 @@ autoscaling:
 nodeSelector: {}
 
 affinity: {}
+
+topologySpreadConstraints: {}
 
 tolerations: []
 

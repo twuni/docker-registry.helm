@@ -70,6 +70,8 @@ their default values.
 | `service.loadBalancerSourceRanges`| if `service.type` is `LoadBalancer` and this is non-empty, sets the loadBalancerSourceRanges of the service | `nil`           |
 | `service.sessionAffinity`       | service session affinity                                                               | `nil`           |
 | `service.sessionAffinityConfig` | service session affinity config                                                        | `nil`           |
+| `service.ipFamilies`        | IP families to use for the service                                                         | `[]`            |
+| `service.ipFamilyPolicy`    | IP family policy for the service                                                           | `PreferDualStack`|
 | `replicaCount`              | k8s replicas                                                                               | `1`             |
 | `updateStrategy`            | update strategy for deployment                                                             | `{}`            |
 | `podAnnotations`            | Annotations for deployment pod, and `garbageCollect` pod unless set explicitly there. See `garbageCollect` | `{}` |
@@ -113,6 +115,7 @@ their default values.
 | `namespace`                 | specify a namespace to install the chart to - defaults to `.Release.Namespace`             | `{{ .Release.Namespace }}` |
 | `nodeSelector`              | node labels for pod assignment                                                             | `{}`            |
 | `affinity`                  | affinity settings                                                                          | `{}`            |
+| `topologySpreadConstraints` | topology spread constraints                                                                | `{}`            |
 | `tolerations`               | pod tolerations                                                                            | `[]`            |
 | `ingress.enabled`           | If true, Ingress will be created                                                           | `false`         |
 | `ingress.annotations`       | Ingress annotations                                                                        | `{}`            |

@@ -26,6 +26,13 @@ spec:
 {{- if (and (eq .Values.service.type "LoadBalancer") (not (empty .Values.service.loadBalancerSourceRanges))) }}
   loadBalancerSourceRanges: {{ .Values.service.loadBalancerSourceRanges }}
 {{- end }}
+{{- if .Values.service.ipFamilies }}
+  ipFamilies:
+    {{- toYaml .Values.service.ipFamilies | nindent 4 }}
+{{- end }}
+{{- if .Values.service.ipFamilyPolicy }}
+  ipFamilyPolicy: {{ .Values.service.ipFamilyPolicy }}
+{{- end }}
 {{- if .Values.service.sessionAffinity }}
   sessionAffinity: {{ .Values.service.sessionAffinity }}
   {{- if .Values.service.sessionAffinityConfig }}
