@@ -121,6 +121,15 @@ their default values.
 | `ingress.hosts`             | Ingress hostnames                                                                          | `[]`            |
 | `ingress.tls`               | Ingress TLS configuration (YAML)                                                           | `[]`            |
 | `ingress.className`         | Ingress controller class name                                                              | `nginx`         |
+| `httproute.enabled`         | If true, a Gateway API HTTPRoute will be created                                            | `false`         |
+| `httproute.apiVersion`      | HTTPRoute apiVersion (defaults to `gateway.networking.k8s.io/v1` when empty)                | `""`            |
+| `httproute.annotations`     | HTTPRoute annotations                                                                       | `{}`            |
+| `httproute.labels`          | HTTPRoute labels                                                                            | `{}`            |
+| `httproute.parentRefs`      | Gateway(s) this HTTPRoute is attached to                                                    | `[]`            |
+| `httproute.hostnames`       | Hostnames matched against the HTTP Host header                                              | `[]`            |
+| `httproute.matches`         | Request match conditions (defaults to a `PathPrefix` `/` match)                            | `[{path: {type: PathPrefix, value: /}}]` |
+| `httproute.filters`         | Filters applied to requests matching the rule                                              | `[]`            |
+| `httproute.additionalRules` | Additional templated HTTPRoute rules prepended to the default rule                          | `[]`            |
 | `metrics.enabled`           | Enable metrics on Service                                                                  | `false`         |
 | `metrics.port`              | TCP port on which the service metrics is exposed                                           | `5001`          |
 | `metrics.serviceMonitor.annotations` | Prometheus Operator ServiceMonitor annotations                                    | `{}`            |

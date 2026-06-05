@@ -55,6 +55,35 @@ ingress:
     # - secretName: chart-example-tls
     #   hosts:
     #     - chart-example.local
+httproute:
+  # Create an HTTPRoute (Gateway API) to expose the registry as an
+  # alternative to Ingress. Requires the Gateway API CRDs to be installed
+  # in the cluster (https://gateway-api.sigs.k8s.io/).
+  enabled: false
+  # HTTPRoute apiVersion (defaults to "gateway.networking.k8s.io/v1" when empty)
+  apiVersion: ""
+  annotations: {}
+  labels: {}
+  # parentRefs reference the Gateway(s) this HTTPRoute is attached to
+  # parentRefs:
+  #   - name: my-gateway
+  #     namespace: gateway-system
+  #     sectionName: http
+  parentRefs: []
+  # hostnames matched against the HTTP Host header to select this route
+  # hostnames:
+  #   - chart-example.local
+  hostnames: []
+  # matches define conditions used to match incoming requests against the rule.
+  # Defaults to a PathPrefix "/" match (mirrors the Ingress behavior above).
+  matches:
+    - path:
+        type: PathPrefix
+        value: /
+  # filters applied to requests that match this rule
+  filters: []
+  # additionalRules (templated) prepends custom HTTPRoute rules
+  additionalRules: []
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
