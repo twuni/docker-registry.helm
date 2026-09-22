@@ -12,17 +12,6 @@ updateStrategy: {}
 podAnnotations: {}
 podLabels: {}
 
-localRegistryHosting:
-  enabled: false
-  # It's hard to infer an external address from helm.
-  externalAddr: ~
-
-# DaemonSet for host configuration
-daemonset:
-  enabled: false
-  priorityClassName: system-node-critical
-  annotations: {}
-
 serviceAccount:
   create: false
   name: ""
@@ -30,7 +19,7 @@ serviceAccount:
 
 image:
   repository: registry
-  tag: 2.8.1
+  tag: 3.0.0
   pullPolicy: IfNotPresent
 # imagePullSecrets:
     # - name: docker
@@ -72,11 +61,11 @@ resources: {}
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   # limits:
-  #  cpu: 100m
-  #  memory: 128Mi
+  #   cpu: 100m
+  #   memory: 128Mi
   # requests:
-  #  cpu: 100m
-  #  memory: 128Mi
+  #   cpu: 100m
+  #   memory: 128Mi
 persistence:
   accessMode: 'ReadWriteOnce'
   enabled: false
@@ -111,21 +100,23 @@ secrets:
 
 # Options for s3 storage type:
 # s3:
-#  region: us-east-1
-#  regionEndpoint: https://s3.us-east-1.amazonaws.com
-#  bucket: my-bucket
-#  rootdirectory: /object/prefix
-#  encrypt: false
-#  secure: true
-#  chunksize: 5242880
-#  multipartcopychunksize: 33554432
-#  multipartcopymaxconcurrency: 100
-#  multipartcopythresholdsize: 33554432
+#   region: us-east-1
+#   regionEndpoint: https://s3.us-east-1.amazonaws.com
+#   bucket: my-bucket
+#   rootdirectory: /object/prefix
+#   encrypt: false
+#   secure: true
+#   chunksize: 5242880
+#   multipartcopychunksize: 33554432
+#   multipartcopymaxconcurrency: 100
+#   multipartcopythresholdsize: 33554432
+#   forcepathstyle: true
+#   skipverify: true
 
 # Options for swift storage type:
 # swift:
-#  authurl: http://swift.example.com/
-#  container: my-container
+#   authurl: http://swift.example.com/
+#   container: my-container
 
 # https://docs.docker.com/registry/recipes/mirror/
 proxy:
@@ -136,10 +127,6 @@ proxy:
   # the ref for a secret stored outside of this chart
   # Keys: proxyUsername, proxyPassword
   secretRef: ""
-  tls: {}
-    # ca.crt: ""
-    # tls.crt: ""
-    # tls.key: ""
 
 metrics:
   enabled: false
@@ -154,6 +141,7 @@ metrics:
     labels: {}
     rules: {}
 
+configPath: /etc/distribution
 configData:
   version: 0.1
   log:
@@ -197,6 +185,7 @@ securityContext:
   fsGroupChangePolicy: Always
   sysctls: []
   supplementalGroups: []
+  runAsUser: 1000
   fsGroup: 1000
 
 priorityClassName: ""
@@ -276,4 +265,16 @@ garbageCollect:
   enabled: false
   deleteUntagged: true
   schedule: "0 1 * * *"
+  podAnnotations: {}
+  podLabels: {}
   resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi

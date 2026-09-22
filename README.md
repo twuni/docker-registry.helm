@@ -11,14 +11,28 @@ This directory contains a Kubernetes chart to deploy a private Docker Registry.
 This chart will do the following:
 
 * Implement a Docker registry deployment
-* Optionally deploy a DaemonSet to add registry service names to /etc/hosts on each node
+
+## ⚠️ Repo Migration and Deprecation Notice
+
+The following change only affects attempts to install or update the chart via the https://helm.twun.io repo.
+
+The https://helm.twun.io repo has been migrated to https://twuni.github.io/docker-registry.helm.
+
+To update your configuration, remove and re-add the repo with the new URL:
+
+```console
+helm repo remove twuni
+helm repo add twuni https://twuni.github.io/docker-registry.helm
+```
+
+The deprecated repo URL, https://helm.twun.io, may become unavailable as early as **October 16, 2025**.
 
 ## Installing the Chart
 
 First, add the repo:
 
 ```console
-helm repo add twuni https://helm.twun.io
+helm repo add twuni https://twuni.github.io/docker-registry.helm
 ```
 
 To install the chart, use the following:
@@ -38,9 +52,6 @@ their default values.
 | `image.repository`          | Container image to use                                                                     | `registry`      |
 | `image.tag`                 | Container image tag to deploy                                                              | `2.8.1`         |
 | `imagePullSecrets`          | Specify image pull secrets                                                                 | `nil` (does not add image pull secrets to deployed pods) |
-| `daemonset.enabled`         | Deploy a DaemonSet that adds registry service domain names to /etc/hosts on each node      | `false`         |
-| `daemonset.priorityClassName` | Priority class for the hosts updater DaemonSet pods                                      | `""`            |
-| `daemonset.annotations`     | Annotations to add to the DaemonSet                                                        | `{}`            |
 | `persistence.accessMode`    | Access mode to use for PVC                                                                 | `ReadWriteOnce` |
 | `persistence.enabled`       | Whether to use a PVC for the Docker storage                                                | `false`         |
 | `persistence.deleteEnabled` | Enable the deletion of image blobs and manifests by digest                                 | `nil`           |
@@ -61,8 +72,8 @@ their default values.
 | `service.sessionAffinityConfig` | service session affinity config                                                        | `nil`           |
 | `replicaCount`              | k8s replicas                                                                               | `1`             |
 | `updateStrategy`            | update strategy for deployment                                                             | `{}`            |
-| `podAnnotations`            | Annotations for pod                                                                        | `{}`            |
-| `podLabels`                 | Labels for pod                                                                             | `{}`            |
+| `podAnnotations`            | Annotations for deployment pod, and `garbageCollect` pod unless set explicitly there. See `garbageCollect` | `{}` |
+| `podLabels`                 | Labels for deployment pod, and `garbageCollect` pod unless set explicitly there. See `garbageCollect` | `{}` |
 | `podDisruptionBudget`       | Pod disruption budget                                                                      | `{}`            |
 | `resources.limits.cpu`      | Container requested CPU                                                                    | `nil`           |
 | `resources.limits.memory`   | Container requested memory                                                                 | `nil`           |
@@ -83,12 +94,15 @@ their default values.
 | `secrets.swift.password`    | Password for Swift configuration                                                           | `nil`           |
 | `secrets.haSharedSecret`    | Shared secret for Registry                                                                 | `nil`           |
 | `configData`                | Configuration hash for docker                                                              | `nil`           |
+| `configPath` | Configuration mount point in docker, `/etc/docker/registry` for registry version 2, `/etc/distribution` for version 3 | `/etc/docker/registry` |
 | `s3.region`                 | S3 region                                                                                  | `nil`           |
 | `s3.regionEndpoint`         | S3 region endpoint                                                                         | `nil`           |
 | `s3.bucket`                 | S3 bucket name                                                                             | `nil`           |
 | `s3.rootdirectory`          | S3 prefix that is applied to allow you to segment data                                     | `nil`           |
 | `s3.encrypt`                | Store images in encrypted format                                                           | `nil`           |
 | `s3.secure`                 | Use HTTPS                                                                                  | `nil`           |
+| `s3.forcepathstyle`         | Use path-style addressing, needed for some s3 compatible storage (minio)                   | `nil`           |
+| `s3.skipverify`             | Allows connection to s3 storage using TLS with untrusted/self-signed certificate           | `nil`           |
 | `swift.authurl`             | Swift authurl                                                                              | `nil`           |
 | `swift.container`           | Swift container                                                                            | `nil`           |
 | `proxy.enabled`             | If true, registry will function as a proxy/mirror                                          | `false`         |
@@ -123,6 +137,8 @@ their default values.
 | `garbageCollect.enabled`    | If true, will deploy garbage-collector cronjob                                             | `false`         |
 | `garbageCollect.deleteUntagged` | If true, garbage-collector will delete manifests that are not currently referenced via tag | `true`      |
 | `garbageCollect.schedule`   | CronTab schedule, please use standard crontab format                                       | `0 1 * * *`     |
+| `garbageCollect.podAnnotations` | CronJob pod Annotations. If left empty and chart `podAnnotations` are set, will use those. If both are set, these take precedence for the `garbageCollect` pods. | `{}` |
+| `garbageCollect.podLabels`  | CronJob pod Annotations. If left empty and chart `podLabels` are set, will use those. If both are set, these take precedence for the `garbageCollect` pods. | `{}` |
 | `garbageCollect.resources`  | garbage-collector requested resources                                                      | `{}`            |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to
